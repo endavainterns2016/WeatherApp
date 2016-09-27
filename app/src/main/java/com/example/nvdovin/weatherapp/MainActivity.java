@@ -1,4 +1,5 @@
-package com.example.nvdovin.myopenweatherexample;
+package com.example.nvdovin.weatherapp;
+
 
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -9,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.nvdovin.myopenweatherexample.Model.Weather;
+import com.example.nvdovin.weatherapp.Model.Weather;
 
 import org.json.JSONArray;
 import org.json.JSONException;
