@@ -1,4 +1,4 @@
-package com.example.nvdovin.myopenweatherexample.Model;
+package com.example.nvdovin.weatherapp.Model;
 
 /**
  * Created by nvdovin on 9/27/2016.
