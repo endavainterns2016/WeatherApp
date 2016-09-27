@@ -1,4 +1,5 @@
-package com.example.nvdovin.myopenweatherexample;
+package com.example.nvdovin.weatherapp;
+
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.nvdovin.myopenweatherexample.Model.Weather;
+import com.example.nvdovin.weatherapp.Model.Weather;
 
 import java.util.List;
 
