@@ -1,4 +1,4 @@
-package com.example.nvdovin.myopenweatherexample;
+package com.example.nvdovin.weatherapp;
 
 import org.json.JSONObject;
 
