@@ -57,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void asyncRequest(){
 
-        new AsyncTask<String, Void, JSONObject>(){
+        AsyncTask<String, Void, JSONObject> asyncTask = new AsyncTask<String, Void, JSONObject>(){
             @Override
             protected JSONObject doInBackground(String... params) {
                 JSONObject jsonWeather = null;
                 try{
                 //jsonWeather = ApiRequest.getWeatherJSON("819827","703448","2643743");
-                jsonWeather = ApiRequest.getWeatherJSON("618426","824987","683506", "681290", "675810", "785842", "5095808", "727011");
+                jsonWeather = ApiRequest.getWeatherJSON(params);
                     //System.out.println(jsonWeather.toString());
                 } catch (Exception e) {
                     Log.d("Error", "Cannot process JSON results", e);
@@ -123,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        };
+
+        asyncTask.execute("618426","824987","683506", "681290", "675810", "785842", "5095808", "727011");
 
     }
 
