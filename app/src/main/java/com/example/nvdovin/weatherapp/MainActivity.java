@@ -1,5 +1,6 @@
 package com.example.nvdovin.weatherapp;
 
+<<<<<<< HEAD
 
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -31,10 +32,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+=======
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class MainActivity extends AppCompatActivity {
+
+>>>>>>> master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
 
 
 
@@ -158,4 +167,7 @@ public class MainActivity extends AppCompatActivity {
         return icon;
     }
 
+=======
+    }
+>>>>>>> master
 }
