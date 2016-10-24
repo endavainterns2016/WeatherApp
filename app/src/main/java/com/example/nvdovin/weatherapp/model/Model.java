@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class FirstModel {
+public class Model {
 
     @SerializedName("city")
     @Expose

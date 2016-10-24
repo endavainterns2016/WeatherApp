@@ -5,7 +5,7 @@ import android.content.Context;
 import com.example.nvdovin.weatherapp.greendao.DaoMaster;
 import com.example.nvdovin.weatherapp.greendao.DaoSession;
 import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.FirstModel;
+import com.example.nvdovin.weatherapp.model.Model;
 import com.example.nvdovin.weatherapp.model.WeatherList;
 import java.util.List;
 
@@ -26,13 +26,13 @@ public class GreenDaoFactory {
         daoSession = daoMaster.newSession();
     }
 
-    public void insert(FirstModel firstModel){
+    public void insert(Model model){
 
-        final City cityData = firstModel.getCity();
+        final City cityData = model.getCity();
 
-        final List<WeatherList> weatherData = firstModel.getWeatherList();
+        final List<WeatherList> weatherData = model.getWeatherList();
 
-        for (int i = 0; i < firstModel.getCnt(); i++) {
+        for (int i = 0; i < model.getCnt(); i++) {
             WeatherList dataitem = weatherData.get(i);
             daoSession.getCloudsDao().insert(dataitem.getRawClouds());
             daoSession.getMainDao().insert(dataitem.getRawMain());
