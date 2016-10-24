@@ -9,7 +9,7 @@ public class MainActivity extends AppCompatActivity {
     private String query_city_name = "Chisinau";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);  
         setContentView(R.layout.activity_main);
         RetrofitFactory retrofitFactory = new RetrofitFactory(query_city_name);
 
