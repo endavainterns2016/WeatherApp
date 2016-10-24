@@ -11,10 +11,10 @@ import org.greenrobot.greendao.annotation.Property;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import com.example.nvdovin.weatherapp.GreenDao.DaoSession;
-import com.example.nvdovin.weatherapp.GreenDao.SysDao;
-import com.example.nvdovin.weatherapp.GreenDao.CoordDao;
-import com.example.nvdovin.weatherapp.GreenDao.CityDao;
+import com.example.nvdovin.weatherapp.greendao.DaoSession;
+import com.example.nvdovin.weatherapp.greendao.SysDao;
+import com.example.nvdovin.weatherapp.greendao.CoordDao;
+import com.example.nvdovin.weatherapp.greendao.CityDao;
 
 @Entity
 public class City {
@@ -224,4 +224,5 @@ public class City {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCityDao() : null;
     }
+    
 }

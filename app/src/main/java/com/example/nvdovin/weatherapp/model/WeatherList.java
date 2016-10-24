@@ -15,14 +15,14 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
-import com.example.nvdovin.weatherapp.GreenDao.DaoSession;
-import com.example.nvdovin.weatherapp.GreenDao.WeatherDao;
-import com.example.nvdovin.weatherapp.GreenDao.RainDao;
-import com.example.nvdovin.weatherapp.GreenDao.Sys_Dao;
-import com.example.nvdovin.weatherapp.GreenDao.WindDao;
-import com.example.nvdovin.weatherapp.GreenDao.CloudsDao;
-import com.example.nvdovin.weatherapp.GreenDao.MainDao;
-import com.example.nvdovin.weatherapp.GreenDao.WeatherListDao;
+import com.example.nvdovin.weatherapp.greendao.DaoSession;
+import com.example.nvdovin.weatherapp.greendao.WeatherDao;
+import com.example.nvdovin.weatherapp.greendao.RainDao;
+import com.example.nvdovin.weatherapp.greendao.Sys_Dao;
+import com.example.nvdovin.weatherapp.greendao.WindDao;
+import com.example.nvdovin.weatherapp.greendao.CloudsDao;
+import com.example.nvdovin.weatherapp.greendao.MainDao;
+import com.example.nvdovin.weatherapp.greendao.WeatherListDao;
 
 @Entity
 public class WeatherList {
