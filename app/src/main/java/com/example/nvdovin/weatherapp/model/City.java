@@ -16,6 +16,7 @@ import com.example.nvdovin.weatherapp.greendao.SysDao;
 import com.example.nvdovin.weatherapp.greendao.CoordDao;
 import com.example.nvdovin.weatherapp.greendao.CityDao;
 
+
 @Entity
 public class City {
 
@@ -54,6 +55,7 @@ public class City {
     @Generated(hash = 448079911)
     private transient CityDao myDao;
 
+
     @Generated(hash = 1886766553)
     public City(Long id, Long cityId, String name, String country,
             Integer population) {
@@ -73,6 +75,7 @@ public class City {
 
     @Generated(hash = 828932504)
     private transient Long sys__resolvedKey;
+
 
     @Keep
     public Coord getRawCoord() {
@@ -224,5 +227,7 @@ public class City {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCityDao() : null;
     }
+
+
     
 }
