@@ -1,80 +1,70 @@
 package com.example.nvdovin.weatherapp;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.FirstModel;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity {
-    private List<City> cities;
+public class MainActivity extends AppCompatActivity implements MainView {
     private String query_city_name = "Chisinau";
     RetrofitFactory retrofitFactory;
     GreenDaoFactory greenDaoFactory;
+
+    MainPresenter mainPresenter;
 
     TextView txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);  
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         txt = (TextView) findViewById(R.id.text);
 
-        cities = new ArrayList<>();
-
         retrofitFactory = new RetrofitFactory();
         greenDaoFactory = new GreenDaoFactory(this);
-        //TODO backgroundthread
 
+        mainPresenter = new MainPresenter(retrofitFactory, greenDaoFactory, this);
+        mainPresenter.getData();
 
+    }
 
-        new AsyncTask<Void, Void, Void>(){
+    @Override
+    public void displayData(List<City> data) {
+        StringBuilder builder = new StringBuilder();
+        for(City c : data){
+            builder.append(c.getName());
+            builder.append("\n");
+            builder.append(c.getCoord().getLat());
+            builder.append(" ");
+            builder.append(c.getCoord().getLon());
+            builder.append("\n");
+            builder.append(c.getWeatherLists().get(0).getClouds().getAll());
+            builder.append("\n");
+            builder.append(c.getWeatherLists().get(0).getDtTxt());
+            builder.append("\n");
+            builder.append(c.getWeatherLists().get(0).getMain().getHumidity());
+            builder.append("\n");
+            builder.append(c.getWeatherLists().get(0).getWind().getDeg());
+            builder.append("\n-------------------------------\n");
+            //builder.append(c.getWeatherLists().get(0).getWeather().get(0).getDescription());
+        }
+        txt.setText(builder.toString());
+    }
 
+    @Override
+    public void showLoading() {
+        Toast.makeText(this,"Request started",Toast.LENGTH_SHORT).show();
+    }
 
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                try {
-                    Response<FirstModel> firstModelCall = retrofitFactory.getData(query_city_name).execute();
-                    FirstModel model = firstModelCall.body();
-                    greenDaoFactory.insert(model);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                cities = greenDaoFactory.loadCities();
-                txt.setText(cities );
-            }
-        };
-
-
-
-
-
-
-
-        /*GreenDaoFactory greenDaoFactory = new GreenDaoFactory();
-        greenDaoFactory.insert(retrofitFactory.getRetrofitResponse());
-*/
-
-
+    @Override
+    public void hideLoading() {
+        Toast.makeText(this,"Request stopped",Toast.LENGTH_SHORT).show();
     }
 }

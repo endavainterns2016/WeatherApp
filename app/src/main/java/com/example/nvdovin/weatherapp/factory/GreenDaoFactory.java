@@ -5,18 +5,8 @@ import android.content.Context;
 import com.example.nvdovin.weatherapp.greendao.DaoMaster;
 import com.example.nvdovin.weatherapp.greendao.DaoSession;
 import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.Clouds;
-import com.example.nvdovin.weatherapp.model.Coord;
 import com.example.nvdovin.weatherapp.model.FirstModel;
-import com.example.nvdovin.weatherapp.model.Main;
-import com.example.nvdovin.weatherapp.model.Rain;
-import com.example.nvdovin.weatherapp.model.Sys;
-import com.example.nvdovin.weatherapp.model.Sys_;
-import com.example.nvdovin.weatherapp.model.Weather;
 import com.example.nvdovin.weatherapp.model.WeatherList;
-import com.example.nvdovin.weatherapp.model.Wind;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +44,7 @@ public class GreenDaoFactory {
         cityData.setRawWeatherList(weatherData);
         daoSession.getCoordDao().insert(cityData.getRawCoord());
         daoSession.getSysDao().insert(cityData.getRawSys());
-        daoSession.getCityDao().insertInTx(cityData);
+        daoSession.getCityDao().insert(cityData);
 
     }
 
