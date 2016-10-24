@@ -11,6 +11,8 @@ import org.greenrobot.greendao.internal.SqlUtils;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import com.example.nvdovin.weatherapp.model.Clouds;
 import com.example.nvdovin.weatherapp.model.Main;
@@ -40,6 +42,7 @@ public class WeatherListDao extends AbstractDao<WeatherList, Long> {
 
     private DaoSession daoSession;
 
+    private Query<WeatherList> city_WeatherListsQuery;
 
     public WeatherListDao(DaoConfig config) {
         super(config);
@@ -158,6 +161,20 @@ public class WeatherListDao extends AbstractDao<WeatherList, Long> {
         return true;
     }
     
+    /** Internal query to resolve the "weatherLists" to-many relationship of City. */
+    public List<WeatherList> _queryCity_WeatherLists(Long id) {
+        synchronized (this) {
+            if (city_WeatherListsQuery == null) {
+                QueryBuilder<WeatherList> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.Id.eq(null));
+                city_WeatherListsQuery = queryBuilder.build();
+            }
+        }
+        Query<WeatherList> query = city_WeatherListsQuery.forCurrentThread();
+        query.setParameter(0, id);
+        return query.list();
+    }
+
     private String selectDeep;
 
     protected String getSelectDeep() {

@@ -46,11 +46,12 @@ public class Main {
     @SerializedName("temp_kf")
     @Expose
     @Property
-    private Integer tempKf;
-    @Generated(hash = 1351059323)
+    private Double tempKf;
+
+    @Generated(hash = 1063264703)
     public Main(Long id, Double temp, Double tempMin, Double tempMax,
             Double pressure, Double seaLevel, Double grndLevel, Integer humidity,
-            Integer tempKf) {
+            Double tempKf) {
         this.id = id;
         this.temp = temp;
         this.tempMin = tempMin;
@@ -64,6 +65,7 @@ public class Main {
     @Generated(hash = 1298277417)
     public Main() {
     }
+   
     public Long getId() {
         return this.id;
     }
@@ -112,10 +114,10 @@ public class Main {
     public void setHumidity(Integer humidity) {
         this.humidity = humidity;
     }
-    public Integer getTempKf() {
+    public Double getTempKf() {
         return this.tempKf;
     }
-    public void setTempKf(Integer tempKf) {
+    public void setTempKf(Double tempKf) {
         this.tempKf = tempKf;
     }
 

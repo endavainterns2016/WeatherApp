@@ -8,6 +8,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Keep;
 import org.greenrobot.greendao.annotation.Property;
+import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
@@ -16,12 +17,19 @@ import com.example.nvdovin.weatherapp.greendao.SysDao;
 import com.example.nvdovin.weatherapp.greendao.CoordDao;
 import com.example.nvdovin.weatherapp.greendao.CityDao;
 
+import java.util.List;
+import com.example.nvdovin.weatherapp.greendao.WeatherListDao;
+
 
 @Entity
 public class City {
 
+
     @Id(autoincrement = true)
     private Long id;
+
+    @ToMany(referencedJoinProperty = "id")
+    private List<WeatherList> weatherLists;
 
     @SerializedName("id")
     @Expose
@@ -76,7 +84,6 @@ public class City {
     @Generated(hash = 828932504)
     private transient Long sys__resolvedKey;
 
-
     @Keep
     public Coord getRawCoord() {
         return coord;
@@ -85,6 +92,16 @@ public class City {
     @Keep
     public Sys getRawSys() {
         return sys;
+    }
+
+    @Keep
+    public List<WeatherList> getRawWeatherList(){
+        return weatherLists;
+    }
+
+    @Keep
+    public void setRawWeatherList(List<WeatherList> weatherList){
+        this.weatherLists = weatherList;
     }
 
     public Long getId() {
@@ -226,6 +243,34 @@ public class City {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCityDao() : null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 1871188614)
+    public List<WeatherList> getWeatherLists() {
+        if (weatherLists == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            WeatherListDao targetDao = daoSession.getWeatherListDao();
+            List<WeatherList> weatherListsNew = targetDao._queryCity_WeatherLists(id);
+            synchronized (this) {
+                if (weatherLists == null) {
+                    weatherLists = weatherListsNew;
+                }
+            }
+        }
+        return weatherLists;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1082381261)
+    public synchronized void resetWeatherLists() {
+        weatherLists = null;
     }
 
 
