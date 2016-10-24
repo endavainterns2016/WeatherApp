@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 
-public interface ApiRequest {
+public interface WeatherApi {
 
     @GET("forecast")
     Call<FirstModel> getResponse(@Query("appid") String API_KEY, @Query("q") String query_city_name);

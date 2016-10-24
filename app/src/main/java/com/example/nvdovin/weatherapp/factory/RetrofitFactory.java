@@ -1,6 +1,6 @@
 package com.example.nvdovin.weatherapp.factory;
 
-import com.example.nvdovin.weatherapp.Retrofit.ApiRequest;
+import com.example.nvdovin.weatherapp.Retrofit.WeatherApi;
 import com.example.nvdovin.weatherapp.model.FirstModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,8 +27,8 @@ public class RetrofitFactory {
     }
 
     public FirstModel getData(String query_city_name) throws IOException {
-        ApiRequest apiRequest = retrofit.create(ApiRequest.class);
-        return apiRequest.getResponse(API_KEY, query_city_name).execute().body();
+        WeatherApi weatherApi = retrofit.create(WeatherApi.class);
+        return weatherApi.getResponse(API_KEY, query_city_name).execute().body();
     }
 
 }
