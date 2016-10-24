@@ -56,8 +56,7 @@ public class DefaultThreadPoolExecutor {
 
     private Runnable createRunnable(final com.example.nvdovin.weatherapp.Utils.Executor executor){
 
-        Runnable r;
-        r = new Runnable() {
+        return new Runnable() {
             @Override
             public void run() {
                 try {
@@ -67,7 +66,5 @@ public class DefaultThreadPoolExecutor {
                 }
             }
         };
-
-        return r;
     }
 }
