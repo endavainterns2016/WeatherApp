@@ -12,10 +12,11 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Sys_ {
 
+    private static final String POD = "pod";
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("pod")
+    @SerializedName(POD)
     @Expose
     @Property
     private String pod;

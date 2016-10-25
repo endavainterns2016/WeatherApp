@@ -12,45 +12,55 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Main {
 
+    private static final String TEMP = "temp";
+    private static final String TEMP_MIN = "temp_min";
+    private static final String TEMP_MAX = "temp_max";
+    private static final String PRESSURE = "pressure";
+    private static final String SEA_LEVEL = "sea_level";
+    private static final String GRND_LEVEL = "grnd_level";
+    private static final String HUMIDITY = "humidity";
+    private static final String TEMP_KF = "temp_kf";
+
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("temp")
+    @SerializedName(TEMP)
     @Expose
     @Property
     private Double temp;
-    @SerializedName("temp_min")
+    @SerializedName(TEMP_MIN)
     @Expose
     @Property
     private Double tempMin;
-    @SerializedName("temp_max")
+    @SerializedName(TEMP_MAX)
     @Expose
     @Property
     private Double tempMax;
-    @SerializedName("pressure")
+    @SerializedName(PRESSURE)
     @Expose
     @Property
     private Double pressure;
-    @SerializedName("sea_level")
+    @SerializedName(SEA_LEVEL)
     @Expose
     @Property
     private Double seaLevel;
-    @SerializedName("grnd_level")
+    @SerializedName(GRND_LEVEL)
     @Expose
     @Property
     private Double grndLevel;
-    @SerializedName("humidity")
+    @SerializedName(HUMIDITY)
     @Expose
     @Property
     private Integer humidity;
-    @SerializedName("temp_kf")
+    @SerializedName(TEMP_KF)
     @Expose
     @Property
-    private Integer tempKf;
-    @Generated(hash = 1351059323)
+    private Double tempKf;
+
+    @Generated(hash = 1063264703)
     public Main(Long id, Double temp, Double tempMin, Double tempMax,
             Double pressure, Double seaLevel, Double grndLevel, Integer humidity,
-            Integer tempKf) {
+            Double tempKf) {
         this.id = id;
         this.temp = temp;
         this.tempMin = tempMin;
@@ -64,6 +74,7 @@ public class Main {
     @Generated(hash = 1298277417)
     public Main() {
     }
+   
     public Long getId() {
         return this.id;
     }
@@ -112,10 +123,10 @@ public class Main {
     public void setHumidity(Integer humidity) {
         this.humidity = humidity;
     }
-    public Integer getTempKf() {
+    public Double getTempKf() {
         return this.tempKf;
     }
-    public void setTempKf(Integer tempKf) {
+    public void setTempKf(Double tempKf) {
         this.tempKf = tempKf;
     }
 

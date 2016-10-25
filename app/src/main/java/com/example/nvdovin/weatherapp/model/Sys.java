@@ -12,10 +12,12 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Sys {
 
+    private static final String POPULATION = "population";
+
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("population")
+    @SerializedName(POPULATION)
     @Expose
     @Property
     private Integer population;

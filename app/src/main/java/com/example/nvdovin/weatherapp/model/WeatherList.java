@@ -27,40 +27,51 @@ import com.example.nvdovin.weatherapp.greendao.WeatherListDao;
 @Entity
 public class WeatherList {
 
+    private static final String DT = "dt";
+    private static final String MAIN = "main";
+    private static final String WEATHER = "weather";
+    private static final String REFERENCED_JOIN_PROPERTY_ID = "id";
+    private static final String CLOUDS = "clouds";
+    private static final String JOIN_PROPERTY_ID = "id";
+    private static final String WIND = "wind";
+    private static final String SYS = "sys";
+    private static final String DT_TXT = "dt_txt";
+    private static final String RAIN = "rain";
+
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("dt")
+    @SerializedName(DT)
     @Expose
     @Property
     private Long dt;
-    @SerializedName("main")
+    @SerializedName(MAIN)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Main main;
-    @SerializedName("weather")
+    @SerializedName(WEATHER)
     @Expose
-    @ToMany(referencedJoinProperty = "id")
+    @ToMany(referencedJoinProperty = REFERENCED_JOIN_PROPERTY_ID)
     private java.util.List<Weather> weather = new ArrayList<Weather>();
-    @SerializedName("clouds")
+    @SerializedName(CLOUDS)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Clouds clouds;
-    @SerializedName("wind")
+    @SerializedName(WIND)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Wind wind;
-    @SerializedName("sys")
+    @SerializedName(SYS)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Sys_ sys;
-    @SerializedName("dt_txt")
+    @SerializedName(DT_TXT)
     @Expose
     @Property
     private String dtTxt;
-    @SerializedName("rain")
+    @SerializedName(RAIN)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Rain rain;
 
     /** Used to resolve relations */

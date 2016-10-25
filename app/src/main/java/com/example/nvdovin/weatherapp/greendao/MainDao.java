@@ -32,7 +32,7 @@ public class MainDao extends AbstractDao<Main, Long> {
         public final static Property SeaLevel = new Property(5, Double.class, "seaLevel", false, "SEA_LEVEL");
         public final static Property GrndLevel = new Property(6, Double.class, "grndLevel", false, "GRND_LEVEL");
         public final static Property Humidity = new Property(7, Integer.class, "humidity", false, "HUMIDITY");
-        public final static Property TempKf = new Property(8, Integer.class, "tempKf", false, "TEMP_KF");
+        public final static Property TempKf = new Property(8, Double.class, "tempKf", false, "TEMP_KF");
     }
 
 
@@ -56,7 +56,7 @@ public class MainDao extends AbstractDao<Main, Long> {
                 "\"SEA_LEVEL\" REAL," + // 5: seaLevel
                 "\"GRND_LEVEL\" REAL," + // 6: grndLevel
                 "\"HUMIDITY\" INTEGER," + // 7: humidity
-                "\"TEMP_KF\" INTEGER);"); // 8: tempKf
+                "\"TEMP_KF\" REAL);"); // 8: tempKf
     }
 
     /** Drops the underlying database table. */
@@ -109,9 +109,9 @@ public class MainDao extends AbstractDao<Main, Long> {
             stmt.bindLong(8, humidity);
         }
  
-        Integer tempKf = entity.getTempKf();
+        Double tempKf = entity.getTempKf();
         if (tempKf != null) {
-            stmt.bindLong(9, tempKf);
+            stmt.bindDouble(9, tempKf);
         }
     }
 
@@ -159,9 +159,9 @@ public class MainDao extends AbstractDao<Main, Long> {
             stmt.bindLong(8, humidity);
         }
  
-        Integer tempKf = entity.getTempKf();
+        Double tempKf = entity.getTempKf();
         if (tempKf != null) {
-            stmt.bindLong(9, tempKf);
+            stmt.bindDouble(9, tempKf);
         }
     }
 
@@ -181,7 +181,7 @@ public class MainDao extends AbstractDao<Main, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5), // seaLevel
             cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6), // grndLevel
             cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // humidity
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // tempKf
+            cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8) // tempKf
         );
         return entity;
     }
@@ -196,7 +196,7 @@ public class MainDao extends AbstractDao<Main, Long> {
         entity.setSeaLevel(cursor.isNull(offset + 5) ? null : cursor.getDouble(offset + 5));
         entity.setGrndLevel(cursor.isNull(offset + 6) ? null : cursor.getDouble(offset + 6));
         entity.setHumidity(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setTempKf(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setTempKf(cursor.isNull(offset + 8) ? null : cursor.getDouble(offset + 8));
      }
     
     @Override

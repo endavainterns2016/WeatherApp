@@ -12,14 +12,16 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Wind {
 
+    private static final String SPEED = "speed";
+    private static final String DEG = "deg";
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("speed")
+    @SerializedName(SPEED)
     @Expose
     @Property
     private Double speed;
-    @SerializedName("deg")
+    @SerializedName(DEG)
     @Expose
     @Property
     private Double deg;

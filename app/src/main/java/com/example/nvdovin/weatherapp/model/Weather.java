@@ -12,22 +12,27 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Weather {
 
+    private static final String ID = "id";
+    private static final String MAIN = "main";
+    private static final String DESCRIPTION = "description";
+    private static final String ICON = "icon";
+
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("id")
+    @SerializedName(ID)
     @Expose
     @Property
     private Integer weatherId;
-    @SerializedName("main")
+    @SerializedName(MAIN)
     @Expose
     @Property
     private String main;
-    @SerializedName("description")
+    @SerializedName(DESCRIPTION)
     @Expose
     @Property
     private String description;
-    @SerializedName("icon")
+    @SerializedName(ICON)
     @Expose
     @Property
     private String icon;
