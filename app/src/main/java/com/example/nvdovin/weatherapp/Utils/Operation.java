@@ -1,5 +1,5 @@
-package com.example.nvdovin.weatherapp.Utils;
+package com.example.nvdovin.weatherapp.utils;
 
-public interface Operation {
+interface Operation {
     void execute() throws Exception;
 }

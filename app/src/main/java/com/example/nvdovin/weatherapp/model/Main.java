@@ -12,38 +12,47 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Main {
 
+    private static final String TEMP = "temp";
+    private static final String TEMP_MIN = "temp_min";
+    private static final String TEMP_MAX = "temp_max";
+    private static final String PRESSURE = "pressure";
+    private static final String SEA_LEVEL = "sea_level";
+    private static final String GRND_LEVEL = "grnd_level";
+    private static final String HUMIDITY = "humidity";
+    private static final String TEMP_KF = "temp_kf";
+
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("temp")
+    @SerializedName(TEMP)
     @Expose
     @Property
     private Double temp;
-    @SerializedName("temp_min")
+    @SerializedName(TEMP_MIN)
     @Expose
     @Property
     private Double tempMin;
-    @SerializedName("temp_max")
+    @SerializedName(TEMP_MAX)
     @Expose
     @Property
     private Double tempMax;
-    @SerializedName("pressure")
+    @SerializedName(PRESSURE)
     @Expose
     @Property
     private Double pressure;
-    @SerializedName("sea_level")
+    @SerializedName(SEA_LEVEL)
     @Expose
     @Property
     private Double seaLevel;
-    @SerializedName("grnd_level")
+    @SerializedName(GRND_LEVEL)
     @Expose
     @Property
     private Double grndLevel;
-    @SerializedName("humidity")
+    @SerializedName(HUMIDITY)
     @Expose
     @Property
     private Integer humidity;
-    @SerializedName("temp_kf")
+    @SerializedName(TEMP_KF)
     @Expose
     @Property
     private Double tempKf;

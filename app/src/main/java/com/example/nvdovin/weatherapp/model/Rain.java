@@ -12,10 +12,11 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Rain {
 
+    private static final String H = "3h";
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("3h")
+    @SerializedName(H)
     @Expose
     @Property
     private Double _3h;

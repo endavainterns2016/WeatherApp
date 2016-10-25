@@ -12,14 +12,16 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Coord {
 
+    private static final String LON = "lon";
+    private static final String LAT = "lat";
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("lon")
+    @SerializedName(LON)
     @Expose
     @Property
     private Double lon;
-    @SerializedName("lat")
+    @SerializedName(LAT)
     @Expose
     @Property
     private Double lat;

@@ -5,21 +5,26 @@ import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Model {
+public class Forecast {
 
-    @SerializedName("city")
+    private static final String CITY = "city";
+    private static final String COD = "cod";
+    private static final String MESSAGE = "message";
+    private static final String COUNT = "cnt";
+    private static final String LIST = "list";
+    @SerializedName(CITY)
     @Expose
     private City city;
-    @SerializedName("cod")
+    @SerializedName(COD)
     @Expose
     private String cod;
-    @SerializedName("message")
+    @SerializedName(MESSAGE)
     @Expose
     private Double message;
-    @SerializedName("cnt")
+    @SerializedName(COUNT)
     @Expose
     private Integer cnt;
-    @SerializedName("list")
+    @SerializedName(LIST)
     @Expose
     private java.util.List<WeatherList> weatherList = new ArrayList<WeatherList>();
 

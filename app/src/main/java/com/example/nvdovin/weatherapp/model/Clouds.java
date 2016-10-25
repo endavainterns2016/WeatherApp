@@ -12,10 +12,12 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class Clouds {
 
+    private static final String ALL = "all";
+
     @Id(autoincrement = true)
     private Long id;
 
-    @SerializedName("all")
+    @SerializedName(ALL)
     @Expose
     @Property
     private Integer all;

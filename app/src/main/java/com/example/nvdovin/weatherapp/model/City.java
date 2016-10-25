@@ -24,35 +24,44 @@ import com.example.nvdovin.weatherapp.greendao.WeatherListDao;
 @Entity
 public class City {
 
+    private static final String REFERENCED_JOIN_PROPERTY_ID = "id";
+    private static final String ID = "id";
+    private static final String CITY_ID = "CITY_ID";
+    private static final String NAME = "name";
+    private static final String COORD = "coord";
+    private static final String JOIN_PROPERTY_ID = "id";
+    private static final String COUNTRY = "country";
+    private static final String POPULATION = "population";
+    private static final String SYS = "sys";
 
     @Id(autoincrement = true)
     private Long id;
 
-    @ToMany(referencedJoinProperty = "id")
+    @ToMany(referencedJoinProperty = REFERENCED_JOIN_PROPERTY_ID)
     private List<WeatherList> weatherLists;
 
-    @SerializedName("id")
+    @SerializedName(ID)
     @Expose
-    @Property(nameInDb = "CITY_ID")
+    @Property(nameInDb = CITY_ID)
     private Long cityId;
-    @SerializedName("name")
+    @SerializedName(NAME)
     @Expose
     private String name;
-    @SerializedName("coord")
+    @SerializedName(COORD)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Coord coord;
-    @SerializedName("country")
+    @SerializedName(COUNTRY)
     @Expose
     @Property
     private String country;
-    @SerializedName("population")
+    @SerializedName(POPULATION)
     @Expose
     @Property
     private Integer population;
-    @SerializedName("sys")
+    @SerializedName(SYS)
     @Expose
-    @ToOne(joinProperty = "id")
+    @ToOne(joinProperty = JOIN_PROPERTY_ID)
     private Sys sys;
 
     /** Used to resolve relations */

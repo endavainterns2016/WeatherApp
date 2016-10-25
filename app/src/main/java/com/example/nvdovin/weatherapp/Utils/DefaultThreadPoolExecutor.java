@@ -1,4 +1,4 @@
-package com.example.nvdovin.weatherapp.Utils;
+package com.example.nvdovin.weatherapp.utils;
 
 import android.os.Process;
 
@@ -12,24 +12,24 @@ import java.util.concurrent.TimeUnit;
 
 public class DefaultThreadPoolExecutor {
 
-    public static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-    private final ThreadPoolExecutor mForBackgroundTasks;
-    private final Executor mMainThreadExecutor;
-    private static DefaultThreadPoolExecutor sInstance;
+    private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    private final ThreadPoolExecutor forBackgroundTasks;
+    private final Executor mainThreadExecutor;
+    private static DefaultThreadPoolExecutor instance;
 
     public static DefaultThreadPoolExecutor getInstance() {
-        if (sInstance == null) {
+        if (instance == null) {
             synchronized (DefaultThreadPoolExecutor.class) {
-                sInstance = new DefaultThreadPoolExecutor();
+                instance = new DefaultThreadPoolExecutor();
             }
         }
-        return sInstance;
+        return instance;
     }
 
     private DefaultThreadPoolExecutor(){
         ThreadFactory backgroundPriorityThreadFactory = new PriorityThreadFactory(Process.THREAD_PRIORITY_BACKGROUND);
 
-        mForBackgroundTasks = new ThreadPoolExecutor(
+        forBackgroundTasks = new ThreadPoolExecutor(
                 NUMBER_OF_CORES * 2,
                 NUMBER_OF_CORES * 2,
                 60L,
@@ -38,23 +38,23 @@ public class DefaultThreadPoolExecutor {
                 backgroundPriorityThreadFactory
         );
 
-        mMainThreadExecutor = new MainThreadExecutor();
+        mainThreadExecutor = new MainThreadExecutor();
     }
 
     public ThreadPoolExecutor forBackgroundTasks(){ //TODO no need
-        return mForBackgroundTasks;
+        return forBackgroundTasks;
     }
 
     public Executor forMainThreadTasks() {
-        return mMainThreadExecutor;
+        return mainThreadExecutor;
     }
 
-    public void executeBackground(com.example.nvdovin.weatherapp.Utils.Executor executor) {
-        mForBackgroundTasks.execute(createRunnable(executor));
+    public void executeBackground(com.example.nvdovin.weatherapp.utils.Executor executor) {
+        forBackgroundTasks.execute(createRunnable(executor));
     }
 
 
-    private Runnable createRunnable(final com.example.nvdovin.weatherapp.Utils.Executor executor){
+    private Runnable createRunnable(final com.example.nvdovin.weatherapp.utils.Executor executor){
 
         return new Runnable() {
             @Override
