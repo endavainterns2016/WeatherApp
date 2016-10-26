@@ -1,5 +1,7 @@
-package com.example.nvdovin.weatherapp.model;
+package com.example.nvdovin.weatherapp.retrofit;
 
+import com.example.nvdovin.weatherapp.model.City;
+import com.example.nvdovin.weatherapp.model.WeatherData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

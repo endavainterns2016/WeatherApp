@@ -1,7 +1,7 @@
 package com.example.nvdovin.weatherapp.factory;
 
 import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.CityDeserializer;
+import com.example.nvdovin.weatherapp.retrofit.CityDeserializer;
 import com.example.nvdovin.weatherapp.retrofit.WeatherApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
