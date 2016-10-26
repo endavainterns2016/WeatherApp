@@ -14,6 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CityDeserializer implements JsonDeserializer<City> {
+
+
+    private static final String CITY = "city";
+    private static final String NAME = "name";
+    private static final String ID = "id";
+    private static final String COORD = "coord";
+    private static final String LON = "lon";
+    private static final String LAT = "lat";
+    private static final String LIST = "list";
+    private static final String DT = "dt";
+    private static final String MAIN = "main";
+    private static final String TEMP = "temp";
+    private static final String TEMP_MIN = "temp_min";
+    private static final String TEMP_MAX = "temp_max";
+    private static final String PRESSURE = "pressure";
+    private static final String HUMIDITY = "humidity";
+    private static final String WEATHER = "weather";
+    private static final String DESCRIPTION = "description";
+    private static final String ICON = "icon";
+    private static final String CLOUDS = "clouds";
+    private static final String ALL = "all";
+    private static final String WIND = "wind";
+    private static final String SPEED = "speed";
+    private static final String RAIN = "rain";
+    private static final String H = "3h";
+
     @Override
     public City deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
@@ -21,47 +47,47 @@ public class CityDeserializer implements JsonDeserializer<City> {
         List<WeatherData> weatherDataList = new ArrayList<>();
 
         JsonObject cityObject = json.getAsJsonObject();
-        JsonElement cityElement = cityObject.get("city");
+        JsonElement cityElement = cityObject.get(CITY);
         JsonObject city = cityElement.getAsJsonObject();
-        JsonElement name = city.get("name");
-        JsonElement id = city.get("id");
-        JsonElement coordElement = city.get("coord");
+        JsonElement name = city.get(NAME);
+        JsonElement id = city.get(ID);
+        JsonElement coordElement = city.get(COORD);
         JsonObject coord = coordElement.getAsJsonObject();
-        JsonElement lon = coord.get("lon");
-        JsonElement lat = coord.get("lat");
+        JsonElement lon = coord.get(LON);
+        JsonElement lat = coord.get(LAT);
 
-        JsonElement weatherListElement = cityObject.get("list");
+        JsonElement weatherListElement = cityObject.get(LIST);
 
         JsonArray weatherListArray = weatherListElement.getAsJsonArray();
         for (JsonElement element : weatherListArray) {
             JsonObject data = element.getAsJsonObject();
-            JsonElement dateElem = data.get("dt");
-            JsonElement mainElem = data.get("main");
+            JsonElement dateElem = data.get(DT);
+            JsonElement mainElem = data.get(MAIN);
             JsonObject main = mainElem.getAsJsonObject();
-            JsonElement temp = main.get("temp");
-            JsonElement tempMin = main.get("temp_min");
-            JsonElement tempMax = main.get("temp_max");
-            JsonElement pressure = main.get("pressure");
-            JsonElement humidity = main.get("humidity");
-            JsonElement weather = data.get("weather");
+            JsonElement temp = main.get(TEMP);
+            JsonElement tempMin = main.get(TEMP_MIN);
+            JsonElement tempMax = main.get(TEMP_MAX);
+            JsonElement pressure = main.get(PRESSURE);
+            JsonElement humidity = main.get(HUMIDITY);
+            JsonElement weather = data.get(WEATHER);
             JsonArray weatherArray = weather.getAsJsonArray();
             JsonElement oneElement = weatherArray.get(0);
             JsonObject weatherArrayBody = oneElement.getAsJsonObject();
-            JsonElement weatherMain = weatherArrayBody.get("main");
-            JsonElement weatherDescription = weatherArrayBody.get("description");
-            JsonElement weatherIcon = weatherArrayBody.get("icon");
+            JsonElement weatherMain = weatherArrayBody.get(MAIN);
+            JsonElement weatherDescription = weatherArrayBody.get(DESCRIPTION);
+            JsonElement weatherIcon = weatherArrayBody.get(ICON);
 
-            JsonElement cloudsElem = data.get("clouds");
+            JsonElement cloudsElem = data.get(CLOUDS);
             JsonObject cloudsBody = cloudsElem.getAsJsonObject();
-            JsonElement clouds = cloudsBody.get("all");
+            JsonElement clouds = cloudsBody.get(ALL);
 
-            JsonElement windElem = data.get("wind");
+            JsonElement windElem = data.get(WIND);
             JsonObject windBody = windElem.getAsJsonObject();
-            JsonElement wind = windBody.get("speed");
+            JsonElement wind = windBody.get(SPEED);
 
-            JsonElement rainElem = data.get("rain");
+            JsonElement rainElem = data.get(RAIN);
             JsonObject rainBody = rainElem.getAsJsonObject();
-            JsonElement rain = rainBody.get("3h");
+            JsonElement rain = rainBody.get(H);
 
             WeatherData weatherData = new WeatherData();
             weatherData.setDt(dateElem.getAsLong());
