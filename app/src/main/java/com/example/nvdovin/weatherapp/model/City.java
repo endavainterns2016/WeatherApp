@@ -17,12 +17,14 @@ import java.util.List;
 @Entity
 public class City {
 
+    private static final String ID = "id";
+
     @Id
     private Long id;
     private String name;
     private Double lat;
     private Double lon;
-    @ToMany(referencedJoinProperty = "id")
+    @ToMany(referencedJoinProperty = ID)
     private List<WeatherData> weatherDataList;
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
