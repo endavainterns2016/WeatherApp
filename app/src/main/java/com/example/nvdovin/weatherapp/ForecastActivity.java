@@ -44,23 +44,26 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
             builder.append(c.getName());
             builder.append("\n");
             builder.append(c.getLat());
-            builder.append("\n");
-            builder.append(c.getLat());
             builder.append(" ");
             builder.append(c.getLon());
             builder.append("\n");
             List<WeatherData> weatherDatas = c.getWeatherDataList();
-            builder.append(weatherDatas.get(0).getHumidity());
-            builder.append("\n");
-            builder.append(weatherDatas.get(0).getPressure());
-            builder.append("\n");
-            builder.append(weatherDatas.get(0).getWeather());
-            builder.append("\n");
-            builder.append(weatherDatas.get(0).getClouds());
-            builder.append("\n");
-            builder.append(weatherDatas.get(0).getDt());
-            builder.append("\n");
+            for (WeatherData w : weatherDatas) {
+                builder.append(w.getHumidity());
+                builder.append("\n");
+                builder.append(w.getPressure());
+                builder.append("\n");
+                builder.append(w.getWeather());
+                builder.append("\n");
+                builder.append(w.getClouds());
+                builder.append("\n");
+                builder.append(w.getDt());
+                builder.append("\n");
+            }
 
+
+            builder.append("-----------------");
+            builder.append("\n");
         }
         txt.setText(builder.toString());
     }
