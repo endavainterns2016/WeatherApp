@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:text="city name"
+        android:id="@+id/forecast_recycler_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="27dp"
+        android:gravity="start"/>
+    <TextView
+        android:text="temperature"
+        android:id="@+id/forecast_recycler_city_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textSize="42dp"
+        android:layout_alignParentEnd="true"
+        />
+    <TextView
+        android:text="weather conditions"
+        android:id="@+id/forecast_recycler_city_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forecast_recycler_city_name"
+        android:textSize="18dp"
+        android:gravity="start"/>
+
+</RelativeLayout>

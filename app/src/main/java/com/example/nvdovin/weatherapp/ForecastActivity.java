@@ -1,21 +1,26 @@
 package com.example.nvdovin.weatherapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nvdovin.weatherapp.adapter.RecyclerViewAdapter;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.model.City;
+
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
     RetrofitFactory retrofitFactory;
     GreenDaoFactory greenDaoFactory;
-
+    RecyclerView recyclerView;
+    RecyclerViewAdapter recyclerViewAdapter;
     ForecastPresenter forecastPresenter;
-
+    int tempScale = 273;
     TextView txt;
 
     @Override
@@ -36,34 +41,19 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     @Override
     public void displayData(List<City> data) {
-        StringBuilder builder = new StringBuilder();
-        for(City c : data){
-            builder.append(c.getName());
-            builder.append("\n");
-            builder.append(c.getCoord().getLat());
-            builder.append(" ");
-            builder.append(c.getCoord().getLon());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getClouds().getAll());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getDtTxt());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getMain().getHumidity());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getWind().getDeg());
-            builder.append("\n-------------------------------\n");
-            //builder.append(c.getWeatherLists().get(0).getWeather().get(0).getDescription());
-        }
-        txt.setText(builder.toString());
+        recyclerView = (RecyclerView) findViewById(R.id.forecast_recycler_view);
+        recyclerViewAdapter = new RecyclerViewAdapter(data, tempScale);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public void showLoading() {
-        Toast.makeText(this,"Request started",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Request started", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void hideLoading() {
-        Toast.makeText(this,"Request stopped",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Request stopped", Toast.LENGTH_SHORT).show();
     }
 }

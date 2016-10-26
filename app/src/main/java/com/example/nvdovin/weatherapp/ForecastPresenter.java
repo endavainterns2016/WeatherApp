@@ -1,10 +1,10 @@
 package com.example.nvdovin.weatherapp;
 
-import com.example.nvdovin.weatherapp.utils.DefaultThreadPoolExecutor;
-import com.example.nvdovin.weatherapp.utils.Executor;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.model.City;
+import com.example.nvdovin.weatherapp.utils.DefaultThreadPoolExecutor;
+import com.example.nvdovin.weatherapp.utils.Executor;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,7 +18,7 @@ class ForecastPresenter {
     GreenDaoFactory greenDaoFactory;
     ForecastView view;
 
-    ForecastPresenter(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, ForecastView view){
+    ForecastPresenter(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, ForecastView view) {
 
         this.retrofitFactory = retrofitFactory;
         this.greenDaoFactory = greenDaoFactory;
@@ -27,12 +27,12 @@ class ForecastPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void setData(List<City> citiesList){
+    public void setData(List<City> citiesList) {
         view.displayData(citiesList);
         view.hideLoading();
     }
 
-    void getData(){
+    void getData() {
         view.showLoading();
         DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
 
