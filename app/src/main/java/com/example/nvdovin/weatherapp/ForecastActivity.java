@@ -1,5 +1,6 @@
 package com.example.nvdovin.weatherapp;
 
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
