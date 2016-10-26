@@ -2,7 +2,7 @@ package com.example.nvdovin.weatherapp.utils;
 
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
-import com.example.nvdovin.weatherapp.model.Forecast;
+import com.example.nvdovin.weatherapp.model.City;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -20,8 +20,8 @@ public class Executor implements Operation {
 
     @Override
     public void execute() throws Exception {
-        final Forecast forecast = retrofitFactory.getData("Chisinau");//TODO implement basic logic
-        greenDaoFactory.insert(forecast);
+        final City city = retrofitFactory.getData("Chisinau");//TODO implement basic logic
+        greenDaoFactory.insert(city);
         EventBus.getDefault().post(greenDaoFactory.loadCities());
     }
 }

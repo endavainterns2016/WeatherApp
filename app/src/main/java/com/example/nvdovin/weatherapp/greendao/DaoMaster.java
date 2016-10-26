@@ -22,29 +22,13 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
         CityDao.createTable(db, ifNotExists);
-        CloudsDao.createTable(db, ifNotExists);
-        CoordDao.createTable(db, ifNotExists);
-        MainDao.createTable(db, ifNotExists);
-        RainDao.createTable(db, ifNotExists);
-        SysDao.createTable(db, ifNotExists);
-        Sys_Dao.createTable(db, ifNotExists);
-        WeatherDao.createTable(db, ifNotExists);
-        WeatherListDao.createTable(db, ifNotExists);
-        WindDao.createTable(db, ifNotExists);
+        WeatherDataDao.createTable(db, ifNotExists);
     }
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
         CityDao.dropTable(db, ifExists);
-        CloudsDao.dropTable(db, ifExists);
-        CoordDao.dropTable(db, ifExists);
-        MainDao.dropTable(db, ifExists);
-        RainDao.dropTable(db, ifExists);
-        SysDao.dropTable(db, ifExists);
-        Sys_Dao.dropTable(db, ifExists);
-        WeatherDao.dropTable(db, ifExists);
-        WeatherListDao.dropTable(db, ifExists);
-        WindDao.dropTable(db, ifExists);
+        WeatherDataDao.dropTable(db, ifExists);
     }
 
     /**
@@ -64,15 +48,7 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(CityDao.class);
-        registerDaoClass(CloudsDao.class);
-        registerDaoClass(CoordDao.class);
-        registerDaoClass(MainDao.class);
-        registerDaoClass(RainDao.class);
-        registerDaoClass(SysDao.class);
-        registerDaoClass(Sys_Dao.class);
-        registerDaoClass(WeatherDao.class);
-        registerDaoClass(WeatherListDao.class);
-        registerDaoClass(WindDao.class);
+        registerDaoClass(WeatherDataDao.class);
     }
 
     public DaoSession newSession() {

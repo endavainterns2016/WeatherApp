@@ -1,13 +1,15 @@
 package com.example.nvdovin.weatherapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.model.City;
+import com.example.nvdovin.weatherapp.model.WeatherData;
+
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
@@ -34,25 +36,31 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     }
 
+    //check data
     @Override
     public void displayData(List<City> data) {
         StringBuilder builder = new StringBuilder();
         for(City c : data){
             builder.append(c.getName());
             builder.append("\n");
-            builder.append(c.getCoord().getLat());
+            builder.append(c.getLat());
+            builder.append("\n");
+            builder.append(c.getLat());
             builder.append(" ");
-            builder.append(c.getCoord().getLon());
+            builder.append(c.getLon());
             builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getClouds().getAll());
+            List<WeatherData> weatherDatas = c.getWeatherDataList();
+            builder.append(weatherDatas.get(0).getHumidity());
             builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getDtTxt());
+            builder.append(weatherDatas.get(0).getPressure());
             builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getMain().getHumidity());
+            builder.append(weatherDatas.get(0).getWeather());
             builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getWind().getDeg());
-            builder.append("\n-------------------------------\n");
-            //builder.append(c.getWeatherLists().get(0).getWeather().get(0).getDescription());
+            builder.append(weatherDatas.get(0).getClouds());
+            builder.append("\n");
+            builder.append(weatherDatas.get(0).getDt());
+            builder.append("\n");
+
         }
         txt.setText(builder.toString());
     }
