@@ -62,7 +62,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
             }
 
 
-            builder.append("------------------");
+            builder.append("-------------------");
             builder.append("\n");
         }
         txt.setText(builder.toString());
