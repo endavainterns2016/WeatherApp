@@ -36,34 +36,40 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     }
 
-    //check data
     @Override
     public void displayData(List<City> data) {
         StringBuilder builder = new StringBuilder();
+        String newLine = "\n";
+        String space = " ";
+        String size = "SIZE :";
+        String multiDash = "-------------------";
+        builder.append(size + data.get(0).getWeatherDataList().size() + "\n");
         for(City c : data){
             builder.append(c.getName());
-            builder.append("\n");
+            builder.append(newLine);
             builder.append(c.getLat());
-            builder.append(" ");
+            builder.append(space);
             builder.append(c.getLon());
-            builder.append("\n");
+            builder.append(newLine);
             List<WeatherData> weatherDatas = c.getWeatherDataList();
             for (WeatherData w : weatherDatas) {
+                builder.append(w.getId());
+                builder.append(newLine);
                 builder.append(w.getHumidity());
-                builder.append("\n");
+                builder.append(newLine);
                 builder.append(w.getPressure());
-                builder.append("\n");
+                builder.append(newLine);
                 builder.append(w.getWeather());
-                builder.append("\n");
+                builder.append(newLine);
                 builder.append(w.getClouds());
-                builder.append("\n");
+                builder.append(newLine);
                 builder.append(w.getDt());
-                builder.append("\n");
+                builder.append(newLine);
             }
 
 
-            builder.append("-------------------");
-            builder.append("\n");
+            builder.append(multiDash);
+            builder.append(newLine);
         }
         txt.setText(builder.toString());
     }
