@@ -20,10 +20,10 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     TextView txt;
 
-    private static String newLine = "\n";
-    private static String space = " ";
-    private static String size = "SIZE :";
-    private static String multiDash = "-------------------";
+    private static String NEW_LINE = "\n";
+    private static String SPACE = " ";
+    private static String SIZE = "SIZE :";
+    private static String MULTIDASH = "-------------------";
 
 
     @Override
@@ -49,33 +49,33 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
         for (City c : data) {
             weatherDataSize += c.getWeatherDataList().size();
         }
-        builder.append(size + weatherDataSize + "\n");
+        builder.append(SIZE + weatherDataSize + "\n");
         for(City c : data){
             builder.append(c.getName());
-            builder.append(newLine);
+            builder.append(NEW_LINE);
             builder.append(c.getLat());
-            builder.append(space);
+            builder.append(SPACE);
             builder.append(c.getLon());
-            builder.append(newLine);
+            builder.append(NEW_LINE);
             List<WeatherData> weatherDatas = c.getWeatherDataList();
             for (WeatherData w : weatherDatas) {
                 builder.append(w.getId());
-                builder.append(newLine);
+                builder.append(NEW_LINE);
                 builder.append(w.getHumidity());
-                builder.append(newLine);
+                builder.append(NEW_LINE);
                 builder.append(w.getPressure());
-                builder.append(newLine);
+                builder.append(NEW_LINE);
                 builder.append(w.getWeather());
-                builder.append(newLine);
+                builder.append(NEW_LINE);
                 builder.append(w.getClouds());
-                builder.append(newLine);
+                builder.append(NEW_LINE);
                 builder.append(w.getDt());
-                builder.append(newLine);
+                builder.append(NEW_LINE);
             }
 
 
-            builder.append(multiDash);
-            builder.append(newLine);
+            builder.append(MULTIDASH);
+            builder.append(NEW_LINE);
         }
         txt.setText(builder.toString());
     }
