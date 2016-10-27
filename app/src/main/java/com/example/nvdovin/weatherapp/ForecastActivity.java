@@ -20,6 +20,12 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     TextView txt;
 
+    private static String newLine = "\n";
+    private static String space = " ";
+    private static String size = "SIZE :";
+    private static String multiDash = "-------------------";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +45,6 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     @Override
     public void displayData(List<City> data) {
         StringBuilder builder = new StringBuilder();
-        String newLine = "\n";
-        String space = " ";
-        String size = "SIZE :";
-        String multiDash = "-------------------";
         int weatherDataSize = 0;
         for (City c : data) {
             weatherDataSize += c.getWeatherDataList().size();
