@@ -87,8 +87,12 @@ public class CityDeserializer implements JsonDeserializer<City> {
             JsonElement wind = windBody.get(SPEED);
 
             JsonElement rainElem = data.get(RAIN);
-            JsonObject rainBody = rainElem.getAsJsonObject();
-            JsonElement rain = rainBody.get(H);
+            JsonObject rainBody;
+            JsonElement rain = null;
+            if (rainElem != null) {
+                rainBody = rainElem.getAsJsonObject();
+                rain = rainBody.get(H);
+            }
 
             WeatherData weatherData = new WeatherData();
             weatherData.setDt(dateElem.getAsLong());

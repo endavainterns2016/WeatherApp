@@ -43,7 +43,11 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
         String space = " ";
         String size = "SIZE :";
         String multiDash = "-------------------";
-        builder.append(size + data.get(0).getWeatherDataList().size() + "\n");
+        int weatherDataSize = 0;
+        for (City c : data) {
+            weatherDataSize += c.getWeatherDataList().size();
+        }
+        builder.append(size + weatherDataSize + "\n");
         for(City c : data){
             builder.append(c.getName());
             builder.append(newLine);
