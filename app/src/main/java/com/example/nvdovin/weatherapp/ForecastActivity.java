@@ -1,13 +1,15 @@
 package com.example.nvdovin.weatherapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nvdovin.weatherapp.database.model.City;
+import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
-import com.example.nvdovin.weatherapp.model.City;
+
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
@@ -17,6 +19,12 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     ForecastPresenter forecastPresenter;
 
     TextView txt;
+
+    private static String NEW_LINE = "\n";
+    private static String SPACE = " ";
+    private static String SIZE = "SIZE :";
+    private static String MULTIDASH = "-------------------";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +45,37 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     @Override
     public void displayData(List<City> data) {
         StringBuilder builder = new StringBuilder();
+        int weatherDataSize = 0;
+        for (City c : data) {
+            weatherDataSize += c.getWeatherDataList().size();
+        }
+        builder.append(SIZE + weatherDataSize + "\n");
         for(City c : data){
             builder.append(c.getName());
-            builder.append("\n");
-            builder.append(c.getCoord().getLat());
-            builder.append(" ");
-            builder.append(c.getCoord().getLon());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getClouds().getAll());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getDtTxt());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getMain().getHumidity());
-            builder.append("\n");
-            builder.append(c.getWeatherLists().get(0).getWind().getDeg());
-            builder.append("\n-------------------------------\n");
-            //builder.append(c.getWeatherLists().get(0).getWeather().get(0).getDescription());
+            builder.append(NEW_LINE);
+            builder.append(c.getLat());
+            builder.append(SPACE);
+            builder.append(c.getLon());
+            builder.append(NEW_LINE);
+            List<WeatherData> weatherDatas = c.getWeatherDataList();
+            for (WeatherData w : weatherDatas) {
+                builder.append(w.getId());
+                builder.append(NEW_LINE);
+                builder.append(w.getHumidity());
+                builder.append(NEW_LINE);
+                builder.append(w.getPressure());
+                builder.append(NEW_LINE);
+                builder.append(w.getWeather());
+                builder.append(NEW_LINE);
+                builder.append(w.getClouds());
+                builder.append(NEW_LINE);
+                builder.append(w.getDt());
+                builder.append(NEW_LINE);
+            }
+
+
+            builder.append(MULTIDASH);
+            builder.append(NEW_LINE);
         }
         txt.setText(builder.toString());
     }
