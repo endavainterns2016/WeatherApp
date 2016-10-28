@@ -1,4 +1,4 @@
-package com.example.nvdovin.weatherapp.model;
+package com.example.nvdovin.weatherapp.database.model;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -10,6 +10,8 @@ public class WeatherData {
 
     @Id(autoincrement = true)
     private Long id;
+
+    private Long cityId;
 
     @Index(unique = true)
     private String uniqueId;
@@ -27,12 +29,13 @@ public class WeatherData {
     private Double windSpeed;
     private Double rain;
 
-    @Generated(hash = 295830555)
-    public WeatherData(Long id, String uniqueId, Long dt, Double temp,
+    @Generated(hash = 1777063306)
+    public WeatherData(Long id, Long cityId, String uniqueId, Long dt, Double temp,
                        Double tempMin, Double tempMax, Double pressure, Double humidity,
                        String weather, String weatherDescription, String weatherIcon,
                        Double clouds, Double windSpeed, Double rain) {
         this.id = id;
+        this.cityId = cityId;
         this.uniqueId = uniqueId;
         this.dt = dt;
         this.temp = temp;
@@ -58,6 +61,14 @@ public class WeatherData {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getCityId() {
+        return this.cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
     public String getUniqueId() {

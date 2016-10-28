@@ -1,8 +1,8 @@
 package com.example.nvdovin.weatherapp.factory;
 
-import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.retrofit.CityDeserializer;
-import com.example.nvdovin.weatherapp.retrofit.WeatherApi;
+import com.example.nvdovin.weatherapp.backend.WeatherApi;
+import com.example.nvdovin.weatherapp.backend.response.GetCityListResponse;
+import com.example.nvdovin.weatherapp.database.model.City;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -18,10 +18,11 @@ public class RetrofitFactory {
     private static final String BASE_URL = "http://api.openweathermap.org";
     private static final String API_KEY = "94e17e8755c5bc98caaf0a25e9c15d3f";
     private Retrofit retrofit;
+    private WeatherApi weatherApi;
 
     public RetrofitFactory() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                .registerTypeAdapter(City.class, new CityDeserializer())
+                //.registerTypeAdapter(City.class, new CityDeserializer())
                 .create();
 
         retrofit = new Retrofit.Builder()
@@ -29,19 +30,28 @@ public class RetrofitFactory {
                 .client(createClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
+        weatherApi = retrofit.create(WeatherApi.class);
+
     }
 
-    private OkHttpClient createClient(){
+    private OkHttpClient createClient() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT);
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
+
     }
 
     public City getData(String cityName) throws IOException {
-        WeatherApi weatherApi = retrofit.create(WeatherApi.class);
+
         return weatherApi.getWeatherData(API_KEY, cityName).execute().body();
+    }
+
+    public GetCityListResponse getCityList() throws IOException {
+
+        return weatherApi.getCities("https://private-f5a5b-citiesapi.apiary-mock.com/cities").execute().body();
     }
 
 }

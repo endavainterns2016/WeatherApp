@@ -1,8 +1,8 @@
 package com.example.nvdovin.weatherapp;
 
+import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
-import com.example.nvdovin.weatherapp.model.City;
 import com.example.nvdovin.weatherapp.utils.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.utils.Executor;
 
@@ -32,9 +32,9 @@ class ForecastPresenter {
         view.hideLoading();
     }
 
-    void getData(){
+    void getData(List<String> cityList) {
         view.showLoading();
-        DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
+        DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory, cityList));
     }
 
 

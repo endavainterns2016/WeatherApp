@@ -2,10 +2,10 @@ package com.example.nvdovin.weatherapp.factory;
 
 import android.content.Context;
 
-import com.example.nvdovin.weatherapp.greendao.DaoMaster;
-import com.example.nvdovin.weatherapp.greendao.DaoSession;
-import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.WeatherData;
+import com.example.nvdovin.weatherapp.database.dao.DaoMaster;
+import com.example.nvdovin.weatherapp.database.dao.DaoSession;
+import com.example.nvdovin.weatherapp.database.model.City;
+import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.utils.Mapper;
 
 import java.util.List;

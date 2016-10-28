@@ -1,7 +1,7 @@
-package com.example.nvdovin.weatherapp.retrofit;
+package com.example.nvdovin.weatherapp.backend;
 
-import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.WeatherData;
+import com.example.nvdovin.weatherapp.database.model.City;
+import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.utils.Mapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -111,6 +111,7 @@ public class CityDeserializer implements JsonDeserializer<City> {
             if (rain != null)
                 weatherData.setRain(rain.getAsDouble());
             weatherDataList.add(weatherData);
+            weatherData.setCityId(id.getAsLong());
         }
 
         c.setId(id.getAsLong());

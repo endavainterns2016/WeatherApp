@@ -1,9 +1,9 @@
-package com.example.nvdovin.weatherapp.model;
+package com.example.nvdovin.weatherapp.database.model;
 
 
-import com.example.nvdovin.weatherapp.greendao.CityDao;
-import com.example.nvdovin.weatherapp.greendao.DaoSession;
-import com.example.nvdovin.weatherapp.greendao.WeatherDataDao;
+import com.example.nvdovin.weatherapp.database.dao.CityDao;
+import com.example.nvdovin.weatherapp.database.dao.DaoSession;
+import com.example.nvdovin.weatherapp.database.dao.WeatherDataDao;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
@@ -22,14 +22,19 @@ public class City {
     private String name;
     private Double lat;
     private Double lon;
-    @ToMany(referencedJoinProperty = "id")
+    @ToMany(referencedJoinProperty = "cityId")
     private List<WeatherData> weatherDataList;
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 448079911)
     private transient CityDao myDao;
+
 
     @Generated(hash = 271905848)
     public City(Long id, String name, Double lat, Double lon) {
@@ -42,6 +47,7 @@ public class City {
     @Generated(hash = 750791287)
     public City() {
     }
+
 
     @Keep
     public List<WeatherData> getRawWeatherList() {

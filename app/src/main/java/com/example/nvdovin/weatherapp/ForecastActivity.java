@@ -6,11 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nvdovin.weatherapp.database.model.City;
+import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
-import com.example.nvdovin.weatherapp.model.City;
-import com.example.nvdovin.weatherapp.model.WeatherData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
@@ -20,6 +21,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     ForecastPresenter forecastPresenter;
 
     TextView txt;
+    private List<String> cityList;
 
     private static String NEW_LINE = "\n";
     private static String SPACE = " ";
@@ -32,6 +34,9 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        cityList = new ArrayList<>();
+        cityList.add("Chisinau");
+        cityList.add("Madrid");
 
         txt = (TextView) findViewById(R.id.text);
 
@@ -39,7 +44,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
         greenDaoFactory = new GreenDaoFactory(this);
 
         forecastPresenter = new ForecastPresenter(retrofitFactory, greenDaoFactory, this);
-        forecastPresenter.getData();
+        forecastPresenter.getData(cityList);
 
     }
 
