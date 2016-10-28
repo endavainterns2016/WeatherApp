@@ -21,14 +21,9 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     GreenDaoFactory greenDaoFactory;
     RecyclerView recyclerView;
     ForecastPresenter forecastPresenter;
-    Integer tempScale = 273;
+    int tempScale = 273;
+    float separatorHeight = 5.5f;
     TextView txt;
-
-    private static String NEW_LINE = "\n";
-    private static String SPACE = " ";
-    private static String SIZE = "SIZE :";
-    private static String MULTIDASH = "-------------------";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +43,8 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     @Override
     public void displayData(List<City> data) {
-        SeparatorDecoration separatorDecoration = new SeparatorDecoration(this, Color.GRAY, 5.5f);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(separatorDecoration);
+        recyclerView.addItemDecoration(new SeparatorDecoration(this, Color.GRAY, separatorHeight));
         recyclerView.setAdapter(new RecyclerViewAdapter(data, tempScale));
     }
 

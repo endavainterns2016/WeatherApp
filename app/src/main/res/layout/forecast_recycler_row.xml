@@ -3,32 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
-    android:paddingBottom="30dp"
-    android:paddingTop="30dp">
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp">
+    <!--android:background="@drawable/nigh6">-->
     <TextView
-        android:text="city name"
         android:id="@+id/forecast_recycler_city_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="27dp"
-        android:gravity="start"/>
+        android:gravity="start"
+        android:textSize="@dimen/city_name_size" />
+
     <TextView
-        android:text="temperature"
         android:id="@+id/forecast_recycler_city_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:textSize="42dp"
         android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:textSize="@dimen/city_temperature_size"
         />
+
     <TextView
-        android:text="weather conditions"
         android:id="@+id/forecast_recycler_city_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/forecast_recycler_city_name"
-        android:textSize="18dp"
-        android:gravity="start"/>
+        android:gravity="start"
+        android:textSize="@dimen/city_description_size" />
 
 </RelativeLayout>
