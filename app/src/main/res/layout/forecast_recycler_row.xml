@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingBottom="30dp"
+    android:paddingTop="30dp">
     <TextView
         android:text="city name"
         android:id="@+id/forecast_recycler_city_name"

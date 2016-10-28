@@ -18,7 +18,7 @@ class ForecastPresenter {
     GreenDaoFactory greenDaoFactory;
     ForecastView view;
 
-    ForecastPresenter(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, ForecastView view){
+    ForecastPresenter(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, ForecastView view) {
 
         this.retrofitFactory = retrofitFactory;
         this.greenDaoFactory = greenDaoFactory;
@@ -27,7 +27,7 @@ class ForecastPresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void setData(List<City> citiesList){
+    public void setData(List<City> citiesList) {
         view.displayData(citiesList);
         view.hideLoading();
     }

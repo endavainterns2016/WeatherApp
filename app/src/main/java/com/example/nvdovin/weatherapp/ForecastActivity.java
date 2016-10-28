@@ -1,12 +1,16 @@
 package com.example.nvdovin.weatherapp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nvdovin.weatherapp.adapter.RecyclerViewAdapter;
+import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.database.model.City;
-import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 
@@ -15,9 +19,9 @@ import java.util.List;
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
     RetrofitFactory retrofitFactory;
     GreenDaoFactory greenDaoFactory;
-
+    RecyclerView recyclerView;
     ForecastPresenter forecastPresenter;
-
+    Integer tempScale = 273;
     TextView txt;
 
     private static String NEW_LINE = "\n";
@@ -30,7 +34,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         txt = (TextView) findViewById(R.id.text);
 
@@ -44,49 +48,19 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     @Override
     public void displayData(List<City> data) {
-        StringBuilder builder = new StringBuilder();
-        int weatherDataSize = 0;
-        for (City c : data) {
-            weatherDataSize += c.getWeatherDataList().size();
-        }
-        builder.append(SIZE + weatherDataSize + "\n");
-        for(City c : data){
-            builder.append(c.getName());
-            builder.append(NEW_LINE);
-            builder.append(c.getLat());
-            builder.append(SPACE);
-            builder.append(c.getLon());
-            builder.append(NEW_LINE);
-            List<WeatherData> weatherDatas = c.getWeatherDataList();
-            for (WeatherData w : weatherDatas) {
-                builder.append(w.getId());
-                builder.append(NEW_LINE);
-                builder.append(w.getHumidity());
-                builder.append(NEW_LINE);
-                builder.append(w.getPressure());
-                builder.append(NEW_LINE);
-                builder.append(w.getWeather());
-                builder.append(NEW_LINE);
-                builder.append(w.getClouds());
-                builder.append(NEW_LINE);
-                builder.append(w.getDt());
-                builder.append(NEW_LINE);
-            }
-
-
-            builder.append(MULTIDASH);
-            builder.append(NEW_LINE);
-        }
-        txt.setText(builder.toString());
+        SeparatorDecoration separatorDecoration = new SeparatorDecoration(this, Color.GRAY, 5.5f);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(separatorDecoration);
+        recyclerView.setAdapter(new RecyclerViewAdapter(data, tempScale));
     }
 
     @Override
     public void showLoading() {
-        Toast.makeText(this,"Request started",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Request started", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void hideLoading() {
-        Toast.makeText(this,"Request stopped",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Request stopped", Toast.LENGTH_SHORT).show();
     }
 }
