@@ -14,13 +14,11 @@ public class Executor implements Operation {
 
     private RetrofitFactory retrofitFactory;
     private GreenDaoFactory greenDaoFactory;
-    //private List<String> cityList;
 
 
-    public Executor(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, List<String> cityList) {
+    public Executor(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory) {
         this.retrofitFactory = retrofitFactory;
         this.greenDaoFactory = greenDaoFactory;
-        //this.cityList = cityList;
     }
 
     @Override

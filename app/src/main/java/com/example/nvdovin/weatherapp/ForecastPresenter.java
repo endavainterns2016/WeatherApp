@@ -32,9 +32,9 @@ class ForecastPresenter {
         view.hideLoading();
     }
 
-    void getData(List<String> cityList) {
+    void getData() {
         view.showLoading();
-        DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory, cityList));
+        DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
     }
 
 

@@ -17,12 +17,13 @@ import java.util.List;
 @Entity
 public class City {
 
+    private static final String CITY_ID = "cityId";
     @Id
     private Long id;
     private String name;
     private Double lat;
     private Double lon;
-    @ToMany(referencedJoinProperty = "cityId")
+    @ToMany(referencedJoinProperty = CITY_ID)
     private List<WeatherData> weatherDataList;
     /**
      * Used to resolve relations

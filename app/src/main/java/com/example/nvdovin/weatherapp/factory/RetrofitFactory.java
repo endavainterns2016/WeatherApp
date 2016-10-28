@@ -1,5 +1,6 @@
 package com.example.nvdovin.weatherapp.factory;
 
+import com.example.nvdovin.weatherapp.backend.CityDeserializer;
 import com.example.nvdovin.weatherapp.backend.WeatherApi;
 import com.example.nvdovin.weatherapp.backend.response.GetCityListResponse;
 import com.example.nvdovin.weatherapp.database.model.City;
@@ -22,7 +23,7 @@ public class RetrofitFactory {
 
     public RetrofitFactory() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
-                //.registerTypeAdapter(City.class, new CityDeserializer())
+                .registerTypeAdapter(City.class, new CityDeserializer())
                 .create();
 
         retrofit = new Retrofit.Builder()
