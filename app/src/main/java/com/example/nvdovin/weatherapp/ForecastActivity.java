@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.nvdovin.weatherapp.adapter.RecyclerViewAdapter;
 import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
@@ -16,18 +18,18 @@ import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
-    private RecyclerView recyclerView;
     static final int CELSIUS_SCALE = 273;
     float separatorHeight;
-
+    ProgressBar progressBar;
     TypedValue outValue;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
+        progressBar = (ProgressBar) findViewById(R.id.forecast_progress_bar);
         outValue = new TypedValue();
 
         getResources().getValue(R.dimen.separator_height, outValue, true);
@@ -52,6 +54,6 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 }
