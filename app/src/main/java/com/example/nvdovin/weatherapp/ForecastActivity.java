@@ -17,10 +17,7 @@ import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
-    RetrofitFactory retrofitFactory;
-    GreenDaoFactory greenDaoFactory;
-    RecyclerView recyclerView;
-    ForecastPresenter forecastPresenter;
+    private RecyclerView recyclerView;
     int tempScale = 273;
     float separatorHeight = 5.5f;
     TextView txt;
@@ -33,10 +30,10 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
         txt = (TextView) findViewById(R.id.text);
 
-        retrofitFactory = new RetrofitFactory();
-        greenDaoFactory = new GreenDaoFactory(this);
+        RetrofitFactory retrofitFactory = new RetrofitFactory();
+        GreenDaoFactory greenDaoFactory = new GreenDaoFactory(this);
 
-        forecastPresenter = new ForecastPresenter(retrofitFactory, greenDaoFactory, this);
+        ForecastPresenter forecastPresenter = new ForecastPresenter(retrofitFactory, greenDaoFactory, this);
         forecastPresenter.getData();
 
     }

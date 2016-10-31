@@ -10,7 +10,7 @@ import android.view.View;
 
 
 public class SeparatorDecoration extends RecyclerView.ItemDecoration {
-    Paint paint;
+    private Paint paint;
 
     public SeparatorDecoration(Context context, int color, float heightDp) {
         paint = new Paint();

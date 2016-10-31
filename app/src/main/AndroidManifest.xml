@@ -13,7 +13,7 @@
         <activity
             android:name=".ForecastActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
