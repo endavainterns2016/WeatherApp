@@ -11,7 +11,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class DefaultThreadPoolExecutor {
-
     private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private final ThreadPoolExecutor forBackgroundTasks;
     private final Executor mainThreadExecutor;
@@ -26,7 +25,7 @@ public class DefaultThreadPoolExecutor {
         return instance;
     }
 
-    private DefaultThreadPoolExecutor(){
+    private DefaultThreadPoolExecutor() {
         ThreadFactory backgroundPriorityThreadFactory = new PriorityThreadFactory(Process.THREAD_PRIORITY_BACKGROUND);
 
         forBackgroundTasks = new ThreadPoolExecutor(
@@ -41,7 +40,7 @@ public class DefaultThreadPoolExecutor {
         mainThreadExecutor = new MainThreadExecutor();
     }
 
-    public ThreadPoolExecutor forBackgroundTasks(){ //TODO no need
+    public ThreadPoolExecutor forBackgroundTasks() { //TODO no need
         return forBackgroundTasks;
     }
 
@@ -54,7 +53,7 @@ public class DefaultThreadPoolExecutor {
     }
 
 
-    private Runnable createRunnable(final com.example.nvdovin.weatherapp.utils.Executor executor){
+    private Runnable createRunnable(final com.example.nvdovin.weatherapp.utils.Executor executor) {
 
         return new Runnable() {
             @Override

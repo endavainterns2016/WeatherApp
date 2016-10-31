@@ -33,7 +33,6 @@ class ForecastPresenter {
     }
 
     void getData() {
-        view.showLoading();
         DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
     }
 
