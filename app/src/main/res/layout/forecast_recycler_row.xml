@@ -12,6 +12,7 @@
         android:foregroundGravity="left"
        android:textSize="@dimen/city_weather_description_size"
        android:paddingEnd="@dimen/weather_icon_padding"
+       android:textColor="@color/white"
        />
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_alignParentEnd="true"
         android:gravity="end"
         android:textSize="@dimen/city_temperature_size"
+        android:textColor="@color/white"
         />
 
     <TextView
@@ -31,6 +33,7 @@
         android:textSize="@dimen/city_name_size"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/forecast_recycler_weather_icon"
+        android:textColor="@color/white"
         />
 
     <TextView
@@ -40,6 +43,7 @@
         android:textSize="@dimen/city_description_size"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/forecast_recycler_weather_icon"
-        android:layout_marginTop="@dimen/city_description_marginTop" />
+        android:layout_marginTop="@dimen/city_description_marginTop"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

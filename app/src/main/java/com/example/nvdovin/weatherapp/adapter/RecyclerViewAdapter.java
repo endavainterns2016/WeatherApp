@@ -18,41 +18,143 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
+    private static final int TRANSPARENCY_ALPHA = 160;
+    private static final String DAY_CONSTANT = "d";
+    private static final int MARSHMALLOW_VERSION = 24;
+    private static final String FONTS_LOCATION = "fonts/weathericons-regular-webfont.ttf";
     private List<City> cityList = new ArrayList<City>();
     private int tempScale;
-    Context context;
-    private static final String ICON_URL = "http://openweathermap.org/img/w/";
-    Typeface weatherFont;
+    private Context context;
+    private Typeface weatherFont;
 
 
     public RecyclerViewAdapter(List<City> cityList, int tempScale, Context context) {
         this.context = context;
         this.cityList = cityList;
         this.tempScale = tempScale;
-        weatherFont = Typeface.createFromAsset(this.context.getAssets(), "fonts/weathericons-regular-webfont.ttf");
-
-
+        weatherFont = Typeface.createFromAsset(this.context.getAssets(), FONTS_LOCATION);
     }
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.forecast_recycler_row, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.forecast_recycler_row, parent, false);
         return new CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         City city = cityList.get(position);
+        String weatherIconId = city.getWeatherDataList().get(0).getWeatherIcon();
         holder.cityName.setText(city.getName());
         holder.cityWeatherDescription.setText(city.getWeatherDataList().get(0).getWeatherDescription());
         holder.cityTemperature.setText(String.valueOf(city.getWeatherDataList().get(0).getTemp().intValue() - tempScale));
         holder.cityID = city.getId();
-        setWeatherIcon(Integer.valueOf(city.getWeatherDataList().get(0).getWeatherIcon()), holder.weatherIcon);
+        holder.itemView.setBackgroundResource(setWeatherIcon(weatherIconId, holder.weatherIcon));
+        holder.itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
     }
+
 
     @Override
     public int getItemCount() {
         return cityList.size();
+    }
+
+    private int setWeatherIcon(String id, TextView iconTextView) {
+        int resID = 0;
+        String icon = "";
+        if (id.substring(id.length() - 1).equals(DAY_CONSTANT)) {
+            switch (id.substring(0, id.length() - 1)) {
+
+                case "01":
+                    icon = context.getString(R.string.weather_sunny);
+                    resID = R.drawable.clear_sky_day;
+                    break;
+                case "02":
+                    icon = context.getString(R.string.weather_cloudy);
+                    resID = R.drawable.few_clouds_day;
+                    break;
+                case "03":
+                    icon = context.getString(R.string.weather_cloudy);
+                    resID = R.drawable.scattered_day;
+                    break;
+                case "04":
+                    icon = context.getString(R.string.weather_cloudy);
+                    resID = R.drawable.broken_clouds_day;
+                    break;
+                case "09":
+                    icon = context.getString(R.string.weather_rainy);
+                    resID = R.drawable.shower_rain_day;
+                    break;
+                case "10":
+                    icon = context.getString(R.string.weather_rainy);
+                    resID = R.drawable.rain_day;
+                    break;
+                case "11":
+                    icon = context.getString(R.string.weather_thunder);
+                    resID = R.drawable.thunderstorm_day;
+                    break;
+                case "13":
+                    icon = context.getString(R.string.weather_snowy);
+                    resID = R.drawable.snow_day;
+                    break;
+                case "50":
+                    icon = context.getString(R.string.weather_foggy);
+                    resID = R.drawable.mist_day;
+                    break;
+                default:
+                    icon = context.getString(R.string.weather_drizzle);
+                    resID = R.drawable.broken_clouds_day;
+            }
+        } else {
+            switch (id.substring(0, id.length() - 1)) {
+
+                case "01":
+                    icon = context.getString(R.string.weather_clear_night);
+                    resID = R.drawable.clear_sky_night;
+                    break;
+                case "02":
+                    icon = context.getString(R.string.weather_cloudy);
+                    resID = R.drawable.few_clouds_night;
+                    break;
+                case "03":
+                    icon = context.getString(R.string.weather_cloudy);
+                    resID = R.drawable.scattered_night;
+                    break;
+                case "04":
+                    icon = context.getString(R.string.weather_cloudy);
+                    resID = R.drawable.broken_clouds_night;
+                    break;
+                case "09":
+                    icon = context.getString(R.string.weather_rainy);
+                    resID = R.drawable.shower_rain_night;
+                    break;
+                case "10":
+                    icon = context.getString(R.string.weather_rainy);
+                    resID = R.drawable.rain_night;
+                    break;
+                case "11":
+                    icon = context.getString(R.string.weather_thunder);
+                    resID = R.drawable.thunderstorm_night;
+                    break;
+                case "13":
+                    icon = context.getString(R.string.weather_snowy);
+                    resID = R.drawable.snow_night;
+                    break;
+                case "50":
+                    icon = context.getString(R.string.weather_foggy);
+                    resID = R.drawable.mist_night;
+                    break;
+                default:
+                    icon = context.getString(R.string.weather_drizzle);
+                    resID = R.drawable.broken_clouds_night;
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= MARSHMALLOW_VERSION)
+            iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
+        else
+            iconTextView.setText(Html.fromHtml(icon));
+        return resID;
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -75,38 +177,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
         }
-    }
-
-    private void setWeatherIcon(int actualId, TextView iconTextView) {
-        int id = actualId / 100;
-        String icon = "";
-        switch (id) {
-            case 2:
-                icon = "&#xf01e";
-                break;
-            case 3:
-                icon = "&#xf01c";
-                break;
-            case 7:
-                icon = "&#xf014";
-                break;
-            case 8:
-                icon = "&#xf013";
-                break;
-            case 6:
-                icon = "&#xf01b";
-                break;
-            case 5:
-                icon = "&#xf019";
-                break;
-
-        }
-
-        if (Build.VERSION.SDK_INT >= 24)
-            iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
-        else
-            iconTextView.setText(Html.fromHtml(icon));
-
     }
 
 }
