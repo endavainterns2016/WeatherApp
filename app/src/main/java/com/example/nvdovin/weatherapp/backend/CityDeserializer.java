@@ -76,7 +76,7 @@ public class CityDeserializer implements JsonDeserializer<City> {
             JsonObject weatherArrayBody = oneElement.getAsJsonObject();
             JsonElement weatherMain = weatherArrayBody.get(MAIN);
             JsonElement weatherDescription = weatherArrayBody.get(DESCRIPTION);
-            JsonElement weatherIcon = weatherArrayBody.get(ICON);
+            JsonElement weatherIcon = weatherArrayBody.get(ID);
 
             JsonElement cloudsElem = data.get(CLOUDS);
             JsonObject cloudsBody = cloudsElem.getAsJsonObject();
