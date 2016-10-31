@@ -2,4 +2,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="city_name_size">27sp</dimen>
+    <dimen name="city_temperature_size">42sp</dimen>
+    <dimen name="city_description_size">18sp</dimen>
+    <dimen name="city_weather_description_size">42sp</dimen>
+    <dimen name="weather_icon_padding">7dp</dimen>
+    <dimen name="city_description_marginTop">30dp</dimen>
+    <item name="separator_height" format="float" type="dimen">2.2</item>
 </resources>
