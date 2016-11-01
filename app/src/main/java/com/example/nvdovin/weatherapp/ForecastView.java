@@ -7,7 +7,7 @@ import java.util.List;
 interface ForecastView {
 
     void displayData(List<City> data);
-    void showLoading();
+
     void hideLoading();
 
 }
