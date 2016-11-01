@@ -2,12 +2,14 @@ package com.example.nvdovin.weatherapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.adapter.RecyclerViewAdapter;
 import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ForecastPresenter forecastPresenter;
     private ProgressBar progressBar;
     private RecyclerViewAdapter recycleViewAdapter;
 
@@ -38,12 +42,21 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
         getResources().getValue(R.dimen.separator_height, outValue, true);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.forecast_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshProcedure();
+            }
+        });
+
         float separatorHeight = outValue.getFloat();
         SeparatorDecoration separatorDecoration = new SeparatorDecoration(this, Color.GRAY, separatorHeight);
         RetrofitFactory retrofitFactory = new RetrofitFactory();
         GreenDaoFactory greenDaoFactory = new GreenDaoFactory(this);
 
         ForecastPresenter forecastPresenter = new ForecastPresenter(retrofitFactory, greenDaoFactory, this);
+        this.forecastPresenter = forecastPresenter;
         forecastPresenter.getData();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,5 +75,13 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     @Override
     public void hideLoading() {
         progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    public void refreshProcedure() {
+        Toast.makeText(getApplicationContext(), "Refreshing data...", Toast.LENGTH_SHORT).show();
+        swipeRefreshLayout.setRefreshing(true);
+        forecastPresenter.getData();
+
     }
 }
