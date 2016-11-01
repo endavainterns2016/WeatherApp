@@ -3,16 +3,17 @@
     android:id="@+id/recycler_row_layout_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/half_black_transparent"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="@dimen/item_row_padding">
    <TextView
         android:id="@+id/forecast_recycler_weather_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:foregroundGravity="left"
-       android:textSize="@dimen/city_weather_description_size"
        android:paddingEnd="@dimen/weather_icon_padding"
        android:textColor="@color/white"
+       android:textSize="@dimen/city_weather_description_size"
        />
 
     <TextView
@@ -21,29 +22,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:gravity="end"
-        android:textSize="@dimen/city_temperature_size"
         android:textColor="@color/white"
+        android:textSize="@dimen/city_temperature_size"
         />
 
     <TextView
         android:id="@+id/forecast_recycler_city_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textSize="@dimen/city_name_size"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/forecast_recycler_weather_icon"
+        android:gravity="start"
         android:textColor="@color/white"
+        android:textSize="@dimen/city_name_size"
         />
 
     <TextView
         android:id="@+id/forecast_recycler_city_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/city_description_size"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/forecast_recycler_weather_icon"
         android:layout_marginTop="@dimen/city_description_marginTop"
-        android:textColor="@color/white"/>
+        android:layout_toEndOf="@+id/forecast_recycler_weather_icon"
+        android:textColor="@color/white"
+        android:textSize="@dimen/city_description_size" />
 
 </RelativeLayout>
