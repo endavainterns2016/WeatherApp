@@ -48,4 +48,3 @@ captures/
 
 gen-external-apklibs
 .idea/
-app/src/main/java/com/example/nvdovin/weatherapp/database/dao/

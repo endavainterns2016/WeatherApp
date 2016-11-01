@@ -8,5 +8,18 @@
     <dimen name="city_weather_description_size">42sp</dimen>
     <dimen name="weather_icon_padding">7dp</dimen>
     <dimen name="city_description_marginTop">30dp</dimen>
+    <dimen name="screen_margin">5dp</dimen>
+    <dimen name="day_text_size">27sp</dimen>
+    <dimen name="icon_size">73sp</dimen>
+    <dimen name="min_height">1dp</dimen>
+    <dimen name="image_min_height">84dp</dimen>
+    <dimen name="no_data_size">36sp</dimen>
+    <dimen name="grid_column_width">50dp</dimen>
+    <dimen name="grid_item_icon_size">72sp</dimen>
+    <dimen name="grid_item_padding">10dp</dimen>
+    <dimen name="temp_size">20sp</dimen>
+    <dimen name="time_size">16sp</dimen>
+    <dimen name="humidity_size">18sp</dimen>
+    <dimen name="item_row_padding">10dp</dimen>
     <item name="separator_height" format="float" type="dimen">2.2</item>
 </resources>

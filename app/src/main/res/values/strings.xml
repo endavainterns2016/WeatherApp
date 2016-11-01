@@ -8,4 +8,8 @@
     <string name="weather_snowy">&#xf01b;</string>
     <string name="weather_thunder">&#xf01e;</string>
     <string name="weather_drizzle">&#xf01c;</string>
+    <string name="history_unavailable">History unavailable</string>
+    <string name="degrees_symbol">\u00b0</string>
+    <string name="today">TODAY</string>
+    <string name="yesterday">YESTERDAY</string>
 </resources>

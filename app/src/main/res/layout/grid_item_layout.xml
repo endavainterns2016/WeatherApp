@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/half_white_transparent"
+    android:orientation="vertical"
+    android:padding="?attr/listPreferredItemPaddingLeft">
+
+    <TextView
+        android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/grid_item_icon_size"
+        tools:background="@drawable/rain_day" />
+
+    <TextView
+        android:id="@+id/humidity_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/image_view"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="@dimen/grid_item_padding"
+        android:textSize="@dimen/humidity_size"
+        tools:text="humidity" />
+
+    <TextView
+        android:id="@+id/temp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/image_view"
+        android:paddingTop="@dimen/grid_item_padding"
+        android:textSize="@dimen/temp_size"
+        tools:text="temp" />
+
+    <TextView
+        android:id="@+id/time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_view"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/grid_item_padding"
+        android:textSize="@dimen/time_size"
+        tools:text="00:00" />
+
+
+</RelativeLayout>
