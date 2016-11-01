@@ -14,41 +14,48 @@ import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
+import com.example.nvdovin.weatherapp.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ForecastActivity extends AppCompatActivity implements ForecastView {
-    static final int CELSIUS_SCALE = 273;
-    float separatorHeight;
-    ProgressBar progressBar;
-    TypedValue outValue;
-    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private RecyclerViewAdapter recycleViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         progressBar = (ProgressBar) findViewById(R.id.forecast_progress_bar);
-        outValue = new TypedValue();
+
+        Constants constants = new Constants();
+        int CELSIUS_SCALE = constants.getCelsiusScale();
+        List<City> cityList = new ArrayList<City>();
+
+        TypedValue outValue = new TypedValue();
 
         getResources().getValue(R.dimen.separator_height, outValue, true);
-        separatorHeight = outValue.getFloat();
 
+        float separatorHeight = outValue.getFloat();
+        SeparatorDecoration separatorDecoration = new SeparatorDecoration(this, Color.GRAY, separatorHeight);
         RetrofitFactory retrofitFactory = new RetrofitFactory();
         GreenDaoFactory greenDaoFactory = new GreenDaoFactory(this);
 
         ForecastPresenter forecastPresenter = new ForecastPresenter(retrofitFactory, greenDaoFactory, this);
         forecastPresenter.getData();
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(separatorDecoration);
+        recycleViewAdapter = new RecyclerViewAdapter(cityList, CELSIUS_SCALE, this);
+        recyclerView.setAdapter(recycleViewAdapter);
 
     }
 
     @Override
     public void displayData(List<City> data) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new SeparatorDecoration(this, Color.GRAY, separatorHeight));
-        recyclerView.setAdapter(new RecyclerViewAdapter(data, CELSIUS_SCALE, this));
+        recycleViewAdapter.swap(data);
     }
 
 
