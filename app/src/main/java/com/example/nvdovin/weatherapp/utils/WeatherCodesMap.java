@@ -116,6 +116,4 @@ public class WeatherCodesMap {
     public Integer getBackgroundResById(String id){
         return map.get(id).get(bckgResIndex);
     }
-
-
 }
