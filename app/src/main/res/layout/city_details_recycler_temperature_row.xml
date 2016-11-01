@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/city_details_recycler_temperature_row"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/city_details_recycler_temperature_row_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The time of the gloriuous temperature"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/city_description_size"/>
+
+    <TextView
+        android:id="@+id/city_details_recycler_temperature_row_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The gloriuous Icon"
+        android:gravity="center"
+        android:textSize="@dimen/city_temperature_size"
+        android:layout_below="@+id/city_details_recycler_temperature_row_time"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/city_details_recycler_temperature_row_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The gloriuous temperature"
+        android:textSize="@dimen/city_temperature_size"
+        android:layout_below="@+id/city_details_recycler_temperature_row_icon"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
