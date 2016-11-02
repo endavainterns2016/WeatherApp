@@ -29,6 +29,6 @@ public class Executor implements Operation {
             final City city = retrofitFactory.getData(cityName);
             greenDaoFactory.insert(city);
         }
-        EventBus.getDefault().post(greenDaoFactory.loadCities());
+        EventBus.getDefault().post(greenDaoFactory.loadCityWeatherForNow());
     }
 }
