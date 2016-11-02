@@ -20,8 +20,6 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
     private static final int TRANSPARENCY_ALPHA = 160;
-    private static final String DAY_CONSTANT = "d";
-    private static final int MARSHMALLOW_VERSION = 24;
     private static final String FONTS_LOCATION = "fonts/weathericons-regular-webfont.ttf";
     private List<City> cityList;
     private int tempScale;
@@ -88,7 +86,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         int resID = weatherCodesMap.getBackgroundResById(id);
         String icon = context.getString(weatherCodesMap.getIconByID(id));
 
-        if (Build.VERSION.SDK_INT >= MARSHMALLOW_VERSION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
         else
             iconTextView.setText(Html.fromHtml(icon));

@@ -16,7 +16,8 @@ import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
-import com.example.nvdovin.weatherapp.utils.Constants;
+import com.example.nvdovin.weatherapp.utils.SharedPrefs;
+import com.example.nvdovin.weatherapp.utils.TemperatureScales;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,8 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     private ForecastPresenter forecastPresenter;
     private ProgressBar progressBar;
     private RecyclerViewAdapter recycleViewAdapter;
+    private GreenDaoFactory greenDaoFactory;
+    private SharedPrefs sharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +37,12 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         progressBar = (ProgressBar) findViewById(R.id.forecast_progress_bar);
 
-        Constants constants = new Constants();
-        int CELSIUS_SCALE = constants.getCelsiusScale();
+
         List<City> cityList = new ArrayList<City>();
-
         TypedValue outValue = new TypedValue();
-
         getResources().getValue(R.dimen.separator_height, outValue, true);
+
+        sharedPrefs = new SharedPrefs(this);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.forecast_swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -52,18 +54,18 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
         float separatorHeight = outValue.getFloat();
         SeparatorDecoration separatorDecoration = new SeparatorDecoration(this, Color.GRAY, separatorHeight);
+
         RetrofitFactory retrofitFactory = new RetrofitFactory();
-        GreenDaoFactory greenDaoFactory = new GreenDaoFactory(this);
+        greenDaoFactory = new GreenDaoFactory(this);
 
         ForecastPresenter forecastPresenter = new ForecastPresenter(retrofitFactory, greenDaoFactory, this);
         this.forecastPresenter = forecastPresenter;
-        forecastPresenter.getData();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(separatorDecoration);
-        recycleViewAdapter = new RecyclerViewAdapter(cityList, CELSIUS_SCALE, this);
+        recycleViewAdapter = new RecyclerViewAdapter(cityList, TemperatureScales.getCelsiusScale(), this);
         recyclerView.setAdapter(recycleViewAdapter);
-
+        checkLastUpdateTime();
     }
 
     @Override
@@ -81,7 +83,17 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     public void refreshProcedure() {
         Toast.makeText(getApplicationContext(), "Refreshing data...", Toast.LENGTH_SHORT).show();
         swipeRefreshLayout.setRefreshing(true);
+        sharedPrefs.setLastUpdateTime();
         forecastPresenter.getData();
 
+    }
+
+    public void checkLastUpdateTime() {
+        if (sharedPrefs.lastUpdateExceededLimit()) {
+            forecastPresenter.getData();
+        } else {
+            displayData(greenDaoFactory.loadCities());
+            hideLoading();
+        }
     }
 }
