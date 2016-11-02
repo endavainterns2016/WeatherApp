@@ -18,7 +18,7 @@ import java.util.List;
 public class GreenDaoFactory {
 
     private static final String DB_NAME = "WEATHER_DB";
-    private Context context;
+    private final Context context;
 
     private final DaoSession daoSession;
 
