@@ -2,11 +2,15 @@ package com.example.nvdovin.weatherapp.factory;
 
 import android.content.Context;
 
+import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.database.dao.DaoMaster;
 import com.example.nvdovin.weatherapp.database.dao.DaoSession;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.utils.Mapper;
+
+import org.greenrobot.greendao.Property;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
@@ -17,7 +21,7 @@ public class GreenDaoFactory {
 
     private final DaoSession daoSession;
 
-    public GreenDaoFactory(Context context){
+    public GreenDaoFactory(Context context) {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME, null);
         DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
@@ -30,8 +34,15 @@ public class GreenDaoFactory {
         daoSession.getCityDao().insertOrReplace(city);//TODO implement uniqueId logic
     }
 
-    public List<City> loadCities(){
-       return daoSession.getCityDao().loadAll();
+    public List<City> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
+            QueryBuilder qb = daoSession.getCityDao().queryBuilder();
+            for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
+                if (sortQueryBuilder.isAscending()) {
+                    qb = qb.orderAsc(sortQueryBuilder.getProperty());
+                }
+                qb = qb.orderAsc(sortQueryBuilder.getProperty());
+            }
+        return qb.list();
     }
 
 }
