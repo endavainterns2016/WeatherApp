@@ -1,12 +1,12 @@
 package com.example.nvdovin.weatherapp;
 
-import com.example.nvdovin.weatherapp.database.model.City;
+import com.example.nvdovin.weatherapp.model.ForecastNow;
 
 import java.util.List;
 
 interface ForecastView {
 
-    void displayData(List<City> data);
+    void displayData(List<ForecastNow> data);
 
     void hideLoading();
 
