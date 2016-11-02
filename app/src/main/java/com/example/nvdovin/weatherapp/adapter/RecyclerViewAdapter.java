@@ -12,7 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.R;
-import com.example.nvdovin.weatherapp.database.model.City;
+import com.example.nvdovin.weatherapp.database.model.WeatherData;
+import com.example.nvdovin.weatherapp.model.CityForecast;
 import com.example.nvdovin.weatherapp.utils.WeatherCodesMap;
 
 import java.util.ArrayList;
@@ -23,16 +24,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String DAY_CONSTANT = "d";
     private static final int MARSHMALLOW_VERSION = 24;
     private static final String FONTS_LOCATION = "fonts/weathericons-regular-webfont.ttf";
-    private List<City> cityList;
+    private List<CityForecast> cityForecastList;
     private int tempScale;
     private Context context;
     private Typeface weatherFont;
 
 
-    public RecyclerViewAdapter(List<City> cityList, int tempScale, Context context) {
+    public RecyclerViewAdapter(List<CityForecast> cityForecastList, int tempScale, Context context) {
         this.context = context;
-        this.cityList = new ArrayList<>();
-        this.cityList = cityList;
+        this.cityForecastList = cityForecastList;
         this.tempScale = tempScale;
         weatherFont = Typeface.createFromAsset(this.context.getAssets(), FONTS_LOCATION);
     }
@@ -45,12 +45,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        City city = cityList.get(position);
-        String weatherIconId = city.getWeatherDataList().get(0).getWeatherIcon();
-        holder.cityName.setText(city.getName());
-        holder.cityWeatherDescription.setText(city.getWeatherDataList().get(0).getWeatherDescription());
-        holder.cityTemperature.setText(String.valueOf(city.getWeatherDataList().get(0).getTemp().intValue() - tempScale));
-        holder.cityID = city.getId();
+        final CityForecast cityForecast = cityForecastList.get(position);
+        final WeatherData currentWeather = cityForecast.getCurrentCityWeather();
+        String weatherIconId = currentWeather.getWeatherIcon();
+        holder.cityName.setText(cityForecast.getCityName());
+        holder.cityWeatherDescription.setText(currentWeather.getWeatherDescription());
+        holder.cityTemperature.setText(String.valueOf(currentWeather.getTemp().intValue() - tempScale));
+        holder.cityID = cityForecast.getCityId();
         holder.itemView.setBackgroundResource(setWeatherIcon(weatherIconId, holder.weatherIcon));
         holder.itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
     }
@@ -58,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return cityList.size();
+        return cityForecastList.size();
     }
 
 
@@ -95,15 +96,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return resID;
     }
 
-    public void swap(List<City> cities){
-
-        if(cityList != null){
-            cityList.clear();
-            cityList.addAll(cities);
-        } else {
-            cityList = cities;
-        }
+    public void swap(List<CityForecast> citiesForecast) {
+        cityForecastList = new ArrayList<>(citiesForecast);
         notifyDataSetChanged();
     }
+
 
 }
