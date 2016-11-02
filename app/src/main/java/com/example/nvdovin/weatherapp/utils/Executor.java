@@ -1,6 +1,8 @@
 package com.example.nvdovin.weatherapp.utils;
 
 import com.example.nvdovin.weatherapp.backend.response.GetCityListResponse;
+import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
+import com.example.nvdovin.weatherapp.database.dao.CityDao;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
@@ -29,6 +31,13 @@ public class Executor implements Operation {
             final City city = retrofitFactory.getData(cityName);
             greenDaoFactory.insert(city);
         }
-        EventBus.getDefault().post(greenDaoFactory.loadCities());
+
+        SortQueryBuilder sortQueryBuilder = new SortQueryBuilder();
+        sortQueryBuilder.setAscending(true);
+        sortQueryBuilder.setProperty(CityDao.Properties.Name);
+        SortQueryBuilder[] builders = new SortQueryBuilder[]{
+                sortQueryBuilder
+        };
+        EventBus.getDefault().post(greenDaoFactory.loadSortedCities(builders));
     }
 }
