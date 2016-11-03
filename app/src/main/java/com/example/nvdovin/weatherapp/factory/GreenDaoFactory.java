@@ -39,8 +39,9 @@ public class GreenDaoFactory {
             for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
                 if (sortQueryBuilder.isAscending()) {
                     qb = qb.orderAsc(sortQueryBuilder.getProperty());
+                } else {
+                    qb = qb.orderDesc(sortQueryBuilder.getProperty());
                 }
-                qb = qb.orderAsc(sortQueryBuilder.getProperty());
             }
         return qb.list();
     }
