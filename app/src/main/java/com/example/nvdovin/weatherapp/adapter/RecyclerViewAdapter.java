@@ -20,8 +20,6 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
     private static final int TRANSPARENCY_ALPHA = 160;
-    private static final String DAY_CONSTANT = "d";
-    private static final int MARSHMALLOW_VERSION = 24;
     private static final String FONTS_LOCATION = "fonts/weathericons-regular-webfont.ttf";
     private List<City> cityList;
     private int tempScale;
@@ -61,6 +59,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return cityList.size();
     }
 
+    private int setWeatherIcon(String id, TextView iconTextView) {
+        WeatherCodesMap weatherCodesMap = new WeatherCodesMap();
+        int resID = weatherCodesMap.getBackgroundResById(id);
+        String icon = context.getString(weatherCodesMap.getIconByID(id));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            iconTextView.setText(Html.fromHtml(icon));
+        }
+        return resID;
+    }
+
+    public void swap(List<City> cities) {
+
+        if (cityList != null) {
+            cityList.clear();
+            cityList.addAll(cities);
+        } else {
+            cityList = cities;
+        }
+        notifyDataSetChanged();
+    }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         TextView cityName, cityTemperature, cityWeatherDescription, weatherIcon;
@@ -82,28 +103,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 }
             });
         }
-    }
-    private int setWeatherIcon(String id, TextView iconTextView) {
-        WeatherCodesMap weatherCodesMap = new WeatherCodesMap();
-        int resID = weatherCodesMap.getBackgroundResById(id);
-        String icon = context.getString(weatherCodesMap.getIconByID(id));
-
-        if (Build.VERSION.SDK_INT >= MARSHMALLOW_VERSION)
-            iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
-        else
-            iconTextView.setText(Html.fromHtml(icon));
-        return resID;
-    }
-
-    public void swap(List<City> cities){
-
-        if(cityList != null){
-            cityList.clear();
-            cityList.addAll(cities);
-        } else {
-            cityList = cities;
-        }
-        notifyDataSetChanged();
     }
 
 }
