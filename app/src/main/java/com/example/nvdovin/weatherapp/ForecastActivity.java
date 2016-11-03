@@ -92,7 +92,6 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
         } else {
             displayData(greenDaoFactory.loadCities());
             hideLoading();
-
         }
     }
 }
