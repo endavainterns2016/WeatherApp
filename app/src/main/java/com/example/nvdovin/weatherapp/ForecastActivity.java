@@ -13,11 +13,12 @@ import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.adapter.RecyclerViewAdapter;
 import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
+import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
+import com.example.nvdovin.weatherapp.database.dao.CityDao;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
-import com.example.nvdovin.weatherapp.utils.SharedPrefs;
-import com.example.nvdovin.weatherapp.utils.TemperatureScales;
+import com.example.nvdovin.weatherapp.utils.sharedpreferences.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(separatorDecoration);
-        recycleViewAdapter = new RecyclerViewAdapter(cityList, TemperatureScales.CELSIUS_SCALE, this);
+        recycleViewAdapter = new RecyclerViewAdapter(cityList, this);
         recyclerView.setAdapter(recycleViewAdapter);
         checkLastUpdateTime();
     }
@@ -90,7 +91,10 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
             forecastPresenter.getData();
             sharedPrefs.setLastUpdateTime();
         } else {
-            displayData(greenDaoFactory.loadCities());
+            SortQueryBuilder sortByName = new SortQueryBuilder();
+            sortByName.setAscending(true);
+            sortByName.setProperty(CityDao.Properties.Name);
+            displayData(greenDaoFactory.loadSortedCities(sortByName));
             hideLoading();
         }
     }

@@ -12,13 +12,13 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-class ForecastPresenter {
+public class ForecastPresenter {
 
     RetrofitFactory retrofitFactory;
     GreenDaoFactory greenDaoFactory;
     ForecastView view;
 
-    ForecastPresenter(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, ForecastView view) {
+    public ForecastPresenter(RetrofitFactory retrofitFactory, GreenDaoFactory greenDaoFactory, ForecastView view) {
 
         this.retrofitFactory = retrofitFactory;
         this.greenDaoFactory = greenDaoFactory;
@@ -32,7 +32,7 @@ class ForecastPresenter {
         view.hideLoading();
     }
 
-    void getData() {
+    public void getData() {
         DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
     }
 

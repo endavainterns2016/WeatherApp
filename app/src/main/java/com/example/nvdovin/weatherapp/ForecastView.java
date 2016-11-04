@@ -4,7 +4,7 @@ import com.example.nvdovin.weatherapp.database.model.City;
 
 import java.util.List;
 
-interface ForecastView {
+public interface ForecastView {
 
     void displayData(List<City> data);
 
