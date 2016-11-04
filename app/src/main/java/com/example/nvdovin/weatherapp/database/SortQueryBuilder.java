@@ -23,3 +23,5 @@ public class SortQueryBuilder<T extends Property> {
         this.ascending = ascending;
     }
 }
+
+
