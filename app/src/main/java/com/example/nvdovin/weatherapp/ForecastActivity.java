@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.adapter.RecyclerViewAdapter;
 import com.example.nvdovin.weatherapp.adapter.SeparatorDecoration;
-import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
+import com.example.nvdovin.weatherapp.model.CityForecast;
 import com.example.nvdovin.weatherapp.utils.Constants;
 
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     private ForecastPresenter forecastPresenter;
     private ProgressBar progressBar;
     private RecyclerViewAdapter recycleViewAdapter;
+    private List<CityForecast> cityForecastList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
         Constants constants = new Constants();
         int CELSIUS_SCALE = constants.getCelsiusScale();
-        List<City> cityList = new ArrayList<City>();
+        cityForecastList = new ArrayList<>();
 
         TypedValue outValue = new TypedValue();
 
@@ -61,13 +62,13 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(separatorDecoration);
-        recycleViewAdapter = new RecyclerViewAdapter(cityList, CELSIUS_SCALE, this);
+        recycleViewAdapter = new RecyclerViewAdapter(cityForecastList, CELSIUS_SCALE, this);
         recyclerView.setAdapter(recycleViewAdapter);
 
     }
 
     @Override
-    public void displayData(List<City> data) {
+    public void displayData(List<CityForecast> data) {
         recycleViewAdapter.swap(data);
     }
 
