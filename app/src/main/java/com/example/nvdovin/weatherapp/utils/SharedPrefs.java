@@ -22,9 +22,9 @@ public class SharedPrefs {
     }
 
     public boolean lastUpdateExceededLimit() {
-        if ((sharedPref.getLong(LAST_UPDATE_TIME_KEY, 0) == 0 ||
-                System.currentTimeMillis() - sharedPref.getLong(LAST_UPDATE_TIME_KEY, 0) > TimeUnit.HOURS.toMillis(TIME_SINCE_LAST_UPDATE))) {
-            setLastUpdateTime();
+        long getLastUpdateTime = sharedPref.getLong(LAST_UPDATE_TIME_KEY, 0);
+        if ((getLastUpdateTime == 0 ||
+                System.currentTimeMillis() - getLastUpdateTime > TimeUnit.HOURS.toMillis(TIME_SINCE_LAST_UPDATE))) {
             return true;
         } else {
             return false;

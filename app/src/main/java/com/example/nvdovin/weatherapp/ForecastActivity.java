@@ -88,6 +88,7 @@ public class ForecastActivity extends AppCompatActivity implements ForecastView 
     public void checkLastUpdateTime() {
         if (sharedPrefs.lastUpdateExceededLimit()) {
             forecastPresenter.getData();
+            sharedPrefs.setLastUpdateTime();
         } else {
             displayData(greenDaoFactory.loadCities());
             hideLoading();
