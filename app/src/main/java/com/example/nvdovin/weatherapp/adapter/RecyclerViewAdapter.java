@@ -15,25 +15,29 @@ import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.model.CityForecast;
 import com.example.nvdovin.weatherapp.utils.WeatherCodesMap;
+import com.example.nvdovin.weatherapp.utils.sharedpreferences.SharedPrefs;
+import com.example.nvdovin.weatherapp.utils.temperature.TempConvertor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
     private static final int TRANSPARENCY_ALPHA = 160;
-    private static final String DAY_CONSTANT = "d";
-    private static final int MARSHMALLOW_VERSION = 24;
     private static final String FONTS_LOCATION = "fonts/weathericons-regular-webfont.ttf";
     private List<CityForecast> cityForecastList;
-    private int tempScale;
     private Context context;
     private Typeface weatherFont;
+    private SharedPrefs sharedPrefs;
 
 
-    public RecyclerViewAdapter(List<CityForecast> cityForecastList, int tempScale, Context context) {
+    public RecyclerViewAdapter(List<CityForecast> cityForecastList, Context context) {
         this.context = context;
+        sharedPrefs= new SharedPrefs(context);
         this.cityForecastList = cityForecastList;
-        this.tempScale = tempScale;
         weatherFont = Typeface.createFromAsset(this.context.getAssets(), FONTS_LOCATION);
     }
 
@@ -50,7 +54,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String weatherIconId = currentWeather.getWeatherIcon();
         holder.cityName.setText(cityForecast.getCityName());
         holder.cityWeatherDescription.setText(currentWeather.getWeatherDescription());
-        holder.cityTemperature.setText(String.valueOf(currentWeather.getTemp().intValue() - tempScale));
+
+        int kelvinTemperature = cityForecast.getCurrentCityWeather().getTemp().intValue();
+
+        holder.cityTemperature.setText(String.valueOf(TempConvertor.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature)));
         holder.cityID = cityForecast.getCityId();
         holder.itemView.setBackgroundResource(setWeatherIcon(weatherIconId, holder.weatherIcon));
         holder.itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
@@ -64,24 +71,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView cityName, cityTemperature, cityWeatherDescription, weatherIcon;
+        @BindView(R.id.forecast_recycler_city_name)TextView cityName;
+        @BindView(R.id.forecast_recycler_city_temperature)TextView cityTemperature;
+        @BindView(R.id.forecast_recycler_city_weather)TextView cityWeatherDescription;
+        @BindView(R.id.forecast_recycler_weather_icon)TextView weatherIcon;
         Long cityID;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
-            weatherIcon = (TextView) itemView.findViewById(R.id.forecast_recycler_weather_icon);
+            ButterKnife.bind(this, itemView);
             weatherIcon.setTypeface(weatherFont);
-            cityName = (TextView) itemView.findViewById(R.id.forecast_recycler_city_name);
-            cityTemperature = (TextView) itemView.findViewById(R.id.forecast_recycler_city_temperature);
-            cityWeatherDescription = (TextView) itemView.findViewById(R.id.forecast_recycler_city_weather);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //To be edited
-                    Toast.makeText(v.getContext(), "You have selected " + cityName.getText() + " with the id - " + cityID, Toast.LENGTH_SHORT).show();
-
-                }
-            });
+        }
+        @OnClick(R.id.recycler_row_layout_id)
+        public void onRecyclerRowClick(View v) {
+            //To be edited
+            Toast.makeText(v.getContext(), "You have selected " + cityName.getText() + " with the id - " + cityID, Toast.LENGTH_SHORT).show();
         }
     }
     private int setWeatherIcon(String id, TextView iconTextView) {
@@ -89,7 +93,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         int resID = weatherCodesMap.getBackgroundResById(id);
         String icon = context.getString(weatherCodesMap.getIconByID(id));
 
-        if (Build.VERSION.SDK_INT >= MARSHMALLOW_VERSION)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
         else
             iconTextView.setText(Html.fromHtml(icon));
@@ -100,6 +104,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         cityForecastList = new ArrayList<>(citiesForecast);
         notifyDataSetChanged();
     }
-
 
 }

@@ -10,4 +10,5 @@ interface ForecastView {
 
     void hideLoading();
 
+    void setRefreshing(boolean refreshing);
 }

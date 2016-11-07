@@ -33,7 +33,6 @@ public class RetrofitFactory {
                 .build();
 
         weatherApi = retrofit.create(WeatherApi.class);
-
     }
 
     private OkHttpClient createClient() {
