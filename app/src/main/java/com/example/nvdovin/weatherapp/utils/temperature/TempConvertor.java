@@ -28,14 +28,12 @@ public enum TempConvertor implements ConvertorInterface {
     }
 
     public static ConvertorInterface fromId(int id) {
-        ConvertorInterface temComvertor = null;
-        for (TempConvertor temComvertor1 : TempConvertor.values()) {
-            if (temComvertor1.convertorId == id) {
-                temComvertor = temComvertor1;
-                break;
+        for (TempConvertor temComvertor : TempConvertor.values()) {
+            if (temComvertor.convertorId == id) {
+                return temComvertor;
             }
         }
-        return temComvertor;
+        return null;
     }
 
     public int getConvertorId() {
