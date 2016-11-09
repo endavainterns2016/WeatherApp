@@ -15,7 +15,8 @@ import android.view.ViewGroup;
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
-import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
+import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
+import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -25,10 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainRecyclerForecastFragment extends Fragment implements ForecastView {
-
-    private static final String ARGS_KEY = "HISTORY_ARGS";
-    private static final String CITY_ID_KEY = "CITY_ID_KEY";
-
+    private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.forecast_swipe_refresh)
@@ -37,13 +35,16 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private ForecastPresenter forecastPresenter;
 
+    public static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
+    public static final String CITY_ID_KEY = "CITY_ID_KEY";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_recycler_forecast_fragment, container, false);
         ButterKnife.bind(this, view);
 
         setupView();
-        forecastPresenter = new ForecastPresenter(this, getActivity());
+        forecastPresenter = new ForecastPresenter(this, view.getContext());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -66,12 +67,12 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
         ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CityForecast cityForecast) {
-                Intent historyIntent = new Intent(getActivity(), HistoryActivity.class);
-                Bundle args = new Bundle();
-                args.putLong(CITY_ID_KEY, cityForecast.getCityId());
-                historyIntent.putExtra(ARGS_KEY, args);
-                startActivity(historyIntent);
-
+                Bundle bundle = new Bundle();
+                bundle.putLong(CITY_ID_KEY, cityForecast.getCityId());
+                bundle.putLong(TIMESTAMP_KEY, TimeUtils.getCurrentTime());
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(DETAIL_BUNDLE, bundle);
+                startActivity(intent);
             }
         };
 

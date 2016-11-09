@@ -10,6 +10,20 @@
     <string name="weather_drizzle">&#xf01c;</string>
     <string name="history_unavailable">History unavailable</string>
     <string name="degrees_symbol">\u00b0</string>
-    <string name="today">TODAY</string>
-    <string name="yesterday">YESTERDAY</string>
+    <string name="detail_parameter_card_title">Details</string>
+    <string name="forecast_card_title">Forecast</string>
+    <string name="detail_parameter_rain_name">Rain</string>
+    <string name="detail_parameter_windspeed_name">Windspeed</string>
+    <string name="detail_parameter_humidity_name">Humidity</string>
+    <string name="detail_parameter_clouds_name">Clouds</string>
+    <string name="detail_parameter_pressure_name">Pressure</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="tommorow">Tomorrow</string>
+    <string name="no_rain_message">No Rain</string>
+
+    <string name="percent_sign">&#160; %</string>
+    <string name="pressure_sign">&#160; hPa</string>
+    <string name="rain_sign">&#160; mm</string>
+    <string name="wind_speed_sign">&#160; m/s</string>
 </resources>

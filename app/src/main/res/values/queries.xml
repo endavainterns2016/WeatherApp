@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="time_query">CITY_ID = ? AND DT &lt;= ?</string>
+    <string name="current_time_query">CITY_ID = ?  ORDER BY (? - DT) > 0 LIMIT 1</string>
+    <string name="time_query">CITY_ID = ? AND DT &gt;= ?</string>
 </resources>

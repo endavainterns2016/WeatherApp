@@ -22,19 +22,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-
-
         MainPresenter mainPresenter = new MainPresenter(this, this);
-
         mainPresenter.checkLastUpdateTime();
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame_layout, new MainRecyclerForecastFragment())
                 .commit();
-    }
 
+    }
     @Override
     public void hideLoading() {
         progressBar.setVisibility(View.GONE);
     }
-
 }
