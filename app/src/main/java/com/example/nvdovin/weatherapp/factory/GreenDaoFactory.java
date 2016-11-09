@@ -6,6 +6,7 @@ import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.database.dao.DaoMaster;
 import com.example.nvdovin.weatherapp.database.dao.DaoSession;
+import com.example.nvdovin.weatherapp.database.dao.WeatherDataDao;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.database.model.WeatherData;
 import com.example.nvdovin.weatherapp.model.CityForecast;
@@ -13,7 +14,6 @@ import com.example.nvdovin.weatherapp.utils.Mapper;
 
 import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.query.QueryBuilder;
-import org.greenrobot.greendao.query.WhereCondition;
 import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class GreenDaoFactory {
 
     private final DaoSession daoSession;
 
-    public GreenDaoFactory(Context context){
+    public GreenDaoFactory(Context context) {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME, null);
         DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
@@ -53,6 +53,7 @@ public class GreenDaoFactory {
         return loadCityWeatherForNow(qb.list());
     }
 
+
     public List<CityForecast> loadCityWeatherForNow(List<City> cities) {
         Long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 
@@ -69,6 +70,17 @@ public class GreenDaoFactory {
             cityForecastList.add(cityForecast);
         }
         return cityForecastList;
+    }
+
+    public WeatherData getCityWeatherForDate(Long cityId, Long date) {
+        return daoSession
+                .getWeatherDataDao()
+                .queryBuilder()
+                .where(
+                        WeatherDataDao.Properties.CityId.eq(cityId),
+                        WeatherDataDao.Properties.Dt.eq(date)
+                )
+                .unique();
     }
 
 }
