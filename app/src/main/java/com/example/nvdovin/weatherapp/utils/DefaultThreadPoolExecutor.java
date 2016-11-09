@@ -12,18 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 public class DefaultThreadPoolExecutor {
     private static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+    private static DefaultThreadPoolExecutor instance;
     private final ThreadPoolExecutor forBackgroundTasks;
     private final Executor mainThreadExecutor;
-    private static DefaultThreadPoolExecutor instance;
-
-    public static DefaultThreadPoolExecutor getInstance() {
-        if (instance == null) {
-            synchronized (DefaultThreadPoolExecutor.class) {
-                instance = new DefaultThreadPoolExecutor();
-            }
-        }
-        return instance;
-    }
 
     private DefaultThreadPoolExecutor() {
         ThreadFactory backgroundPriorityThreadFactory = new PriorityThreadFactory(Process.THREAD_PRIORITY_BACKGROUND);
@@ -38,6 +29,15 @@ public class DefaultThreadPoolExecutor {
         );
 
         mainThreadExecutor = new MainThreadExecutor();
+    }
+
+    public static DefaultThreadPoolExecutor getInstance() {
+        if (instance == null) {
+            synchronized (DefaultThreadPoolExecutor.class) {
+                instance = new DefaultThreadPoolExecutor();
+            }
+        }
+        return instance;
     }
 
     public ThreadPoolExecutor forBackgroundTasks() { //TODO no need
@@ -58,11 +58,13 @@ public class DefaultThreadPoolExecutor {
         return new Runnable() {
             @Override
             public void run() {
+
                 try {
                     executor.execute();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         };
     }

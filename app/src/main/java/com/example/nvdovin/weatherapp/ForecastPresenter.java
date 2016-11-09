@@ -1,8 +1,6 @@
 package com.example.nvdovin.weatherapp;
 
-import android.app.Application;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.database.dao.CityDao;
@@ -49,6 +47,7 @@ public class ForecastPresenter {
         sharedPrefs.setLastUpdateTime();
         getData();
     }
+
     public void checkLastUpdateTime() {
         if (sharedPrefs.lastUpdateExceededLimit()) {
             getData();
