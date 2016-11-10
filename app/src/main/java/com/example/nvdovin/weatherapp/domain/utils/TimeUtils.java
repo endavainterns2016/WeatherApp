@@ -1,4 +1,4 @@
-package com.example.nvdovin.weatherapp.utils;
+package com.example.nvdovin.weatherapp.domain.utils;
 
 import java.util.Calendar;
 import java.util.Date;
