@@ -74,6 +74,19 @@ public class GreenDaoFactory {
                         WeatherDataDao.Properties.Dt.eq(dt))
                 .unique();
     }
+
+    public List<WeatherData> getWeatherDataListByDTs(Long[] timestampArray, Long cityId){
+
+        List<WeatherData> weatherDataList = new ArrayList<>();
+        for(int i = 0; i < timestampArray.length; i++){
+            WeatherData weatherData = getWeatherDataByDT(timestampArray[i], cityId);
+            if(weatherData != null){
+                weatherDataList.add(weatherData);
+            }
+        }
+        return weatherDataList;
+    }
+
     public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt, Long period){
         return daoSession.getWeatherDataDao().queryBuilder()
                 .where(WeatherDataDao.Properties.CityId.eq(cityId), WeatherDataDao.Properties.Dt.ge(dt),

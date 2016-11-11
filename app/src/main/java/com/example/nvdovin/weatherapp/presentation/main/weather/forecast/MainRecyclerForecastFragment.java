@@ -1,8 +1,8 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 
-import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +16,7 @@ import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
+import com.example.nvdovin.weatherapp.presentation.main.weather.history.HistoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;

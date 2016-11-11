@@ -14,6 +14,7 @@
             android:name=".presentation.main.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
+        <activity android:name=".presentation.history.HistoryActivity"/>
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:theme="@style/SplashTheme">

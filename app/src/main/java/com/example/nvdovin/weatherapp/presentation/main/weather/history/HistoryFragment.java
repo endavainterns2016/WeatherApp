@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.nvdovin.weatherapp.R;
@@ -17,9 +18,14 @@ public class HistoryFragment extends Fragment{
     ViewPager viewPager;
     PagerSlidingTabStrip tabsStrip;
 
+    Long cityId, timestamp;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Bundle args = getArguments();
+        cityId = args.getLong("city_id");
+        timestamp = args.getLong("timestamp");
         return inflater.inflate(R.layout.weather_history_layout, container, false);
     }
 
@@ -34,8 +40,7 @@ public class HistoryFragment extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewPager.setAdapter(new HistoryFragmentPagerAdapter(getChildFragmentManager()));
+        viewPager.setAdapter(new HistoryFragmentPagerAdapter(getChildFragmentManager(), cityId, timestamp));
         tabsStrip.setViewPager(viewPager);
-
     }
 }

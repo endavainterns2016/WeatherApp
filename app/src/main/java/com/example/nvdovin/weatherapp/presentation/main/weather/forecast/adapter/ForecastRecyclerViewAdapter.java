@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
@@ -20,19 +19,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRecyclerViewAdapter.CustomViewHolder> {
-    //private static final int TRANSPARENCY_ALPHA = 160;
+    private static final int TRANSPARENCY_ALPHA = 160;
     private final OnItemClickListener listener;
     private ImageUtils imageUtils;
-        private List<CityForecast> cityForecastList;
+    private List<CityForecast> cityForecastList;
     private Context context;
     private SharedPrefs sharedPrefs;
-
-    public interface OnItemClickListener{
-        void onItemClick(CityForecast cityForecast);
-    }
 
     public ForecastRecyclerViewAdapter(List<CityForecast> cityForecastList, OnItemClickListener listener, Context context) {
         this.context = context;
@@ -51,20 +45,8 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
         final CityForecast cityForecast = cityForecastList.get(position);
-        holder.bind(cityForecast, listener);
-        /*final WeatherData currentWeather = cityForecast.getCurrentCityWeather();
-        String weatherIconId = currentWeather.getWeatherIcon();
-        holder.cityName.setText(cityForecast.getCityName());
-        holder.cityWeatherDescription.setText(currentWeather.getWeatherDescription());
-
-        int kelvinTemperature = cityForecast.getCurrentCityWeather().getTemp().intValue();
-
-        holder.cityTemperature.setText(String.valueOf(TemperatureConvertor.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature)));
-        holder.cityID = cityForecast.getCityId();
-        imageUtils.setWeatherIcon(weatherIconId, holder.weatherIcon);*/
-        //holder.itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
+        holder.bind(cityForecast);
     }
-
 
     @Override
     public int getItemCount() {
@@ -74,6 +56,10 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
     public void swap(List<CityForecast> citiesForecast) {
         cityForecastList = new ArrayList<>(citiesForecast);
         notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(CityForecast cityForecast);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
@@ -101,14 +87,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
             });
         }
 
-       /* @OnClick(R.id.recycler_row_layout_id)
-        public void onRecyclerRowClick(View v) {
-            //To be edited
-            Toast.makeText(v.getContext(), "You have selected " + cityName.getText() + " with the id - " + cityID, Toast.LENGTH_SHORT).show();
-
-        }*/
-
-        public void bind(final CityForecast cityForecast, final OnItemClickListener listener){
+        public void bind(final CityForecast cityForecast) {
             final WeatherData currentWeather = cityForecast.getCurrentCityWeather();
             String weatherIconId = currentWeather.getWeatherIcon();
             cityName.setText(cityForecast.getCityName());
@@ -119,11 +98,10 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
             cityTemperature.setText(String.valueOf(TemperatureConvertor.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature)));
             cityID = cityForecast.getCityId();
             itemView.setBackgroundResource(imageUtils.setWeatherIcon(weatherIconId, weatherIcon));
-
+            itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
         }
 
     }
-
 
 
 }

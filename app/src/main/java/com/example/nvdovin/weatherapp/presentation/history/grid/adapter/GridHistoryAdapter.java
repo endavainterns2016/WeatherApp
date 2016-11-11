@@ -1,4 +1,4 @@
-package com.example.nvdovin.weatherapp.presentation.main.weather.history.grid.adapter;
+package com.example.nvdovin.weatherapp.presentation.history.grid.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
