@@ -25,6 +25,9 @@ import java.util.concurrent.TimeUnit;
 public class GreenDaoFactory {
 
     private static final String DB_NAME = "WEATHER_DB";
+    private static final Long DAY_IN_MILLISECONDS_INCLUSIVE = 86400L;
+    private static final Long DAY_IN_MILLISECONDS_EXCLUSIVE = 75600L;
+
     private final Context context;
 
     private final DaoSession daoSession;
@@ -71,14 +74,12 @@ public class GreenDaoFactory {
                         WeatherDataDao.Properties.Dt.eq(dt))
                 .unique();
     }
-    public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt){
-        Date date = new java.util.Date (dt*1000);
+    public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt, Long period){
         return daoSession.getWeatherDataDao().queryBuilder()
-                .where(
-                        new WhereCondition.StringCondition("(city_id ==" + cityId
-                                + ") AND (DT >= " + date.getTime()/1000
-                                + ") AND (DT <= " + (date.getTime()/1000+86400) + ")"
-                        )).list();
+                .where(WeatherDataDao.Properties.CityId.eq(cityId), WeatherDataDao.Properties.Dt.ge(dt),
+                        WeatherDataDao.Properties.Dt.le(dt+period))
+                .list();
+
     }
 
     public List<CityForecast> loadCityWeatherForNow(List<City> cities) {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
+import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.WeatherCodesMap;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.temperature.TemperatureConvertor;
@@ -38,6 +39,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
     @BindView(R.id.city_details_temperature)
     TextView cityTemperature;
     private Context context;
+    private ImageUtils imageUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
         Typeface weatherFont;
         this.context = view.getContext();
         SharedPrefs sharedPrefs = new SharedPrefs(view.getContext());
-
+        imageUtils = new ImageUtils(view.getContext());
 
         weatherFont = Typeface.createFromAsset(view.getContext().getAssets(), FONTS_LOCATION);
         icon.setTypeface(weatherFont);
@@ -56,7 +58,7 @@ public class DetailsFragment extends Fragment implements DetailsView {
 
         DetailsPresenter detailsPresenter = new DetailsPresenter(cityId, timestamp, view.getContext());
         WeatherData currentWeatherData = detailsPresenter.getIdByDt(cityId, timestamp);
-        setWeatherIcon(currentWeatherData.getWeatherIcon(), icon);
+        imageUtils.setWeatherIcon(currentWeatherData.getWeatherIcon(), icon);
         cityName.setText(detailsPresenter.getCityName(cityId));
         cityTemperature = (TextView) view.findViewById(R.id.city_details_temperature);
         cityTemperature.setText(String.valueOf(
@@ -71,15 +73,4 @@ public class DetailsFragment extends Fragment implements DetailsView {
         return view;
     }
 
-    private int setWeatherIcon(String id, TextView iconTextView) {
-        WeatherCodesMap weatherCodesMap = new WeatherCodesMap();
-        int resID = weatherCodesMap.getBackgroundResById(id);
-        String icon = context.getString(weatherCodesMap.getIconByID(id));
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            iconTextView.setText(Html.fromHtml(icon, Html.FROM_HTML_MODE_LEGACY));
-        else
-            iconTextView.setText(Html.fromHtml(icon));
-        return resID;
-    }
 }

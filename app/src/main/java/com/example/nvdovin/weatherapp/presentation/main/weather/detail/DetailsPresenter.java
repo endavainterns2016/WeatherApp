@@ -9,6 +9,7 @@ import java.util.List;
 
 public class DetailsPresenter {
 
+    private static final Long DAY_IN_MILLISECONDS_INCLUSIVE = 86400L;
     private Long cityId;
     private Long timestamp;
     private GreenDaoFactory greenDaoFactory;
@@ -20,7 +21,7 @@ public class DetailsPresenter {
     }
 
     public List<WeatherData> getForecast(){
-        return greenDaoFactory.getWeatherDataForDay(cityId, timestamp);
+        return greenDaoFactory.getWeatherDataForDay(cityId, timestamp, DAY_IN_MILLISECONDS_INCLUSIVE);
     }
 
     public WeatherData getIdByDt(Long cityId, Long timestamp) {

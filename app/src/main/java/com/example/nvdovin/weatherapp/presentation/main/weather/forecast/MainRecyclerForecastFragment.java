@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
@@ -30,6 +31,7 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
 
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private ForecastPresenter forecastPresenter;
+    private ForecastRecyclerViewAdapter.OnItemClickListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +59,15 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(separatorDecoration);
-        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<CityForecast>(), getActivity());
+
+        listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(CityForecast cityForecast) {
+                Toast.makeText(getActivity(), "You have selected " + cityForecast.getCityName() + " with the id - " + cityForecast.getCityId(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<CityForecast>(), listener, getActivity());
         recyclerView.setAdapter(recycleViewAdapter);
     }
 
