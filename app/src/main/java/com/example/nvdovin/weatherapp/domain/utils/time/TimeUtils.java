@@ -1,6 +1,7 @@
 package com.example.nvdovin.weatherapp.domain.utils.time;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -55,5 +56,8 @@ public class TimeUtils {
         period[1] = calendar.get(Calendar.HOUR_OF_DAY);
         return period;
     }
+
+    public static Long getCurrentTime(){ return System.currentTimeMillis()/1000;}
+    public static Date setLongToDate(Long dt){return new Date(dt*1000);}
 
 }

@@ -1,23 +1,35 @@
 
 package com.example.nvdovin.weatherapp.domain.utils.temperature;
 
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+
 public enum TemperatureConvertor implements TemperatureConvertorInterface {
     CELSIUS(0) {
         @Override
-        public int convertToTemperature(int kelvinValue) {
-            return kelvinValue - 273;
+        public SpannableString convertToTemperature(int kelvinValue) {
+
+            String temperature = String.valueOf(kelvinValue - 273);
+            SpannableString temperatureWithSymbol=  new SpannableString(temperature.concat(TemperatureConvertorInterface.CELSIUS_SIGN));
+            temperatureWithSymbol.setSpan(new RelativeSizeSpan(TemperatureConvertorInterface.PROPORTION), 0, temperature.length() , 0);
+            return temperatureWithSymbol;
         }
     },
-    FARENHEIT(1) {
+    FAHRENHEIT(1) {
         @Override
-        public int convertToTemperature(int kelvinValue) {
-            return (int) (kelvinValue * 5 / 9 - 459.67);
+        public SpannableString convertToTemperature(int kelvinValue) {
+            String temperature = String.valueOf(kelvinValue * 9 / 5 - 459);
+            SpannableString temperatureWithSymbol=  new SpannableString(temperature.concat(TemperatureConvertorInterface.FAHRENHEIT_SIGN));
+            temperatureWithSymbol.setSpan(new RelativeSizeSpan(TemperatureConvertorInterface.PROPORTION), 0,temperature.length(), 0);
+            return temperatureWithSymbol;
         }
     },
     KELVIN(2) {
         @Override
-        public int convertToTemperature(int kelvinValue) {
-            return kelvinValue;
+        public SpannableString convertToTemperature(int kelvinValue) {
+            SpannableString temperatureWithSymbol=  new SpannableString(String.valueOf(kelvinValue).concat(TemperatureConvertorInterface.KELVIN_SIGN));
+            temperatureWithSymbol.setSpan(new RelativeSizeSpan(TemperatureConvertorInterface.PROPORTION), 0,String.valueOf(kelvinValue).length(), 0);
+            return temperatureWithSymbol;
         }
     };
 
@@ -39,4 +51,5 @@ public enum TemperatureConvertor implements TemperatureConvertorInterface {
     public int getConvertorId() {
         return convertorId;
     }
+
 }

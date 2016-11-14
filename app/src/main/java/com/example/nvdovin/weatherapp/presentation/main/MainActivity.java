@@ -3,13 +3,10 @@ package com.example.nvdovin.weatherapp.presentation.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.nvdovin.weatherapp.R;
-import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.MainRecyclerForecastFragment;
 
 import butterknife.BindView;
@@ -32,19 +29,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         mainPresenter.checkLastUpdateTime();
         Bundle bundle = new Bundle();
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //Intent testIntent = new Intent(this, HistoryActivity.class);
@@ -86,16 +70,4 @@ public class MainActivity extends AppCompatActivity implements MainView {
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent testIntent = new Intent(this, HistoryActivity.class);
-        startActivity(testIntent);
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("HISTORY");
-        return super.onCreateOptionsMenu(menu);
-    }
 }

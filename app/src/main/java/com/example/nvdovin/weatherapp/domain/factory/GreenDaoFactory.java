@@ -32,7 +32,7 @@ public class GreenDaoFactory {
 
     private final DaoSession daoSession;
 
-    public GreenDaoFactory(Context context){
+    public GreenDaoFactory(Context context) {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME, null);
         DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
         daoSession = daoMaster.newSession();
@@ -58,14 +58,13 @@ public class GreenDaoFactory {
         return loadCityWeatherForNow(qb.list());
     }
 
-    public String getCityById(Long cityId){
+    public City getCityById(Long cityId) {
         return daoSession.getCityDao().queryBuilder()
                 .where(CityDao.Properties.Id.eq(cityId))
-                .unique()
-                .getName();
+                .unique();
     }
 
-    public WeatherData getWeatherDataByDT(Long dt, Long cityId){
+    public WeatherData getWeatherDataByDT(Long dt, Long cityId) {
         return daoSession
                 .getWeatherDataDao()
                 .queryBuilder()
@@ -75,22 +74,22 @@ public class GreenDaoFactory {
                 .unique();
     }
 
-    public List<WeatherData> getWeatherDataListByDTs(Long[] timestampArray, Long cityId){
+    public List<WeatherData> getWeatherDataListByDTs(Long[] timestampArray, Long cityId) {
 
         List<WeatherData> weatherDataList = new ArrayList<>();
-        for(int i = 0; i < timestampArray.length; i++){
+        for (int i = 0; i < timestampArray.length; i++) {
             WeatherData weatherData = getWeatherDataByDT(timestampArray[i], cityId);
-            if(weatherData != null){
+            if (weatherData != null) {
                 weatherDataList.add(weatherData);
             }
         }
         return weatherDataList;
     }
 
-    public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt, Long period){
+    public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt, Long period) {
         return daoSession.getWeatherDataDao().queryBuilder()
                 .where(WeatherDataDao.Properties.CityId.eq(cityId), WeatherDataDao.Properties.Dt.ge(dt),
-                        WeatherDataDao.Properties.Dt.le(dt+period))
+                        WeatherDataDao.Properties.Dt.le(dt + period))
                 .list();
 
     }
@@ -112,5 +111,39 @@ public class GreenDaoFactory {
         }
         return cityForecastList;
     }
+
+    public WeatherData getUnique(Long cityId, long time) {
+        return daoSession
+                .getWeatherDataDao()
+                .queryBuilder()
+                .where(
+                        new WhereCondition.StringCondition(context.getString(R.string.time_query),
+                                String.valueOf(cityId), String.valueOf(time)
+                        )).orderAsc(WeatherDataDao.Properties.Dt).limit(1).unique();
+    }
+
+       public int getTempMax(List<WeatherData> weatherDataList){
+        Double tempMax = weatherDataList.get(0).getTempMax();
+        for (WeatherData weatherData:weatherDataList)
+        {
+            if (weatherData.getTempMax() > tempMax)
+            {
+                tempMax = weatherData.getTempMax();
+            }
+        }
+        return tempMax.intValue();
+    }
+    public int getTempMin(List<WeatherData> weatherDataList){
+        Double tempMin = weatherDataList.get(0).getTempMin();
+        for (WeatherData weatherData:weatherDataList)
+        {
+            if (weatherData.getTempMax() < tempMin)
+            {
+                tempMin = weatherData.getTempMax();
+            }
+        }
+        return tempMin.intValue();
+    }
+
 
 }

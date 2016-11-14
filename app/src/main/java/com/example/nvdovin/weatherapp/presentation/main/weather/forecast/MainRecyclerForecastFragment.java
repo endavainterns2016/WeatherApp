@@ -1,5 +1,6 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.R;
-import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
-import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
-import com.example.nvdovin.weatherapp.presentation.main.weather.history.HistoryFragment;
+import com.example.nvdovin.weatherapp.domain.utils.DateConvertor;
+import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
+import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
+import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainRecyclerForecastFragment extends Fragment implements ForecastView {
+    private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.forecast_swipe_refresh)
@@ -32,7 +34,10 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
 
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private ForecastPresenter forecastPresenter;
-    private ForecastRecyclerViewAdapter.OnItemClickListener listener;
+    private DateConvertor dateConvertor;
+
+    public static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
+    public static final String CITY_ID_KEY = "CITY_ID_KEY";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
 
     private void setupView() {
 
+        dateConvertor = new DateConvertor();
         TypedValue outValue = new TypedValue();
         getResources().getValue(R.dimen.separator_height, outValue, true);
         float separatorHeight = outValue.getFloat();
@@ -61,10 +67,15 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addItemDecoration(separatorDecoration);
 
-        listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
+        ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CityForecast cityForecast) {
-                Toast.makeText(getActivity(), "You have selected " + cityForecast.getCityName() + " with the id - " + cityForecast.getCityId(), Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putLong(CITY_ID_KEY, cityForecast.getCityId());
+                bundle.putLong(TIMESTAMP_KEY, dateConvertor.milisecToSec(System.currentTimeMillis()));
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(DETAIL_BUNDLE, bundle);
+                startActivity(intent);
             }
         };
 

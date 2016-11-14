@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
@@ -20,6 +21,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     public static final int DAYS_AHEAD = 0;
     public static final int DAYS_AGO = 5;
+    private static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";//TODO NEED REFACTORING !!!!!
+    public static final long DEFAULT_VALUE = 618426L;
 
     @BindView(R.id.history_viewpager)
     ViewPager historyViewPager;
@@ -28,6 +31,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     TimeUtils timeUtils;
 
+    Long cityId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +40,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        cityId = getIntent().getLongExtra(TIMESTAMP_KEY, DEFAULT_VALUE);
+        Toast.makeText(this, "" + cityId, Toast.LENGTH_SHORT).show();
         timeUtils = new TimeUtils();
 
         setupViewPager(historyViewPager);
@@ -44,7 +51,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Long[] tmpDates = timeUtils.getDateArrayByDate(Calendar.getInstance(TimeZone.getTimeZone("UTC")), DAYS_AGO, DAYS_AHEAD);
         HistoryViewPagerAdapter historyViewPagerAdapter = new HistoryViewPagerAdapter(getSupportFragmentManager());
-        historyViewPagerAdapter.addCity(618426L);//TODO implement cityId logic
+        historyViewPagerAdapter.addCity(cityId);//TODO implement cityId logic
         for (int i = 0; i < tmpDates.length; i++) {
             historyViewPagerAdapter.addDay(tmpDates[i]);
         }

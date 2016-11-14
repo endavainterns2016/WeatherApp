@@ -1,0 +1,50 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/forecast_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/standart_margin"
+    android:layout_marginEnd="@dimen/standart_margin"
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    card_view:cardBackgroundColor="@color/half_transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/standart_margin"
+            android:text="@string/forecast_card_title"
+            android:textSize="@dimen/card_title_size"
+            android:textStyle="italic" />
+
+        <include layout="@layout/break_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_forecast_today_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standart_margin"
+            android:layout_marginStart="@dimen/standart_margin"
+            android:layout_marginBottom="@dimen/standart_margin"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <include layout="@layout/break_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/detail_forecast_next_days_recycler"
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/standart_margin"
+            android:layout_marginStart="@dimen/standart_margin"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

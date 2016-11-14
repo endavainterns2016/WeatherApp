@@ -95,7 +95,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
 
             int kelvinTemperature = cityForecast.getCurrentCityWeather().getTemp().intValue();
 
-            cityTemperature.setText(String.valueOf(TemperatureConvertor.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature)));
+            cityTemperature.setText(TemperatureConvertor.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature));
             cityID = cityForecast.getCityId();
             itemView.setBackgroundResource(imageUtils.setWeatherIcon(weatherIconId, weatherIcon));
             itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);

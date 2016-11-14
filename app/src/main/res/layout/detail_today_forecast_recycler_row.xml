@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp">
+
+    <TextView
+        android:id="@+id/detail_today_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="icon"
+        android:textSize="@dimen/icon_medium"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/detail_today_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="temperature"
+        android:textSize="27sp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/detail_today_icon" />
+
+    <TextView
+        android:id="@+id/detail_today_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="time"
+        android:layout_below="@+id/detail_today_temperature"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:layout_alignEnd="@+id/detail_today_temperature" />
+
+
+
+</RelativeLayout>
