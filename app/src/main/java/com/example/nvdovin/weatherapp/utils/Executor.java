@@ -2,7 +2,7 @@ package com.example.nvdovin.weatherapp.utils;
 
 import com.example.nvdovin.weatherapp.backend.response.GetCityListResponse;
 import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
-import com.example.nvdovin.weatherapp.database.dao.CityDao;
+import com.example.nvdovin.weatherapp.database.dao_.CityDao;
 import com.example.nvdovin.weatherapp.database.model.City;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;

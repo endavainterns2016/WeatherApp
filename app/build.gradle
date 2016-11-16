@@ -24,7 +24,7 @@ android {
 greendao{
     schemaVersion 1
     targetGenDir 'src/main/java/'
-    daoPackage 'com.example.nvdovin.weatherapp.database.dao'
+    daoPackage 'com.example.nvdovin.weatherapp.database.dao_'
 }
 
 dependencies {

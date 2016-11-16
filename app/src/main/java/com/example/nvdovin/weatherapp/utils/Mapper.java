@@ -1,7 +1,7 @@
 package com.example.nvdovin.weatherapp.utils;
 
-import com.example.nvdovin.weatherapp.database.dao.DaoSession;
-import com.example.nvdovin.weatherapp.database.dao.WeatherDataDao;
+import com.example.nvdovin.weatherapp.database.dao_.DaoSession;
+import com.example.nvdovin.weatherapp.database.dao_.WeatherDataDao;
 import com.example.nvdovin.weatherapp.database.model.WeatherData;
 
 import java.util.List;

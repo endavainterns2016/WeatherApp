@@ -11,6 +11,9 @@ public class GetCityListResponse {
     @Expose
     List<String> cities;
 
+
+
+
     public List<String> getCities() {
         return cities;
     }

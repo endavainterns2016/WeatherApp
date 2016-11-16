@@ -3,7 +3,7 @@ package com.example.nvdovin.weatherapp;
 import android.content.Context;
 
 import com.example.nvdovin.weatherapp.database.SortQueryBuilder;
-import com.example.nvdovin.weatherapp.database.dao.CityDao;
+import com.example.nvdovin.weatherapp.database.dao_.CityDao;
 import com.example.nvdovin.weatherapp.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.model.CityForecast;

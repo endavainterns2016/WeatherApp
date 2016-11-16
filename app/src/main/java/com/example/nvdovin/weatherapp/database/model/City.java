@@ -1,9 +1,9 @@
 package com.example.nvdovin.weatherapp.database.model;
 
 
-import com.example.nvdovin.weatherapp.database.dao.CityDao;
-import com.example.nvdovin.weatherapp.database.dao.DaoSession;
-import com.example.nvdovin.weatherapp.database.dao.WeatherDataDao;
+import com.example.nvdovin.weatherapp.database.dao_.CityDao;
+import com.example.nvdovin.weatherapp.database.dao_.DaoSession;
+import com.example.nvdovin.weatherapp.database.dao_.WeatherDataDao;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
@@ -167,5 +167,6 @@ public class City {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCityDao() : null;
     }
+
 
 }

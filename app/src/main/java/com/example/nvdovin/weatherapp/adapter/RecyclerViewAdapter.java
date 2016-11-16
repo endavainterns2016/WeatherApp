@@ -34,6 +34,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private SharedPrefs sharedPrefs;
 
 
+
+
     public RecyclerViewAdapter(List<CityForecast> cityForecastList, Context context) {
         this.context = context;
         sharedPrefs= new SharedPrefs(context);

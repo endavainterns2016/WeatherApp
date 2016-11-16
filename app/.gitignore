@@ -13,7 +13,7 @@
 bin/
 gen/
 out/
-/main/**/database/dao/
+/main/**/database/dao_/
 # Gradle files
 .gradle/
 build/
