@@ -88,6 +88,7 @@ public class GreenDaoFactory {
             cityForecast.setCurrentCityWeather(weatherDataForNow);
             cityForecastList.add(cityForecast);
         }
+
         return cityForecastList;
     }
 
