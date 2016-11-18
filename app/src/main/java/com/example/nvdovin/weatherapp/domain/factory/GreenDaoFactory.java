@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
+import com.example.nvdovin.weatherapp.data.dao.CityDao;
 import com.example.nvdovin.weatherapp.data.dao.DaoMaster;
 import com.example.nvdovin.weatherapp.data.dao.DaoSession;
 import com.example.nvdovin.weatherapp.data.dao.WeatherDataDao;
@@ -23,8 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class GreenDaoFactory {
 
     private static final String DB_NAME = "WEATHER_DB";
-
     private final Context context;
+
     private final DaoSession daoSession;
 
     public GreenDaoFactory(Context context) {
@@ -53,6 +54,20 @@ public class GreenDaoFactory {
         return loadCityWeatherForNow(qb.list());
     }
 
+    public City getCityById(Long cityId) {
+        return daoSession.getCityDao().queryBuilder()
+                .where(CityDao.Properties.Id.eq(cityId))
+                .unique();
+    }
+
+
+    public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt, Long period) {
+        return daoSession.getWeatherDataDao().queryBuilder()
+                .where(WeatherDataDao.Properties.CityId.eq(cityId), WeatherDataDao.Properties.Dt.ge(dt),
+                        WeatherDataDao.Properties.Dt.le(dt + period))
+                .list();
+
+    }
 
     public WeatherData getWeatherDataByDT(Long dt, Long cityId) {
         return daoSession
@@ -99,7 +114,27 @@ public class GreenDaoFactory {
                 .where(
                         new WhereCondition.StringCondition(context.getString(R.string.time_query),
                                 String.valueOf(cityId), String.valueOf(time)
-                        )).orderDesc(WeatherDataDao.Properties.Dt).limit(1).unique();
+                        )).orderAsc(WeatherDataDao.Properties.Dt).limit(1).unique();
+    }
+
+    public int getTempMax(List<WeatherData> weatherDataList) {
+        Double tempMax = weatherDataList.get(0).getTempMax();
+        for (WeatherData weatherData : weatherDataList) {
+            if (weatherData.getTempMax() > tempMax) {
+                tempMax = weatherData.getTempMax();
+            }
+        }
+        return tempMax.intValue();
+    }
+
+    public int getTempMin(List<WeatherData> weatherDataList) {
+        Double tempMin = weatherDataList.get(0).getTempMin();
+        for (WeatherData weatherData : weatherDataList) {
+            if (weatherData.getTempMax() < tempMin) {
+                tempMin = weatherData.getTempMax();
+            }
+        }
+        return tempMin.intValue();
     }
 
 }

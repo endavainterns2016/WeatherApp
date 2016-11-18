@@ -1,12 +1,48 @@
 package com.example.nvdovin.weatherapp.domain.utils.time;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TimeUtils {
 
     private static final int MILLISECONDS = 1000;
+
+    public static String convertDateToFormat(Date date, String format) {
+        return new SimpleDateFormat(format).format(date);
+    }
+
+    public static Long getCurrentTime() {
+        return System.currentTimeMillis() / MILLISECONDS;
+    }
+
+    public static Date setLongToDate(Long dt) {
+        return new Date(dt * MILLISECONDS);
+    }
+
+    public static Date getTodayDate() {
+        return new Date(getCurrentTime() * MILLISECONDS);
+    }
+
+    public static Date addDaysToDate(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
+
+    public static Boolean isSameDate(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+    }
     private static final int ONE_DAY = 1;
     private static final int RESET_VALUE = 0;
     private static final int PERIOD = 3;
@@ -56,5 +92,4 @@ public class TimeUtils {
         period[1] = calendar.get(Calendar.HOUR_OF_DAY);
         return period;
     }
-
 }

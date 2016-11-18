@@ -1,16 +1,20 @@
 package com.example.nvdovin.weatherapp.presentation.history.grid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
+import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
+import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.history.grid.adapter.GridHistoryAdapter;
 
 import java.util.ArrayList;
@@ -21,8 +25,9 @@ import butterknife.ButterKnife;
 
 public class GridHistoryFragment extends Fragment implements GridHistoryView {
 
-    public static final String DAY_TIMESTAMP = "DAY_TIMESTAMP";
-    public static final String CITY_ID = "CITY_ID";
+    public static final String DAY_TIMESTAMP = "TIMESTAMP_KEY";
+    public static final String CITY_ID = "CITY_ID_KEY";
+    private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
 
     @BindView(R.id.weather_grid_view)
     GridView weatherGridView;
@@ -76,12 +81,23 @@ public class GridHistoryFragment extends Fragment implements GridHistoryView {
 
     @Override
     public void displayHistory() {
-        List<WeatherData> updatedWeatherDataList = gridHistoryPresenter.getForecast();
+        final List<WeatherData> updatedWeatherDataList = gridHistoryPresenter.getForecast();
         gridHistoryAdapter.swap(updatedWeatherDataList);
         if (updatedWeatherDataList.isEmpty()) {
             noData.setVisibility(View.VISIBLE);
         } else {
             noData.setVisibility(View.GONE);
         }
+        weatherGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putLong(CITY_ID, updatedWeatherDataList.get(position).getCityId());
+                bundle.putLong(DAY_TIMESTAMP, updatedWeatherDataList.get(position).getDt());
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra(DETAIL_BUNDLE, bundle);
+                startActivity(intent);
+            }
+        });
     }
 }

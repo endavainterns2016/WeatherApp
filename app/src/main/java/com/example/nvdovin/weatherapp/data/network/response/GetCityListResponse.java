@@ -9,8 +9,7 @@ public class GetCityListResponse {
 
     @SerializedName("cities")
     @Expose
-    List<String> cities;
-
+    private List<String> cities;
     public List<String> getCities() {
         return cities;
     }

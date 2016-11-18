@@ -26,17 +26,15 @@ public class ForecastPresenter {
         EventBus.getDefault().register(this);
         greenDaoFactory = new GreenDaoFactory(context);
         retrofitFactory = new RetrofitFactory();
-        forecastView = view;
+        this.forecastView = view;
         sortData();
         sharedPrefs = new SharedPrefs(context);
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setData(List<com.example.nvdovin.weatherapp.domain.model.CityForecast> cityForecastList) {
         forecastView.displayData(cityForecastList);
         forecastView.setRefreshing(false);
     }
-
     private void getData() {
         DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
     }
@@ -45,8 +43,7 @@ public class ForecastPresenter {
         sharedPrefs.setLastUpdateTime();
         getData();
     }
-
-    private void sortData() {
+    private void sortData(){
         SortQueryBuilder sortByName = new SortQueryBuilder();
         sortByName.setAscending(true);
         sortByName.setProperty(CityDao.Properties.Name);

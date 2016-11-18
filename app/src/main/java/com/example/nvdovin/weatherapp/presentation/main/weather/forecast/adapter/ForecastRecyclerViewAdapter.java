@@ -20,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRecyclerViewAdapter.CustomViewHolder> {
+public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRecyclerViewAdapter.ForecastViewHolder> {
     private static final int TRANSPARENCY_ALPHA = 160;
     private final OnItemClickListener listener;
     private List<CityForecast> cityForecastList;
@@ -35,13 +35,13 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
     }
 
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ForecastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.forecast_recycler_row, parent, false);
-        return new CustomViewHolder(view);
+        return new ForecastViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
+    public void onBindViewHolder(ForecastViewHolder holder, int position) {
         final CityForecast cityForecast = cityForecastList.get(position);
         holder.bind(cityForecast);
     }
@@ -60,7 +60,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
         void onItemClick(CityForecast cityForecast);
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class ForecastViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.forecast_recycler_city_name)
         TextView cityName;
         @BindView(R.id.forecast_recycler_city_temperature)
@@ -69,9 +69,8 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
         TextView cityWeatherDescription;
         @BindView(R.id.forecast_recycler_weather_icon)
         TextView weatherIcon;
-        Long cityID;
 
-        public CustomViewHolder(View itemView) {
+        ForecastViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             ImageUtils.setTypeface(weatherIcon);
@@ -91,8 +90,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
 
             int kelvinTemperature = cityForecast.getCurrentCityWeather().getTemp().intValue();
 
-            cityTemperature.setText(String.valueOf(TemperatureConverter.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature)));
-            cityID = cityForecast.getCityId();
+            cityTemperature.setText(TemperatureConverter.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature));
             itemView.setBackgroundResource(ImageUtils.setWeatherIcon(weatherIconId, weatherIcon));
             itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
         }
