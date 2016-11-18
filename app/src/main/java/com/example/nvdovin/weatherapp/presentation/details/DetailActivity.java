@@ -52,8 +52,6 @@ public class DetailActivity extends AppCompatActivity {
 
         DetailsPresenter detailsPresenter = new DetailsPresenter(this);
 
-        toolbar.setTitle(detailsPresenter.getCityName(cityId));
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
