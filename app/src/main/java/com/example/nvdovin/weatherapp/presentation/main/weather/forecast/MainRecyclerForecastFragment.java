@@ -62,6 +62,7 @@ public class MainRecyclerForecastFragment extends Fragment implements ForecastVi
         SeparatorDecoration separatorDecoration = new SeparatorDecoration(getActivity(), Color.GRAY, separatorHeight);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setVerticalFadingEdgeEnabled(true);
         recyclerView.addItemDecoration(separatorDecoration);
 
         ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {

@@ -15,7 +15,6 @@ import android.view.View;
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
 import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
-import com.example.nvdovin.weatherapp.presentation.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,9 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.detail_main_layout);
-        getSupportActionBar().hide();
 
         ButterKnife.bind(this);
 
@@ -52,21 +49,12 @@ public class DetailActivity extends AppCompatActivity {
 
         DetailsPresenter detailsPresenter = new DetailsPresenter(this);
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
-
         collapsingToolbarLayout.setTitle(detailsPresenter.getCityName(cityId));
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
         mainRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mainRecycler.setVerticalFadingEdgeEnabled(true);
         mainRecycler.setAdapter(new MainRecyclerAdapter(
                 this,
                 detailsPresenter.getDailyForecastList(cityId, timestamp, NUMBER_OF_DAYS_TO_FORECAST),

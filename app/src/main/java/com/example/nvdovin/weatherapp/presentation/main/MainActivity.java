@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 .commit();
 
     }
+
     @Override
     public void hideLoading() {
         progressBar.setVisibility(View.GONE);

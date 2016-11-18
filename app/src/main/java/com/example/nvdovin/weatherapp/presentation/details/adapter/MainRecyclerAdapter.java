@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
-import com.example.nvdovin.weatherapp.domain.utils.ExtractRes;
 import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 
 import java.util.List;
@@ -114,15 +113,15 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<ViewHolder<DailyFo
         @Override
         public void bindData(DailyForecast data) {
             ImageUtils.setWeatherIcon(currentWeatherData.getWeatherIcon(), icon);
-            clouds.setText(String.valueOf(currentWeatherData.getClouds().intValue()).concat(ExtractRes.getResource(context, R.string.percent_sign)));
-            humidity.setText(String.valueOf(currentWeatherData.getClouds().intValue()).concat(ExtractRes.getResource(context, R.string.percent_sign)));
-            pressure.setText(String.valueOf(currentWeatherData.getPressure().intValue()).concat(ExtractRes.getResource(context, R.string.pressure_sign)));
+            clouds.setText(String.valueOf(currentWeatherData.getClouds().intValue()).concat(context.getString(R.string.percent_sign)));
+            humidity.setText(String.valueOf(currentWeatherData.getClouds().intValue()).concat(context.getString(R.string.percent_sign)));
+            pressure.setText(String.valueOf(currentWeatherData.getPressure().intValue()).concat(context.getString(R.string.pressure_sign)));
             if (null != currentWeatherData.getRain()) {
-                rain.setText(String.valueOf(currentWeatherData.getRain().intValue()).concat(ExtractRes.getResource(context, R.string.rain_sign)));
+                rain.setText(String.valueOf(currentWeatherData.getRain().intValue()).concat(context.getString( R.string.rain_sign)));
             } else {
                 rain.setText(R.string.no_rain_message);
             }
-            windspeed.setText(String.valueOf(currentWeatherData.getWindSpeed().intValue()).concat(ExtractRes.getResource(context, R.string.wind_speed_sign)));
+            windspeed.setText(String.valueOf(currentWeatherData.getWindSpeed().intValue()).concat(context.getString(R.string.wind_speed_sign)));
 
         }
     }
