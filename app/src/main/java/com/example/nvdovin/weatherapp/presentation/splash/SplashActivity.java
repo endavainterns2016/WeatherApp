@@ -26,7 +26,6 @@ public class SplashActivity extends AppCompatActivity {
                                 }
                             }, DELAY_MILLIS
         );
-
     }
 
     @Override

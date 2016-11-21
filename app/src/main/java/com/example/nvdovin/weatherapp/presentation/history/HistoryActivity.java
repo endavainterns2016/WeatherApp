@@ -10,6 +10,7 @@ import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.history.adapter.HistoryViewPagerAdapter;
 import com.example.nvdovin.weatherapp.presentation.history.model.CityDate;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -60,6 +61,4 @@ public class HistoryActivity extends AppCompatActivity {
         viewPager.setCurrentItem(LAST_PAGE);
         viewPager.setOffscreenPageLimit(PAGE_LIMIT);
     }
-
-
 }
