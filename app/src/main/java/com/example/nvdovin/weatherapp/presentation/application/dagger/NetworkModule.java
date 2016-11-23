@@ -3,8 +3,6 @@ package com.example.nvdovin.weatherapp.presentation.application.dagger;
 import com.example.nvdovin.weatherapp.data.network.api.WeatherApi;
 import com.google.gson.Gson;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -18,7 +16,6 @@ public class NetworkModule {
 
 
     @Provides
-    @Singleton
     OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         return new OkHttpClient.Builder()
@@ -27,14 +24,12 @@ public class NetworkModule {
     }
 
     @Provides
-    @Singleton
-    HttpLoggingInterceptor provideHttpLoggingInterceptor(){
+    HttpLoggingInterceptor provideHttpLoggingInterceptor() {
         return new HttpLoggingInterceptor(HttpLoggingInterceptor.Logger.DEFAULT);
     }
 
     @Provides
-    @Singleton
-    WeatherApi provideWeatherApi(OkHttpClient okHttpClient, Gson gson){
+    WeatherApi provideWeatherApi(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)

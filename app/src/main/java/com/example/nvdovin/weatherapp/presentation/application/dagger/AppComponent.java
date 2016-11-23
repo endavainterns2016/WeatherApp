@@ -8,8 +8,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-@Component(modules = {AppModule.class, NetworkModule.class})
-@Singleton
+@Component(modules = {AppModule.class, NetworkModule.class, SharedPrefsModule.class})
 public interface AppComponent {
 
     Context context();

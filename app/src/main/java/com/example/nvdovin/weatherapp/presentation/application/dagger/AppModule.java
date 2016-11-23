@@ -3,8 +3,6 @@ package com.example.nvdovin.weatherapp.presentation.application.dagger;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,7 +17,6 @@ public class AppModule {
 
 
     @Provides
-    @Singleton
     Context provideContext() {
         return appContext;
     }

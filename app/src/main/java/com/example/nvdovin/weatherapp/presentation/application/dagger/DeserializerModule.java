@@ -6,8 +6,6 @@ import com.example.nvdovin.weatherapp.domain.deserialize.CityDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -15,16 +13,14 @@ import dagger.Provides;
 public class DeserializerModule {
 
     @Provides
-    @Singleton
-    Gson provideGson(CityDeserializer cityDeserializer){
+    Gson provideGson(CityDeserializer cityDeserializer) {
         return new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(City.class, cityDeserializer)
                 .create();
     }
 
     @Provides
-    @Singleton
-    CityDeserializer provideCityDeserializer(){
+    CityDeserializer provideCityDeserializer() {
         return new CityDeserializer();
     }
 
