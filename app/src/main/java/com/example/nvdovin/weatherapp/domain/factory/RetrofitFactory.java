@@ -31,7 +31,6 @@ public class RetrofitFactory {
                 .client(createClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
         weatherApi = retrofit.create(WeatherApi.class);
     }
 
@@ -41,11 +40,9 @@ public class RetrofitFactory {
         return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .build();
-
     }
 
     public City getData(String cityName) throws IOException {
-
         return weatherApi.getWeatherData(API_KEY, cityName).execute().body();
     }
 
