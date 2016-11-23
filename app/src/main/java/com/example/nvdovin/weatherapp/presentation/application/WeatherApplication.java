@@ -28,7 +28,8 @@ public class WeatherApplication extends Application {
     }
 
     private void initAppComponent() {
-        appComponent = DaggerAppComponent.builder()
+        appComponent = DaggerAppComponent
+                .builder()
                 .appModule(new AppModule(this))
                 .build();
     }
