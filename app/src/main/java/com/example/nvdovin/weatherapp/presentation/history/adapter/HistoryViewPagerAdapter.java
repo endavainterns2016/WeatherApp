@@ -21,29 +21,27 @@ public class HistoryViewPagerAdapter extends FragmentPagerAdapter {
     private static final String SPACE = " ";
     private static final int MILLISECONDS = 1000;
     private static final String UTC_TIMEZONE = "UTC";
-    private List<Long> listOfDaysOrderAsc;
-    private Long cityId;
+    private CityDate cityDate;
     private Context context;
 
-    public HistoryViewPagerAdapter(FragmentManager fm, CityDate cityDate, Context context) {
+    public HistoryViewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
-        listOfDaysOrderAsc = cityDate.getTimestampList();
-        cityId = cityDate.getCityId();
         this.context = context;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return GridHistoryFragment.newInstance(listOfDaysOrderAsc.get(position), cityId);
+        return GridHistoryFragment.newInstance(cityDate.getTimestampList().get(position), cityDate.getCityId());
     }
 
     @Override
     public int getCount() {
-        return listOfDaysOrderAsc.size();
+        return cityDate.getTimestampList().size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
+      List<Long>  listOfDaysOrderAsc = cityDate.getTimestampList();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(UTC_TIMEZONE));
         calendar.setTimeInMillis(listOfDaysOrderAsc.get(position) * MILLISECONDS);
         String title;
@@ -57,4 +55,7 @@ public class HistoryViewPagerAdapter extends FragmentPagerAdapter {
         return title;
     }
 
+    public void setCityDate(CityDate cityDate) {
+        this.cityDate = cityDate;
+    }
 }

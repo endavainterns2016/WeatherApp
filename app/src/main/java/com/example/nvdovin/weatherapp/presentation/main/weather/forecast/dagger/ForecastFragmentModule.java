@@ -1,5 +1,4 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast.dagger;
-
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;

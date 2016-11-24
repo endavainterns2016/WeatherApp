@@ -1,47 +1,38 @@
 package com.example.nvdovin.weatherapp.presentation.history.grid;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TextView;
 
-import com.example.nvdovin.weatherapp.R;
-import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
-import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
-import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
+import com.example.nvdovin.weatherapp.presentation.application.WeatherApplication;
 import com.example.nvdovin.weatherapp.presentation.history.grid.adapter.GridHistoryAdapter;
+import com.example.nvdovin.weatherapp.presentation.history.grid.dagger.DaggerGridHistoryFragmentComponent;
+import com.example.nvdovin.weatherapp.presentation.history.grid.dagger.GridHistoryFragmentModule;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class GridHistoryFragment extends Fragment {
 
-public class GridHistoryFragment extends Fragment implements GridHistoryView {
-
-    public static final String DAY_TIMESTAMP = "TIMESTAMP_KEY";
-    public static final String CITY_ID = "CITY_ID_KEY";
-    private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
-
-    @BindView(R.id.weather_grid_view)
-    GridView weatherGridView;
-    @BindView(R.id.no_data)
-    TextView noData;
+    private static final String DAY_TIMESTAMP = "TIMESTAMP_KEY";
+    private static final String CITY_ID = "CITY_ID_KEY";
+    @Inject
     CityService cityService;
+    @Inject
     WeatherDataService weatherDataService;
-    private GridHistoryAdapter gridHistoryAdapter;
-    private GridHistoryPresenter gridHistoryPresenter;
+    @Inject
+    GridHistoryAdapter gridHistoryAdapter;
+    @Inject
+    GridHistoryPresenter gridHistoryPresenter;
+    @Inject
+    GridHistoryView gridHistoryView;
+
     private Long timestamp;
     private Long cityId;
-
 
     public GridHistoryFragment() {
 
@@ -56,52 +47,35 @@ public class GridHistoryFragment extends Fragment implements GridHistoryView {
         return gridHistoryFragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         timestamp = args.getLong(DAY_TIMESTAMP);
         cityId = args.getLong(CITY_ID);
 
-        View view = inflater.inflate(R.layout.grid_history_layout, container, false);
-        ButterKnife.bind(this, view);
+        DaggerGridHistoryFragmentComponent.builder()
+                .appComponent(WeatherApplication.getAppComponent())
+                .gridHistoryFragmentModule(new GridHistoryFragmentModule(this))
+                .build()
+                .inject(this);
+    }
 
-        return view;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return gridHistoryView.getView();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        List<WeatherData> weatherDataList = new ArrayList<>();
-        gridHistoryPresenter = new GridHistoryPresenter(cityService, weatherDataService, getActivity(), this, cityId, timestamp);
-        gridHistoryAdapter = new GridHistoryAdapter(weatherDataList, getActivity());
-        weatherGridView.setAdapter(gridHistoryAdapter);
+
+        gridHistoryPresenter.setCityId(cityId);
+        gridHistoryPresenter.setTimestamp(timestamp);
 
         gridHistoryPresenter.getWeatherData();
 
     }
 
-
-    @Override
-    public void displayHistory() {
-        final List<WeatherData> updatedWeatherDataList = gridHistoryPresenter.getForecast();
-        gridHistoryAdapter.swap(updatedWeatherDataList);
-        if (updatedWeatherDataList.isEmpty()) {
-            noData.setVisibility(View.VISIBLE);
-        } else {
-            noData.setVisibility(View.GONE);
-        }
-        weatherGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putLong(CITY_ID, updatedWeatherDataList.get(position).getCityId());
-                bundle.putLong(DAY_TIMESTAMP, updatedWeatherDataList.get(position).getDt());
-                Intent intent = new Intent(getContext(), DetailActivity.class);
-                intent.putExtra(DETAIL_BUNDLE, bundle);
-                startActivity(intent);
-            }
-        });
-    }
 }

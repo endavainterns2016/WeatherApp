@@ -28,13 +28,11 @@ public class GridHistoryAdapter extends BaseAdapter {
     TextView timeView;
 
     private List<WeatherData> weatherDataList;
-    private LayoutInflater inflater;
     private Context context;
 
-    public GridHistoryAdapter(List<WeatherData> weatherDataList, Context context) {
-        this.weatherDataList = weatherDataList;
+    public GridHistoryAdapter(Context context) {
+        weatherDataList = new ArrayList<>();
         this.context = context;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -57,7 +55,7 @@ public class GridHistoryAdapter extends BaseAdapter {
         WeatherData weatherData = weatherDataList.get(position);
         WeatherHolder weatherHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.grid_item_layout, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.grid_item_layout, parent, false);
             weatherHolder = new WeatherHolder(convertView);
             convertView.setTag(weatherHolder);
         } else {
@@ -72,5 +70,4 @@ public class GridHistoryAdapter extends BaseAdapter {
         weatherDataList = new ArrayList<>(weatherDatas);
         notifyDataSetChanged();
     }
-
 }

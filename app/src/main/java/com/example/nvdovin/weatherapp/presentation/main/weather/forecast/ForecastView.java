@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 
 public class ForecastView {
 
-    public static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
-    public static final String CITY_ID_KEY = "CITY_ID_KEY";
+    private static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
+    private static final String CITY_ID_KEY = "CITY_ID_KEY";
     private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
 
     @BindView(R.id.recycler_view)

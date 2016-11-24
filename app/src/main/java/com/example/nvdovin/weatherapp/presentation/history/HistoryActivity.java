@@ -8,12 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
+import com.example.nvdovin.weatherapp.presentation.application.WeatherApplication;
 import com.example.nvdovin.weatherapp.presentation.history.adapter.HistoryViewPagerAdapter;
+import com.example.nvdovin.weatherapp.presentation.history.dagger.DaggerHistoryActivityComponent;
+import com.example.nvdovin.weatherapp.presentation.history.dagger.HistoryActivityModule;
 import com.example.nvdovin.weatherapp.presentation.history.model.CityDate;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,10 +40,22 @@ public class HistoryActivity extends AppCompatActivity {
 
     Long cityId;
 
+    @Inject
+    HistoryViewPagerAdapter historyViewPagerAdapter;
+
+    @Inject
+    CityDate cityDate;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        DaggerHistoryActivityComponent.builder()
+                .appComponent(WeatherApplication.getAppComponent())
+                .historyActivityModule(new HistoryActivityModule(this))
+                .build()
+                .inject(this);
 
         ButterKnife.bind(this);
 
@@ -49,14 +66,13 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        CityDate cityDate = new CityDate();
         cityDate.setCityId(cityId);
         cityDate.setTimestampList(Arrays.asList(
                 TimeUtils.getDateArrayByDate(
                         Calendar.getInstance(TimeZone.getTimeZone(UTC_TIMEZONE)), DAYS_AGO, DAYS_AHEAD
                 )
         ));
-        HistoryViewPagerAdapter historyViewPagerAdapter = new HistoryViewPagerAdapter(getSupportFragmentManager(), cityDate, this);
+        historyViewPagerAdapter.setCityDate(cityDate);
         viewPager.setAdapter(historyViewPagerAdapter);
         viewPager.setCurrentItem(LAST_PAGE);
         viewPager.setOffscreenPageLimit(PAGE_LIMIT);
