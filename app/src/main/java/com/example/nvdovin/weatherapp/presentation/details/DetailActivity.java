@@ -15,6 +15,7 @@ import android.view.View;
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.presentation.application.WeatherApplication;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
 import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
@@ -56,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
         final Long cityId = bundle.getLong(CITY_ID_KEY);
         Long timestamp = bundle.getLong(TIMESTAMP_KEY);
 
-        DetailsPresenter detailsPresenter = new DetailsPresenter(cityService, weatherDataService);
+        DetailsPresenter detailsPresenter = new DetailsPresenter(WeatherApplication.getAppComponent().cityService(), WeatherApplication.getAppComponent().weatherDataService());
 
         collapsingToolbarLayout.setTitle(detailsPresenter.getCityName(cityId));
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);

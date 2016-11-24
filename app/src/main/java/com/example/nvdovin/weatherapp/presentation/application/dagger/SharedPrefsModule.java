@@ -12,6 +12,7 @@ import dagger.Provides;
 public class SharedPrefsModule {
 
     @Provides
+    @AppScope
     SharedPrefs provideSharedPrefs(Context context) {
         return new SharedPrefs(context);
     }
