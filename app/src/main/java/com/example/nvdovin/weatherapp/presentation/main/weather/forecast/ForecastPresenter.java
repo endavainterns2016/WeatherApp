@@ -1,7 +1,6 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
-import com.example.nvdovin.weatherapp.data.dao.CityDao;
 import com.example.nvdovin.weatherapp.data.model.City;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
@@ -21,14 +20,24 @@ public class ForecastPresenter {
     private CityService cityService;
     private Executor executor;
     private DataMapper dataMapper;
+    private DefaultThreadPoolExecutor defaultThreadPoolExecutor;
+    private SortQueryBuilder sortQueryBuilder;
 
-    public ForecastPresenter(Executor executor, CityService cityService, ForecastView view, SharedPrefs sharedPrefs, DataMapper dataMapper) {
+    public ForecastPresenter(Executor executor,
+                             CityService cityService,
+                             ForecastView view,
+                             SharedPrefs sharedPrefs,
+                             DataMapper dataMapper,
+                             DefaultThreadPoolExecutor defaultThreadPoolExecutor,
+                             SortQueryBuilder sortQueryBuilder) {
         EventBus.getDefault().register(this);
         this.executor = executor;
         this.cityService = cityService;
         this.view = view;
         this.sharedPrefs = sharedPrefs;
         this.dataMapper = dataMapper;
+        this.defaultThreadPoolExecutor = defaultThreadPoolExecutor;
+        this.sortQueryBuilder = sortQueryBuilder;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -38,7 +47,7 @@ public class ForecastPresenter {
     }
 
     private void getData() {
-        DefaultThreadPoolExecutor.getInstance().executeBackground(executor);
+        defaultThreadPoolExecutor.executeBackground(executor);
     }
 
     public void refreshCalled() {
@@ -47,10 +56,7 @@ public class ForecastPresenter {
     }
 
     private void sortData() {
-        SortQueryBuilder sortByName = new SortQueryBuilder();
-        sortByName.setAscending(true);
-        sortByName.setProperty(CityDao.Properties.Name);
-        List<City> cities = cityService.loadSortedCities(sortByName);
+        List<City> cities = cityService.loadSortedCities(sortQueryBuilder);
         setData(dataMapper.loadCityWeatherForNow(cities));
     }
 
