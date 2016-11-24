@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.data.dao.CityDao;
+import com.example.nvdovin.weatherapp.data.model.City;
 import com.example.nvdovin.weatherapp.domain.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
@@ -19,7 +20,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 public class ForecastPresenter {
-    private ForecastView forecastView;
+    private ForecastView view;
     private RetrofitFactory retrofitFactory;
     private SharedPrefs sharedPrefs;
     private CityService cityService;
@@ -31,16 +32,15 @@ public class ForecastPresenter {
         retrofitFactory = new RetrofitFactory();
         this.cityService = cityService;
         this.weatherDataService = weatherDataService;
-        this.forecastView = view;
+        this.view = view;
         this.dataMapper = dataMapper;
-        sortData();
         sharedPrefs = new SharedPrefs(context);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setData(List<com.example.nvdovin.weatherapp.domain.model.CityForecast> cityForecastList) {
-        forecastView.displayData(cityForecastList);
-        forecastView.setRefreshing(false);
+        view.displayData(cityForecastList);
+        view.setRefreshing(false);
     }
 
     private void getData() {
@@ -56,6 +56,18 @@ public class ForecastPresenter {
         SortQueryBuilder sortByName = new SortQueryBuilder();
         sortByName.setAscending(true);
         sortByName.setProperty(CityDao.Properties.Name);
-        setData(cityService.loadSortedCities(sortByName));
+        List<City> cities = cityService.loadSortedCities(sortByName);
+        setData(dataMapper.loadCityWeatherForNow(cities));
     }
+
+    public void checkLastUpdateTime() {
+        if (sharedPrefs.lastUpdateExceededLimit()) {
+            getData();
+            sharedPrefs.setLastUpdateTime();
+        } else {
+            sortData();
+            view.hideLoading();
+        }
+    }
+
 }

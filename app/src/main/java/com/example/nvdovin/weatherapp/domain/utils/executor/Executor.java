@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+
 public class Executor implements Operation {
 
     private RetrofitFactory retrofitFactory;
@@ -45,6 +46,8 @@ public class Executor implements Operation {
         SortQueryBuilder sortByName = new SortQueryBuilder();
         sortByName.setAscending(true);
         sortByName.setProperty(CityDao.Properties.Name);
-        EventBus.getDefault().post(cityService.loadSortedCities(sortByName));
+        List<City> cities = cityService.loadSortedCities(sortByName);
+        EventBus.getDefault().post(dataMapper.loadCityWeatherForNow(cities));
+
     }
 }
