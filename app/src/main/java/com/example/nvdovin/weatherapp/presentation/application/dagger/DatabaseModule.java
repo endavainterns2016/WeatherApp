@@ -18,15 +18,14 @@ public class DatabaseModule {
 
     @Provides
     @AppScope
-    public DaoSession provideDaoSession(Context context) {
+    DaoSession provideDaoSession(Context context) {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context.getApplicationContext(), DB_NAME, null);
-        DaoMaster daoMaster = new DaoMaster(helper.getWritableDatabase());
-        return daoMaster.newSession();
+        return new DaoMaster(helper.getWritableDatabase()).newSession();
     }
 
     @Provides
     @AppScope
-    public CityService provideCityService(DaoSession daoSession, Context context) {
+    CityService provideCityService(DaoSession daoSession, Context context) {
         return new CityService(daoSession, context);
     }
 
@@ -38,7 +37,7 @@ public class DatabaseModule {
 
     @Provides
     @AppScope
-    public DataMapper provideDataMapper(WeatherDataService weatherDataService, CityService cityService) {
+    DataMapper provideDataMapper(WeatherDataService weatherDataService, CityService cityService) {
         return new DataMapper(weatherDataService, cityService);
     }
 }

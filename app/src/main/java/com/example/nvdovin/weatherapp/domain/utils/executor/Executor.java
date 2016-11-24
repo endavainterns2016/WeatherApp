@@ -46,7 +46,8 @@ public class Executor implements Operation {
         SortQueryBuilder sortByName = new SortQueryBuilder();
         sortByName.setAscending(true);
         sortByName.setProperty(CityDao.Properties.Name);
-        EventBus.getDefault().post(cityService.loadSortedCities(sortByName));
+        List<City> cities = cityService.loadSortedCities(sortByName);
+        EventBus.getDefault().post(dataMapper.loadCityWeatherForNow(cities));
 
     }
 }
