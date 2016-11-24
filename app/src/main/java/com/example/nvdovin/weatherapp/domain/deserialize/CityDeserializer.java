@@ -2,7 +2,6 @@ package com.example.nvdovin.weatherapp.domain.deserialize;
 
 import com.example.nvdovin.weatherapp.data.model.City;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
-import com.example.nvdovin.weatherapp.domain.utils.updater.WeatherDataUpdater;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -118,7 +117,7 @@ public class CityDeserializer implements JsonDeserializer<City> {
         c.setName(name.getAsString());
         c.setLat(lat.getAsDouble());
         c.setLon(lon.getAsDouble());
-        c.setRawWeatherList(WeatherDataUpdater.updatedWeatherData(weatherDataList));
+        c.setRawWeatherList(weatherDataList);
 
         return c;
     }

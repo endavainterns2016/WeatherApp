@@ -13,8 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.nvdovin.weatherapp.R;
+import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
 import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +39,11 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_main_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
+
+    CityService cityService;
+
+    WeatherDataService weatherDataService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         final Long cityId = bundle.getLong(CITY_ID_KEY);
         Long timestamp = bundle.getLong(TIMESTAMP_KEY);
 
-        DetailsPresenter detailsPresenter = new DetailsPresenter(this);
+        DetailsPresenter detailsPresenter = new DetailsPresenter(cityService, weatherDataService);
 
         collapsingToolbarLayout.setTitle(detailsPresenter.getCityName(cityId));
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
