@@ -4,6 +4,7 @@ import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.data.dao.CityDao;
 import com.example.nvdovin.weatherapp.data.model.City;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
+import com.example.nvdovin.weatherapp.data.network.api.WeatherApi;
 import com.example.nvdovin.weatherapp.data.network.response.GetCityListResponse;
 import com.example.nvdovin.weatherapp.domain.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
@@ -17,19 +18,27 @@ import java.util.List;
 
 public class Executor implements Operation {
 
-    private RetrofitFactory retrofitFactory;
+    //private WeatherApi retrofitFactory;
     private CityService cityService;
+    private RetrofitFactory retrofitFactory;
     private WeatherDataService weatherDataService;
     private DataMapper dataMapper;
+    private SortQueryBuilder sortQueryBuilder;
+    private WeatherApi weatherApi;
 
-    public Executor(RetrofitFactory retrofitFactory,
+    public Executor(RetrofitFactory retrofitFactory,//To be deleted
                     CityService cityService,
                     WeatherDataService weatherDataService,
-                    DataMapper dataMapper) {
+                    DataMapper dataMapper
+                    //,SortQueryBuilder sortQueryBuilder
+                    //,WeatherApi weatherApi
+                    ) {
         this.retrofitFactory = retrofitFactory;
         this.cityService = cityService;
         this.weatherDataService = weatherDataService;
         this.dataMapper = dataMapper;
+        //this.sortQueryBuilder = sortQueryBuilder;
+        //this.weatherApi = weatherApi;
     }
 
     @Override
@@ -43,7 +52,7 @@ public class Executor implements Operation {
             cityService.insert(city);
         }
 
-        SortQueryBuilder sortByName = new SortQueryBuilder();
+        SortQueryBuilder sortByName = sortQueryBuilder;
         sortByName.setAscending(true);
         sortByName.setProperty(CityDao.Properties.Name);
         EventBus.getDefault().post(cityService.loadSortedCities(sortByName));
