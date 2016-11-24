@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
+import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.history.grid.adapter.GridHistoryAdapter;
@@ -33,11 +35,13 @@ public class GridHistoryFragment extends Fragment implements GridHistoryView {
     GridView weatherGridView;
     @BindView(R.id.no_data)
     TextView noData;
-
+    CityService cityService;
+    WeatherDataService weatherDataService;
     private GridHistoryAdapter gridHistoryAdapter;
     private GridHistoryPresenter gridHistoryPresenter;
     private Long timestamp;
     private Long cityId;
+
 
     public GridHistoryFragment() {
 
@@ -70,7 +74,7 @@ public class GridHistoryFragment extends Fragment implements GridHistoryView {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         List<WeatherData> weatherDataList = new ArrayList<>();
-        gridHistoryPresenter = new GridHistoryPresenter(getActivity(), this, cityId, timestamp);
+        gridHistoryPresenter = new GridHistoryPresenter(cityService, weatherDataService, getActivity(), this, cityId, timestamp);
         gridHistoryAdapter = new GridHistoryAdapter(weatherDataList, getActivity());
         weatherGridView.setAdapter(gridHistoryAdapter);
 
