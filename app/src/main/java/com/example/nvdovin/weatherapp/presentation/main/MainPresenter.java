@@ -4,12 +4,14 @@ import android.content.Context;
 
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.data.dao.CityDao;
-import com.example.nvdovin.weatherapp.domain.factory.GreenDaoFactory;
 import com.example.nvdovin.weatherapp.domain.factory.RetrofitFactory;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
+import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
+import com.example.nvdovin.weatherapp.domain.utils.updater.DataMapper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,17 +22,24 @@ import java.util.List;
 public class MainPresenter {
 
     private RetrofitFactory retrofitFactory;
-    private GreenDaoFactory greenDaoFactory;
     private MainView view;
     private SharedPrefs sharedPrefs;
+    private CityService cityService;
+    private WeatherDataService weatherDataService;
+    private DataMapper dataMapper;
 
-
-    public MainPresenter(MainView view, Context context) {
+    public MainPresenter(CityService cityService,
+                         WeatherDataService weatherDataService,
+                         MainView view,
+                         Context context,
+                         DataMapper dataMapper) {
         this.view = view;
+        this.cityService = cityService;
+        this.weatherDataService = weatherDataService;
         EventBus.getDefault().register(this);
-        greenDaoFactory = new GreenDaoFactory(context);
         retrofitFactory = new RetrofitFactory();
         sharedPrefs = new SharedPrefs(context);
+        this.dataMapper = dataMapper;
     }
 
     public void checkLastUpdateTime() {
@@ -51,6 +60,8 @@ public class MainPresenter {
     }
 
     public void getData() {
-        DefaultThreadPoolExecutor.getInstance().executeBackground(new Executor(retrofitFactory, greenDaoFactory));
+        DefaultThreadPoolExecutor.getInstance()
+                .executeBackground(new Executor(retrofitFactory, cityService,
+                        weatherDataService, dataMapper));
     }
 }

@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
+import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
@@ -22,29 +24,33 @@ import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainRecyclerForecastFragment extends Fragment implements ForecastView {
+    public static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
+    public static final String CITY_ID_KEY = "CITY_ID_KEY";
     private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.forecast_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    @Inject
+    CityService cityService;
+    @Inject
+    WeatherDataService weatherDataService;
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private ForecastPresenter forecastPresenter;
-
-    public static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
-    public static final String CITY_ID_KEY = "CITY_ID_KEY";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_recycler_forecast_fragment, container, false);
+
         ButterKnife.bind(this, view);
 
         setupView();
-        forecastPresenter = new ForecastPresenter(this, view.getContext());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
