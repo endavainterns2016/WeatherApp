@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.updater.DataMapper;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.ForecastFragment;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.ForecastPresenter;
@@ -35,7 +37,7 @@ public class ForecastFragmentModule {
 
     @Provides
     @ForecastFragmentScope
-    ForecastPresenter provideForecastPresenter(CityService cityService, WeatherDataService weatherDataService, ForecastView view, Context context, DataMapper dataMapper){
-        return new ForecastPresenter(cityService, weatherDataService, view, context, dataMapper);
+    ForecastPresenter provideForecastPresenter(Executor executor, CityService cityService, ForecastView view, SharedPrefs sharedPrefs, DataMapper dataMapper){
+        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper);
     }
 }
