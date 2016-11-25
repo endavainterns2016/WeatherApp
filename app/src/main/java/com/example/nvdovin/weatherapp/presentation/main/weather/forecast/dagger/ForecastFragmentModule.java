@@ -1,9 +1,8 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast.dagger;
 
-import android.content.Context;
-
+import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
-import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.updater.DataMapper;
@@ -25,19 +24,25 @@ public class ForecastFragmentModule {
 
     @Provides
     @ForecastFragmentScope
-    ForecastFragment provideForecastFragment(){
+    ForecastFragment provideForecastFragment() {
         return forecastFragment;
     }
 
     @Provides
     @ForecastFragmentScope
-    ForecastView provideForecastView(){
+    ForecastView provideForecastView() {
         return new ForecastView(forecastFragment);
     }
 
     @Provides
     @ForecastFragmentScope
-    ForecastPresenter provideForecastPresenter(Executor executor, CityService cityService, ForecastView view, SharedPrefs sharedPrefs, DataMapper dataMapper){
-        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper);
+    ForecastPresenter provideForecastPresenter(Executor executor,
+                                               CityService cityService,
+                                               ForecastView view,
+                                               SharedPrefs sharedPrefs,
+                                               DataMapper dataMapper,
+                                               DefaultThreadPoolExecutor defaultThreadPoolExecutor,
+                                               SortQueryBuilder sortQueryBuilder) {
+        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper, defaultThreadPoolExecutor, sortQueryBuilder);
     }
 }
