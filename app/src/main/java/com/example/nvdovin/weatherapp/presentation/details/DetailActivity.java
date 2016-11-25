@@ -23,6 +23,14 @@ public class DetailActivity extends AppCompatActivity {
     @Inject
     DetailView detailView;
 
+    public static void start(Context context, WeatherData weatherData) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(CITY_ID, weatherData.getCityId());
+        bundle.putLong(TIMESTAMP, weatherData.getDt());
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra(DETAIL_BUNDLE, bundle);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

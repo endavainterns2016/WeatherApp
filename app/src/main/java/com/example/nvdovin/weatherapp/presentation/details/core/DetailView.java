@@ -28,6 +28,9 @@ import butterknife.ButterKnife;
 
 public class DetailView {
 
+    private static final String ARGS_KEY = "HISTORY_ARGS";
+    private static final String CITY_ID_KEY = "CITY_ID_KEY";
+
     @BindView(R.id.detail_main_recycler_view)
     RecyclerView mainRecycler;
     @BindView(R.id.detail_history_button)
@@ -53,13 +56,19 @@ public class DetailView {
         detailsView = LayoutInflater.from(detailActivity).inflate(R.layout.detail_main_layout, frameLayout, true);
         ButterKnife.bind(this, detailsView);
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                historyClickHandler();
+            }
+        });
     }
 
     public View getDetailsView() {
         return detailsView;
     }
 
-    void setupView(String cityName, List<DailyForecast> dailyForecastList, final WeatherData weatherData) {;
+    void setupView(String cityName, List<DailyForecast> dailyForecastList, final WeatherData weatherData) {
 
         collapsingToolbarLayout.setTitle(cityName);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
