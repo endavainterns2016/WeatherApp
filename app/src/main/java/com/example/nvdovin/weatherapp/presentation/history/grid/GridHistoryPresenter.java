@@ -1,7 +1,5 @@
 package com.example.nvdovin.weatherapp.presentation.history.grid;
 
-import android.content.Context;
-
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
@@ -17,21 +15,23 @@ public class GridHistoryPresenter {
     private CityService cityService;
     private WeatherDataService weatherDataService;
 
-    public GridHistoryPresenter(CityService cityService, WeatherDataService weatherDataService, Context context, GridHistoryView gridHistoryView, Long cityId, Long timestamp) {
+    public GridHistoryPresenter(CityService cityService, WeatherDataService weatherDataService, GridHistoryView gridHistoryView) {
         this.cityService = cityService;
         this.weatherDataService = weatherDataService;
-        this.cityId = cityId;
-        this.timestamp = timestamp;
         this.gridHistoryView = gridHistoryView;
 
     }
 
     public void getWeatherData() {
-        gridHistoryView.displayHistory();
+        List<WeatherData> weatherDataList = weatherDataService.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
+        gridHistoryView.displayHistory(weatherDataList);
     }
 
-    public List<WeatherData> getForecast() {
-        return weatherDataService.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
     }
 
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
 }
