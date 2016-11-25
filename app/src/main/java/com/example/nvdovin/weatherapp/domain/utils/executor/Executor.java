@@ -7,7 +7,7 @@ import com.example.nvdovin.weatherapp.data.network.api.WeatherApi;
 import com.example.nvdovin.weatherapp.data.network.response.GetCityListResponse;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
-import com.example.nvdovin.weatherapp.domain.utils.updater.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 
 import org.greenrobot.eventbus.EventBus;
 

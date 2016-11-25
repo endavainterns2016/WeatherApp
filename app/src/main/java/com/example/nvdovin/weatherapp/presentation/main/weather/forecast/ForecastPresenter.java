@@ -6,7 +6,7 @@ import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
-import com.example.nvdovin.weatherapp.domain.utils.updater.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
