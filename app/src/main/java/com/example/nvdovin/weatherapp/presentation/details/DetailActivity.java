@@ -41,5 +41,7 @@ public class DetailActivity extends AppCompatActivity {
 
         detailsPresenter.setupDetailView(bundle.getLong(CITY_ID_KEY), bundle.getLong(TIMESTAMP_KEY));
 
+        detailView.setCallback(detailsPresenter.getCallBack());
+
     }
 }

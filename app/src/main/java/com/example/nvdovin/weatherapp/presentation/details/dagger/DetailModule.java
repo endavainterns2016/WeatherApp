@@ -27,8 +27,10 @@ public class DetailModule {
     @DetailScope
     DetailsPresenter detailsPresenter(CityService cityService,
                                       WeatherDataService weatherDataService,
-                                      DataMapper dataMapper, DetailView detailView) {
-        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView);
+                                      DataMapper dataMapper,
+                                      DetailView detailView,
+                                      Context context) {
+        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, context);
     }
 
     @Provides

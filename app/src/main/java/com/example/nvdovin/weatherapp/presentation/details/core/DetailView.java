@@ -28,9 +28,6 @@ import butterknife.ButterKnife;
 
 public class DetailView {
 
-    private static final String ARGS_KEY = "HISTORY_ARGS";
-    private static final String CITY_ID_KEY = "CITY_ID_KEY";
-
     @BindView(R.id.detail_main_recycler_view)
     RecyclerView mainRecycler;
     @BindView(R.id.detail_history_button)
@@ -40,7 +37,7 @@ public class DetailView {
 
     private Context context;
     private View detailsView;
-    private WeatherData weatherData;
+    private ViewCallback viewCallback;
 
     public DetailView(DetailActivity detailActivity) {
 
@@ -56,21 +53,13 @@ public class DetailView {
         detailsView = LayoutInflater.from(detailActivity).inflate(R.layout.detail_main_layout, frameLayout, true);
         ButterKnife.bind(this, detailsView);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                historyClickHandler();
-            }
-        });
     }
 
     public View getDetailsView() {
         return detailsView;
     }
 
-    void setupView(String cityName, List<DailyForecast> dailyForecastList, final WeatherData weatherData) {
-
-        this.weatherData = weatherData;
+    void setupView(String cityName, List<DailyForecast> dailyForecastList, final WeatherData weatherData) {;
 
         collapsingToolbarLayout.setTitle(cityName);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
@@ -83,14 +72,17 @@ public class DetailView {
                 dailyForecastList,
                 weatherData
         ));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewCallback.historyClickHandler();
+            }
+        });
     }
-    private void historyClickHandler(){
-        Intent historyIntent = new Intent(context, HistoryActivity.class);
-        Bundle sentBundle = new Bundle();
-        sentBundle.putLong(CITY_ID_KEY, weatherData.getCityId());
-        historyIntent.putExtra(ARGS_KEY, sentBundle);
-        historyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(historyIntent);
+
+    public void setCallback(ViewCallback viewCallback){
+        this.viewCallback = viewCallback;
     }
+
 }
 
