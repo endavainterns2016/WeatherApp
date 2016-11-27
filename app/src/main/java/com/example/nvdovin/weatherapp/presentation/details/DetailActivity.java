@@ -1,10 +1,12 @@
 package com.example.nvdovin.weatherapp.presentation.details;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.presentation.application.WeatherApplication;
 import com.example.nvdovin.weatherapp.presentation.details.core.DetailView;
 import com.example.nvdovin.weatherapp.presentation.details.core.DetailsPresenter;
@@ -25,8 +27,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public static void start(Context context, WeatherData weatherData) {
         Bundle bundle = new Bundle();
-        bundle.putLong(CITY_ID, weatherData.getCityId());
-        bundle.putLong(TIMESTAMP, weatherData.getDt());
+        bundle.putLong(CITY_ID_KEY, weatherData.getCityId());
+        bundle.putLong(TIMESTAMP_KEY, weatherData.getDt());
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(DETAIL_BUNDLE, bundle);
         context.startActivity(intent);
@@ -50,6 +52,5 @@ public class DetailActivity extends AppCompatActivity {
         detailsPresenter.setupDetailView(bundle.getLong(CITY_ID_KEY), bundle.getLong(TIMESTAMP_KEY));
 
         detailView.setCallback(detailsPresenter.getCallBack());
-
     }
 }

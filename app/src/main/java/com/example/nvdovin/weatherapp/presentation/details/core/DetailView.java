@@ -2,9 +2,7 @@ package com.example.nvdovin.weatherapp.presentation.details.core;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +17,6 @@ import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
-import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
 import java.util.List;
 
@@ -27,9 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailView {
-
-    private static final String ARGS_KEY = "HISTORY_ARGS";
-    private static final String CITY_ID_KEY = "CITY_ID_KEY";
 
     @BindView(R.id.detail_main_recycler_view)
     RecyclerView mainRecycler;
@@ -56,12 +50,6 @@ public class DetailView {
         detailsView = LayoutInflater.from(detailActivity).inflate(R.layout.detail_main_layout, frameLayout, true);
         ButterKnife.bind(this, detailsView);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                historyClickHandler();
-            }
-        });
     }
 
     public View getDetailsView() {
@@ -89,9 +77,8 @@ public class DetailView {
         });
     }
 
-    public void setCallback(ViewCallback viewCallback){
+    public void setCallback(ViewCallback viewCallback) {
         this.viewCallback = viewCallback;
     }
-
 }
 
