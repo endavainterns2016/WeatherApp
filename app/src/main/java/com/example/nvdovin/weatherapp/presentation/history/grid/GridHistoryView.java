@@ -55,7 +55,12 @@ public class GridHistoryView {
     public void displayHistory(final List<WeatherData> updatedWeatherDataList, AdapterView.OnItemClickListener itemClickListener) {
         gridHistoryAdapter.swap(updatedWeatherDataList);
         noData.setVisibility(updatedWeatherDataList.isEmpty() ? View.VISIBLE : View.GONE);
-        weatherGridView.setOnItemClickListener(itemClickListener);
+        weatherGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
 }

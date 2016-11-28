@@ -17,6 +17,12 @@ public class TimeUtils {
     }
 
     public static Long getCurrentTime() {
+
+        long l = System.currentTimeMillis();
+        Calendar instance = Calendar.getInstance();instance.setTimeInMillis(l);
+        if(instance.get(Calendar.DAY_OF_WEEK)==Calendar.MONDAY){
+          return   instance.getTimeInMillis()/10000;
+        }
         return System.currentTimeMillis() / MILLISECONDS;
     }
 
