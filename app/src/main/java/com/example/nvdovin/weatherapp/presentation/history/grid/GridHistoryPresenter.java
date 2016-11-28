@@ -1,9 +1,13 @@
 package com.example.nvdovin.weatherapp.presentation.history.grid;
 
+import android.view.View;
+import android.widget.AdapterView;
+
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
+import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 
 import java.util.List;
 
@@ -23,8 +27,14 @@ public class GridHistoryPresenter {
     }
 
     public void getWeatherData() {
-        List<WeatherData> weatherDataList = weatherDataService.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
-        gridHistoryView.displayHistory(weatherDataList);
+        final List<WeatherData> weatherDataList = weatherDataService.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
+        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DetailActivity.start(gridHistoryView.getView().getContext(), weatherDataList.get(position));
+            }
+        };
+        gridHistoryView.displayHistory(weatherDataList, onItemClickListener);
     }
 
     public void setCityId(Long cityId) {
@@ -34,4 +44,5 @@ public class GridHistoryPresenter {
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
+
 }

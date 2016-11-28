@@ -1,6 +1,7 @@
 package com.example.nvdovin.weatherapp.presentation.details;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,23 +14,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.nvdovin.weatherapp.R;
-import com.example.nvdovin.weatherapp.domain.service.CityService;
-import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.presentation.application.WeatherApplication;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
 import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailActivity extends AppCompatActivity {
     private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
-    private static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
     private static final String ARGS_KEY = "HISTORY_ARGS";
-    private static final String CITY_ID_KEY = "CITY_ID_KEY";
     private static final int NUMBER_OF_DAYS_TO_FORECAST = 4;
+    private static final String TIMESTAMP = "TIMESTAMP_KEY";
+    private static final String CITY_ID = "CITY_ID_KEY";
 
     @BindView(R.id.detail_main_recycler_view)
     RecyclerView mainRecycler;
@@ -40,10 +38,14 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.detail_main_collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
 
-
-    CityService cityService;
-
-    WeatherDataService weatherDataService;
+    public static void start(Context context, WeatherData weatherData) {
+        Bundle bundle = new Bundle();
+        bundle.putLong(CITY_ID, weatherData.getCityId());
+        bundle.putLong(TIMESTAMP, weatherData.getDt());
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra(DETAIL_BUNDLE, bundle);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,8 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra(DETAIL_BUNDLE);
-        final Long cityId = bundle.getLong(CITY_ID_KEY);
-        Long timestamp = bundle.getLong(TIMESTAMP_KEY);
+        final Long cityId = bundle.getLong(CITY_ID);
+        Long timestamp = bundle.getLong(TIMESTAMP);
 
         DetailsPresenter detailsPresenter = new DetailsPresenter(WeatherApplication.getAppComponent().cityService(), WeatherApplication.getAppComponent().weatherDataService());
 
@@ -75,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent historyIntent = new Intent(DetailActivity.this, HistoryActivity.class);
                 Bundle sentBundle = new Bundle();
-                sentBundle.putLong(CITY_ID_KEY, cityId);
+                sentBundle.putLong(CITY_ID, cityId);
                 historyIntent.putExtra(ARGS_KEY, sentBundle);
                 startActivity(historyIntent);
             }
