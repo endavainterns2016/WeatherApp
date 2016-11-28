@@ -73,6 +73,7 @@ public class GridHistoryFragment extends Fragment {
 
         gridHistoryPresenter.setCityId(cityId);
         gridHistoryPresenter.setTimestamp(timestamp);
+
         gridHistoryPresenter.getWeatherData();
 
     }

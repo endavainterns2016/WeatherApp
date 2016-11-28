@@ -1,4 +1,4 @@
-package com.example.nvdovin.weatherapp.domain.utils.design;
+package com.example.nvdovin.weatherapp.domain.utils.mapper;
 
 import com.example.nvdovin.weatherapp.R;
 
