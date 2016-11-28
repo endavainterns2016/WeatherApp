@@ -42,7 +42,7 @@ public class CityService {
                 queryBuilder = queryBuilder.orderDesc(sortQueryBuilder.getProperty());
             }
         }
+
         return queryBuilder.list();
     }
-
 }

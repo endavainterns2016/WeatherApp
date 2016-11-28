@@ -44,5 +44,4 @@ public class GridHistoryPresenter {
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
-
 }

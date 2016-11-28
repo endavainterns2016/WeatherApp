@@ -5,8 +5,6 @@ import android.os.Build;
 import android.text.Html;
 import android.widget.TextView;
 
-import com.example.nvdovin.weatherapp.domain.utils.mapper.WeatherCodesMap;
-
 public class ImageUtils {
 
     private static final String FONTS_LOCATION = "fonts/weathericons-regular-webfont.ttf";
