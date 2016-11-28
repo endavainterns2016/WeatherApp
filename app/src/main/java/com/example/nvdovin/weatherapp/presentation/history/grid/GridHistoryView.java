@@ -45,7 +45,6 @@ public class GridHistoryView {
 
         weatherGridView.setAdapter(gridHistoryAdapter);
 
-
     }
 
     public View getView() {

@@ -5,10 +5,6 @@ import com.example.nvdovin.weatherapp.presentation.history.grid.GridHistoryFragm
 
 import dagger.Component;
 
-/**
- * Created by nvdovin on 11/24/2016.
- */
-
 @Component(modules = GridHistoryFragmentModule.class, dependencies = AppComponent.class)
 @GridHistoryFragmentScope
 public interface GridHistoryFragmentComponent {
