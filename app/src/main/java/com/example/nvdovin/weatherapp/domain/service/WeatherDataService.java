@@ -10,6 +10,7 @@ import com.example.nvdovin.weatherapp.data.model.WeatherData;
 
 import org.greenrobot.greendao.query.WhereCondition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherDataService {
@@ -44,6 +45,17 @@ public class WeatherDataService {
                 .unique();
     }
 
+    public List<WeatherData> getWeatherDataListByDTs(Long[] timestampArray, Long cityId) {
+
+        List<WeatherData> weatherDataList = new ArrayList<>();
+        for (int i = 0; i < timestampArray.length; i++) {
+            WeatherData weatherData = getWeatherDataByDT(timestampArray[i], cityId);
+            if (weatherData != null) {
+                weatherDataList.add(weatherData);
+            }
+        }
+        return weatherDataList;
+    }
 
     public WeatherData getWeatherByUniqueId(WeatherData weatherDataFromNetwork) {
         return daoSession
@@ -60,6 +72,26 @@ public class WeatherDataService {
                         new WhereCondition.StringCondition(context.getString(R.string.time_query),
                                 String.valueOf(cityId), String.valueOf(time)
                         )).orderAsc(WeatherDataDao.Properties.Dt).limit(1).unique();
+    }
+
+    public int getTempMax(List<WeatherData> weatherDataList) {
+        Double tempMax = weatherDataList.get(0).getTempMax();
+        for (WeatherData weatherData : weatherDataList) {
+            if (weatherData.getTempMax() > tempMax) {
+                tempMax = weatherData.getTempMax();
+            }
+        }
+        return tempMax.intValue();
+    }
+
+    public int getTempMin(List<WeatherData> weatherDataList) {
+        Double tempMin = weatherDataList.get(0).getTempMin();
+        for (WeatherData weatherData : weatherDataList) {
+            if (weatherData.getTempMax() < tempMin) {
+                tempMin = weatherData.getTempMax();
+            }
+        }
+        return tempMin.intValue();
     }
 
 
