@@ -6,6 +6,7 @@ import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.ForecastFragment;
@@ -32,8 +33,8 @@ public class ForecastFragmentModule {
 
     @Provides
     @ForecastFragmentScope
-    ForecastView provideForecastView(SharedPrefs sharedPrefs, ImageUtils imageUtils) {
-        return new ForecastView(forecastFragment, sharedPrefs, imageUtils);
+    ForecastView provideForecastView(Navigator.Builder navBuilder, SharedPrefs sharedPrefs, ImageUtils imageUtils) {
+        return new ForecastView(forecastFragment, navBuilder, sharedPrefs, imageUtils);
     }
 
     @Provides

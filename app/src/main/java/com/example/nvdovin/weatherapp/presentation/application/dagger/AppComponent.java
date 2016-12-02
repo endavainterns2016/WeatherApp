@@ -9,6 +9,7 @@ import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 
@@ -27,6 +28,8 @@ public interface AppComponent {
     EventBusWrapper eventBusWrapper();
 
     Context context();
+
+    Navigator.Builder navBuilder();
 
     CityService cityService();
 

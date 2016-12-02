@@ -1,6 +1,7 @@
 package com.example.nvdovin.weatherapp.presentation.history.grid.dagger;
 
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.history.grid.GridHistoryFragment;
 import com.example.nvdovin.weatherapp.presentation.history.grid.GridHistoryPresenter;
@@ -33,8 +34,8 @@ public class GridHistoryFragmentModule {
 
     @Provides
     @GridHistoryFragmentScope
-    GridHistoryPresenter provideGridHistoryPresenter(DataMapper dataMapper, GridHistoryView gridHistoryView) {
-        return new GridHistoryPresenter(dataMapper, gridHistoryView);
+    GridHistoryPresenter provideGridHistoryPresenter(DataMapper dataMapper, GridHistoryView gridHistoryView, Navigator.Builder builder) {
+        return new GridHistoryPresenter(dataMapper, gridHistoryView, builder);
     }
 
 }
