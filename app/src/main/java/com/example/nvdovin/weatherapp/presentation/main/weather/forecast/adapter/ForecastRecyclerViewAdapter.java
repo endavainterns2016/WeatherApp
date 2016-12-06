@@ -33,12 +33,16 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
     private SharedPrefs sharedPrefs;
     private ImageUtils imageUtils;
 
-    public ForecastRecyclerViewAdapter(List<CityForecast> cityForecastList, OnItemClickListener listener, Context context) {
+    public ForecastRecyclerViewAdapter(List<CityForecast> cityForecastList,
+                                       OnItemClickListener listener,
+                                       Context context,
+                                       SharedPrefs sharedPrefs,
+                                       ImageUtils imageUtils) {
         this.context = context;
         this.cityForecastList = cityForecastList;
         this.listener = listener;
-        sharedPrefs = new SharedPrefs(context);
-        imageUtils = new ImageUtils();
+        this.sharedPrefs = sharedPrefs;
+        this.imageUtils = imageUtils;
     }
 
     @Override
@@ -100,7 +104,6 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
 
             cityTemperature.setText(TemperatureConverter.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature));
             itemView.setBackgroundResource(imageUtils.getBackgroundResById(weatherIconId));
-            //imageUtils.setWeatherIcon(weatherIconId, weatherIcon);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 weatherIcon.setText(Html.fromHtml(context.getString(imageUtils.getIconResById(weatherIconId)), Html.FROM_HTML_MODE_LEGACY));
             } else {

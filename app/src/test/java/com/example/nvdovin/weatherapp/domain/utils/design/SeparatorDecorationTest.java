@@ -70,7 +70,7 @@ public class SeparatorDecorationTest {
         when(recyclerView.getChildAt(anyInt())).thenReturn(mockView);
         RecyclerView.LayoutParams mockLayoutParams = mock(RecyclerView.LayoutParams.class);
         when(mockView.getLayoutParams()).thenReturn(mockLayoutParams);
-        when(state.getItemCount()).thenReturn(1);
+        when(state.getItemCount()).thenReturn(0);
         separatorDecoration.onDraw(canvas, recyclerView, state);
         verify(canvas, never()).drawLine(view.getLeft(), view.getBottom() + test, view.getRight(), view.getLeft() + test, paint);
     }

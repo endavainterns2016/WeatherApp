@@ -5,7 +5,9 @@ import android.content.Context;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.details.core.DetailsPresenter;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
@@ -29,13 +31,14 @@ public class DetailModule {
                                       WeatherDataService weatherDataService,
                                       DataMapper dataMapper,
                                       DetailView detailView,
-                                      Context context) {
-        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, context);
+                                      Context context,
+                                      SharedPrefs sharedPrefs) {
+        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, context, sharedPrefs);
     }
 
     @Provides
     @DetailScope
-    DetailView provideDetailsView() {
-        return new DetailView(detailActivity);
+    DetailView provideDetailsView(ImageUtils imageUtils) {
+        return new DetailView(detailActivity, imageUtils);
     }
 }

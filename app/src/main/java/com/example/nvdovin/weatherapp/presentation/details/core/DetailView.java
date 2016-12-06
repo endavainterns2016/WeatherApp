@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
+import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
 
@@ -35,10 +37,13 @@ public class DetailView {
     private Context context;
     private View detailsView;
     private ViewCallback viewCallback;
+    private ImageUtils imageUtils;
 
-    public DetailView(DetailActivity detailActivity) {
+    public DetailView(DetailActivity detailActivity,
+                      ImageUtils imageUtils) {
 
         this.context = detailActivity.getApplicationContext();
+        this.imageUtils = imageUtils;
 
         FrameLayout frameLayout = new FrameLayout(detailActivity.getApplicationContext());
         frameLayout.setLayoutParams(
@@ -56,7 +61,10 @@ public class DetailView {
         return detailsView;
     }
 
-    void setupView(String cityName, List<DailyForecast> dailyForecastList, final WeatherData weatherData) {
+    void setupView(String cityName,
+                   List<DailyForecast> dailyForecastList,
+                   final WeatherData weatherData,
+                   SharedPrefs sharedPrefs) {
 
         collapsingToolbarLayout.setTitle(cityName);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
@@ -67,7 +75,9 @@ public class DetailView {
         mainRecycler.setAdapter(new MainRecyclerAdapter(
                 context,
                 dailyForecastList,
-                weatherData
+                weatherData,
+                sharedPrefs,
+                imageUtils
         ));
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

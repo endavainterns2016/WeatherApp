@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
@@ -18,7 +19,8 @@ import dagger.Component;
         DatabaseModule.class,
         ExecutorModule.class,
         SharedPrefsModule.class,
-        ThreadPoolExecModule.class})
+        ThreadPoolExecModule.class,
+        DesignModule.class})
 @AppScope
 public interface AppComponent {
 
@@ -39,5 +41,7 @@ public interface AppComponent {
     DefaultThreadPoolExecutor defaultThreadPoolExecutor();
 
     SortQueryBuilder sortQueryBuilder();
+
+    ImageUtils imageUtils();
 
 }

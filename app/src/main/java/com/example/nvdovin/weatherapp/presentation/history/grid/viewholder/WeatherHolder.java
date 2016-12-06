@@ -37,9 +37,8 @@ public class WeatherHolder {
         ButterKnife.bind(this, view);
     }
 
-    public void setWeather(WeatherData weatherData, Context context) {
+    public void setWeather(WeatherData weatherData, Context context, SharedPrefs sharedPrefs) {
 
-        SharedPrefs sharedPrefs = new SharedPrefs(context);
         imageUtils = new ImageUtils();
 
         int[] period = TimeUtils.timestampToHours(weatherData.getDt());

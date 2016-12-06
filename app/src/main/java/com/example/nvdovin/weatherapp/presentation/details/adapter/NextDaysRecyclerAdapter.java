@@ -32,9 +32,9 @@ class NextDaysRecyclerAdapter extends RecyclerView.Adapter<NextDaysRecyclerAdapt
     private Context context;
 
 
-    NextDaysRecyclerAdapter(List<DailyForecast> dailyForecastList, Context context) {
+    NextDaysRecyclerAdapter(List<DailyForecast> dailyForecastList, Context context, SharedPrefs sharedPrefs) {
         this.dailyForecastList = dailyForecastList;
-        sharedPrefs = new SharedPrefs(context);
+        this.sharedPrefs = sharedPrefs;
         this.context = context;
     }
 

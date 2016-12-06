@@ -2,6 +2,7 @@ package com.example.nvdovin.weatherapp.presentation.main.weather.forecast.dagger
 
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
@@ -31,8 +32,8 @@ public class ForecastFragmentModule {
 
     @Provides
     @ForecastFragmentScope
-    ForecastView provideForecastView() {
-        return new ForecastView(forecastFragment);
+    ForecastView provideForecastView(SharedPrefs sharedPrefs, ImageUtils imageUtils) {
+        return new ForecastView(forecastFragment, sharedPrefs, imageUtils);
     }
 
     @Provides
