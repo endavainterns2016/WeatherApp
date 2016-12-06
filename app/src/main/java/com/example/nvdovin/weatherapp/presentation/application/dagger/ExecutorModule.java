@@ -6,6 +6,7 @@ import com.example.nvdovin.weatherapp.data.dao.CityDao;
 import com.example.nvdovin.weatherapp.data.network.api.WeatherApi;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 
@@ -21,8 +22,9 @@ public class ExecutorModule {
                              CityService cityService,
                              WeatherDataService weatherDataService,
                              DataMapper dataMapper,
-                             SortQueryBuilder sortQueryBuilder) {
-        return new Executor(weatherApi, sortQueryBuilder, cityService, weatherDataService, dataMapper );
+                             SortQueryBuilder sortQueryBuilder,
+                             EventBusWrapper eventBusWrapper) {
+        return new Executor(weatherApi, sortQueryBuilder, cityService, weatherDataService, dataMapper, eventBusWrapper);
     }
 
 

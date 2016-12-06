@@ -32,8 +32,7 @@ public class CityService {
                 .unique();
     }
 
-    @SafeVarargs
-    public final List<City> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
+    public List<City> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
         QueryBuilder<City> queryBuilder = daoSession.getCityDao().queryBuilder();
         for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
             if (sortQueryBuilder.isAscending()) {

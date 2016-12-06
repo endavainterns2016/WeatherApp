@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
+import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
@@ -20,6 +21,8 @@ import dagger.Component;
         ThreadPoolExecModule.class})
 @AppScope
 public interface AppComponent {
+
+    EventBusWrapper eventBusWrapper();
 
     Context context();
 
