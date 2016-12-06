@@ -1,7 +1,10 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +23,22 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils.FONTS_LOCATION;
+
 public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRecyclerViewAdapter.ForecastViewHolder> {
     private static final int TRANSPARENCY_ALPHA = 160;
     private final OnItemClickListener listener;
     private List<CityForecast> cityForecastList;
     private Context context;
     private SharedPrefs sharedPrefs;
+    private ImageUtils imageUtils;
 
     public ForecastRecyclerViewAdapter(List<CityForecast> cityForecastList, OnItemClickListener listener, Context context) {
         this.context = context;
         this.cityForecastList = cityForecastList;
         this.listener = listener;
         sharedPrefs = new SharedPrefs(context);
+        imageUtils = new ImageUtils();
     }
 
     @Override
@@ -73,7 +80,8 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
         ForecastViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            ImageUtils.setTypeface(weatherIcon);
+            Typeface weatherFont = Typeface.createFromAsset(context.getAssets(), FONTS_LOCATION);
+            weatherIcon.setTypeface(weatherFont);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -91,7 +99,13 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
             int kelvinTemperature = cityForecast.getCurrentCityWeather().getTemp().intValue();
 
             cityTemperature.setText(TemperatureConverter.fromId(sharedPrefs.getTempScaleFromPrefs()).convertToTemperature(kelvinTemperature));
-            itemView.setBackgroundResource(ImageUtils.setWeatherIcon(weatherIconId, weatherIcon));
+            itemView.setBackgroundResource(imageUtils.getBackgroundResById(weatherIconId));
+            //imageUtils.setWeatherIcon(weatherIconId, weatherIcon);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                weatherIcon.setText(Html.fromHtml(context.getString(imageUtils.getIconResById(weatherIconId)), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                weatherIcon.setText(Html.fromHtml(context.getString(imageUtils.getIconResById(weatherIconId))));
+            }
             itemView.getBackground().setAlpha(TRANSPARENCY_ALPHA);
         }
 
