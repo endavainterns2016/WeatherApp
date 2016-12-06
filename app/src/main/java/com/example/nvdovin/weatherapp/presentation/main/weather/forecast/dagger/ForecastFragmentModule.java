@@ -2,6 +2,7 @@ package com.example.nvdovin.weatherapp.presentation.main.weather.forecast.dagger
 
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
@@ -42,7 +43,8 @@ public class ForecastFragmentModule {
                                                SharedPrefs sharedPrefs,
                                                DataMapper dataMapper,
                                                DefaultThreadPoolExecutor defaultThreadPoolExecutor,
-                                               SortQueryBuilder sortQueryBuilder) {
-        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper, defaultThreadPoolExecutor, sortQueryBuilder);
+                                               SortQueryBuilder sortQueryBuilder,
+                                               EventBusWrapper eventBusWrapper) {
+        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper, defaultThreadPoolExecutor, sortQueryBuilder, eventBusWrapper);
     }
 }

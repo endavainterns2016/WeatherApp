@@ -3,6 +3,7 @@ package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
 import com.example.nvdovin.weatherapp.data.model.City;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
+import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
@@ -29,8 +30,9 @@ public class ForecastPresenter {
                              SharedPrefs sharedPrefs,
                              DataMapper dataMapper,
                              DefaultThreadPoolExecutor defaultThreadPoolExecutor,
-                             SortQueryBuilder sortQueryBuilder) {
-        EventBus.getDefault().register(this);
+                             SortQueryBuilder sortQueryBuilder,
+                             EventBusWrapper eventBusWrapper) {
+        eventBusWrapper.register(this);
         this.executor = executor;
         this.cityService = cityService;
         this.view = view;
