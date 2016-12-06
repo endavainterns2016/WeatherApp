@@ -51,6 +51,7 @@ public class DataMapperTest {
                 .thenReturn(generatedWeatherDataList);
     }
 
+
     @Test
     public void updatedWeatherData() throws Exception {
 
