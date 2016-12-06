@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.nvdovin.weatherapp.data.dao.DaoMaster;
 import com.example.nvdovin.weatherapp.data.dao.DaoSession;
+import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
