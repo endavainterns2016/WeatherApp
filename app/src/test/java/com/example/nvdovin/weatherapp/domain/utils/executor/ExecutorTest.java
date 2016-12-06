@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.example.nvdovin.weatherapp.domain.utils.executor.Executor.APIARY_MOCK_CITIES_URL;
-import static com.example.nvdovin.weatherapp.domain.utils.executor.Executor.API_KEY;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

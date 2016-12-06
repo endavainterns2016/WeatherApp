@@ -5,18 +5,16 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.View;
 
 
 public class SeparatorDecoration extends RecyclerView.ItemDecoration {
     private Paint paint;
 
-    public SeparatorDecoration(Context context, int color, float heightDp) {
-        paint = new Paint();
+    public SeparatorDecoration(Context context, int color, float heightDp, Paint p, TypedValueWrapper typedValueWrapper) {
+        paint = p;
         paint.setColor(color);
-        final float thickness = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                heightDp, context.getResources().getDisplayMetrics());
+        final float thickness = typedValueWrapper.getThickness(heightDp, context);
         paint.setStrokeWidth(thickness);
     }
 
@@ -31,6 +29,7 @@ public class SeparatorDecoration extends RecyclerView.ItemDecoration {
             outRect.setEmpty();
         }
     }
+
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {

@@ -3,6 +3,7 @@ package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
+import com.example.nvdovin.weatherapp.domain.utils.design.TypedValueWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
@@ -73,7 +75,7 @@ public class ForecastView {
         TypedValue outValue = new TypedValue();
         context.getResources().getValue(R.dimen.separator_height, outValue, true);
         float separatorHeight = outValue.getFloat();
-        SeparatorDecoration separatorDecoration = new SeparatorDecoration(context, Color.GRAY, separatorHeight);
+        SeparatorDecoration separatorDecoration = new SeparatorDecoration(context, Color.GRAY, separatorHeight, new Paint(), new TypedValueWrapper());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(separatorDecoration);
