@@ -1,8 +1,11 @@
 package com.example.nvdovin.weatherapp.presentation.details.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
+import static com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils.FONTS_LOCATION;
+
 public class MainRecyclerAdapter extends RecyclerView.Adapter<ViewHolder<DailyForecast>> {
 
     private static final int FORECAST_CARD = 0;
@@ -25,12 +30,14 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<ViewHolder<DailyFo
     private List<DailyForecast> dailyForecastList;
     private WeatherData currentWeatherData;
     private Context context;
+    private ImageUtils imageUtils;
 
 
     public MainRecyclerAdapter(Context context, List<DailyForecast> dailyForecastList, WeatherData currentWeatherData) {
         this.dailyForecastList = dailyForecastList;
         this.currentWeatherData = currentWeatherData;
         this.context = context;
+        imageUtils = new ImageUtils();
     }
 
     @Override
@@ -107,12 +114,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<ViewHolder<DailyFo
 
         ParametersCardHolder(View itemView) {
             super(itemView);
-            ImageUtils.setTypeface(icon);
+            Typeface weatherFont = Typeface.createFromAsset(context.getAssets(), FONTS_LOCATION);
+            icon.setTypeface(weatherFont);
         }
 
         @Override
         public void bindData(DailyForecast data) {
-            ImageUtils.setWeatherIcon(currentWeatherData.getWeatherIcon(), icon);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                icon.setText(Html.fromHtml(context.getString(imageUtils.getIconResById(currentWeatherData.getWeatherIcon()), context), Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                icon.setText(Html.fromHtml(context.getString(imageUtils.getIconResById(currentWeatherData.getWeatherIcon()))));
+            }
+
             clouds.setText(String.valueOf(currentWeatherData.getClouds().intValue()).concat(context.getString(R.string.percent_sign)));
             humidity.setText(String.valueOf(currentWeatherData.getClouds().intValue()).concat(context.getString(R.string.percent_sign)));
             pressure.setText(String.valueOf(currentWeatherData.getPressure().intValue()).concat(context.getString(R.string.pressure_sign)));
