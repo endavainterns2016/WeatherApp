@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DataMapper {
 
-    private static final long ONE_DAY_IN_MILLISEC = 86400L;
+    public static final long ONE_DAY_IN_MILLISEC = 86400L;
 
     private WeatherDataService weatherDataService;
     private CityService cityService;
@@ -23,7 +23,6 @@ public class DataMapper {
         this.weatherDataService = weatherDataService;
         this.cityService = cityService;
     }
-
     public List<WeatherData> updatedWeatherData(List<WeatherData> weatherDataListFromNetwork) {
 
         for (WeatherData weatherDataFromNetwork : weatherDataListFromNetwork) {
@@ -52,15 +51,14 @@ public class DataMapper {
         return cityForecastList;
     }
 
-    private DailyForecast getDailyForecast(Long cityId, Long timestamp) {
-        DailyForecast dailyForecast = new DailyForecast();
+    public DailyForecast getDailyForecast(Long cityId, Long timestamp) {
         List<WeatherData> weatherDataForDay = weatherDataService.getWeatherDataForDay(cityId, timestamp, ONE_DAY_IN_MILLISEC);
 
+        DailyForecast dailyForecast = new DailyForecast();
         dailyForecast.setWeatherDataList(weatherDataForDay);
         dailyForecast.setCityId(cityId);
         dailyForecast.setDayTempMax(getTempMax(weatherDataForDay));
         dailyForecast.setDayTempMin(getTempMin(weatherDataForDay));
-
         dailyForecast.setDate(TimeUtils.setLongToDate(timestamp));
         return dailyForecast;
     }
@@ -68,7 +66,6 @@ public class DataMapper {
     public List<DailyForecast> getDailyForecastList(Long cityId, Long timestamp, int numberOfDays) {
         List<DailyForecast> dailyForecastList = new ArrayList<>();
         for (int i = 0; i < numberOfDays; i++) {
-
             dailyForecastList.add(getDailyForecast(cityId, timestamp + i * ONE_DAY_IN_MILLISEC));
         }
         return dailyForecastList;
@@ -87,8 +84,8 @@ public class DataMapper {
     public int getTempMin(List<WeatherData> weatherDataList) {
         Double tempMin = weatherDataList.get(0).getTempMin();
         for (WeatherData weatherData : weatherDataList) {
-            if (weatherData.getTempMax() < tempMin) {
-                tempMin = weatherData.getTempMax();
+            if (weatherData.getTempMin() < tempMin) {
+                tempMin = weatherData.getTempMin();
             }
         }
         return tempMin.intValue();
