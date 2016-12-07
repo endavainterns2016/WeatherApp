@@ -10,7 +10,7 @@ public enum TemperatureConverter implements Converter {
         public SpannableString convertToTemperature(int kelvinValue) {
 
             String temperature = String.valueOf(kelvinValue - CELSIUS_SCALE);
-            SpannableString temperatureWithSymbol=  new SpannableString(temperature.concat(Converter.CELSIUS_SIGN));
+            SpannableString temperatureWithSymbol = new SpannableString(temperature.concat(Converter.CELSIUS_SIGN));
             temperatureWithSymbol.setSpan(new RelativeSizeSpan(Converter.PROPORTION), 0, temperature.length() , 0);
             return temperatureWithSymbol;
         }
@@ -19,7 +19,7 @@ public enum TemperatureConverter implements Converter {
         @Override
         public SpannableString convertToTemperature(int kelvinValue) {
             String temperature = String.valueOf(kelvinValue * FAHRENHEIT_COEFFICIENT - MINIM_FAHRENHEIT_VALUE);
-            SpannableString temperatureWithSymbol=  new SpannableString(temperature.concat(Converter.FAHRENHEIT_SIGN));
+            SpannableString temperatureWithSymbol = new SpannableString(temperature.concat(Converter.FAHRENHEIT_SIGN));
             temperatureWithSymbol.setSpan(new RelativeSizeSpan(Converter.PROPORTION), 0,temperature.length(), 0);
             return temperatureWithSymbol;
         }
@@ -27,7 +27,7 @@ public enum TemperatureConverter implements Converter {
     KELVIN(2) {
         @Override
         public SpannableString convertToTemperature(int kelvinValue) {
-            SpannableString temperatureWithSymbol=  new SpannableString(String.valueOf(kelvinValue).concat(Converter.KELVIN_SIGN));
+            SpannableString temperatureWithSymbol = new SpannableString(String.valueOf(kelvinValue).concat(Converter.KELVIN_SIGN));
             temperatureWithSymbol.setSpan(new RelativeSizeSpan(Converter.PROPORTION), 0,String.valueOf(kelvinValue).length(), 0);
             return temperatureWithSymbol;
         }
