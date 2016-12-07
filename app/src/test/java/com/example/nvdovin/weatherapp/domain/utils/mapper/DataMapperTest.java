@@ -95,7 +95,7 @@ public class DataMapperTest {
         assertEquals(MOCK_LONG_VALUE, generatedDailyForecast.getCityId());
         assertEquals(Double.valueOf(MOCK_DOUBLE_VALUE + 1d), Double.valueOf(generatedDailyForecast.getDayTempMax()));
         assertEquals(Double.valueOf(MOCK_DOUBLE_VALUE - 11d), Double.valueOf(generatedDailyForecast.getDayTempMin()));
-        assertEquals(TimeUtils.setLongToDate(MOCK_LONG_VALUE), generatedDailyForecast.getDate());
+        assertEquals(TimeUtils.convertLongToDate(MOCK_LONG_VALUE), generatedDailyForecast.getDate());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class DataMapperTest {
             assertEquals(MOCK_LONG_VALUE, generatedDailyForecastList.get(i).getCityId());
             assertEquals(Double.valueOf(MOCK_DOUBLE_VALUE + 1d), Double.valueOf(generatedDailyForecastList.get(i).getDayTempMax()));
             assertEquals(Double.valueOf(MOCK_DOUBLE_VALUE - 11d), Double.valueOf(generatedDailyForecastList.get(i).getDayTempMin()));
-            assertEquals(TimeUtils.setLongToDate(MOCK_LONG_VALUE + i * ONE_DAY_IN_MILLISEC), generatedDailyForecastList.get(i).getDate());
+            assertEquals(TimeUtils.convertLongToDate(MOCK_LONG_VALUE + i * ONE_DAY_IN_MILLISEC), generatedDailyForecastList.get(i).getDate());
         }
 
     }

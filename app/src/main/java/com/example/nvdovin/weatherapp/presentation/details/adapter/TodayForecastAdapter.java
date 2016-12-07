@@ -82,7 +82,7 @@ class TodayForecastAdapter extends RecyclerView.Adapter<TodayForecastAdapter.Tod
                             .fromId(sharedPrefs.getTempScaleFromPrefs())
                             .convertToTemperature(data.getTemp().intValue())
             );
-            time.setText(TimeUtils.convertDateToFormat(TimeUtils.setLongToDate(data.getDt()), DATE_FORMAT));
+            time.setText(TimeUtils.convertDateToFormat(TimeUtils.convertLongToDate(data.getDt()), DATE_FORMAT));
         }
     }
 }

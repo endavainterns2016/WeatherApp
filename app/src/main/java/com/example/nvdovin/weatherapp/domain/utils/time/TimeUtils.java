@@ -3,29 +3,26 @@ package com.example.nvdovin.weatherapp.domain.utils.time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TimeUtils {
 
-    private static final int MILLISECONDS = 1000;
+    public static final int MILLISECONDS = 1000;
+    public static final int ONE_DAY = 1;
+    public static final int RESET_VALUE = 0;
+    public static final int PERIOD = 3;
+    public static final int COUNT_OF_RECORDINGS_FOR_DAY = 8;
+    public static final String UTC_TIMEZONE = "UTC_TIMEZONE";
+
 
     public static String convertDateToFormat(Date date, String format) {
-        return new SimpleDateFormat(format).format(date);
+        return new SimpleDateFormat(format, Locale.ENGLISH).format(date);
     }
 
-    public static Long getCurrentTime() {
-        return System.currentTimeMillis() / MILLISECONDS;
-    }
-
-    public static Date setLongToDate(Long dt) {
-        return new Date(dt * MILLISECONDS);
-    }
-
-    public static Date getTodayDate() {
-        return new Date(getCurrentTime() * MILLISECONDS);
+    public static Date convertLongToDate(Long timeInSeconds) {
+        return new Date(timeInSeconds * MILLISECONDS);
     }
 
     public static Date addDaysToDate(Date date, int days) {
@@ -40,14 +37,8 @@ public class TimeUtils {
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(date1);
         cal2.setTime(date2);
-        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
     }
-    private static final int ONE_DAY = 1;
-    private static final int RESET_VALUE = 0;
-    private static final int PERIOD = 3;
-    private static final int COUNT_OF_RECORDINGS_FOR_DAY = 8;
-    private static final String UTC_TIMEZONE = "UTC_TIMEZONE";
 
     public static Long[] getAllPeriodsForDay(Long timestamp) {
         Long dates[] = new Long[COUNT_OF_RECORDINGS_FOR_DAY];
