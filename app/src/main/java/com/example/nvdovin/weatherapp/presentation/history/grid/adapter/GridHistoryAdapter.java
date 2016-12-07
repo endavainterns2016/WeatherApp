@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.history.grid.viewholder.WeatherHolder;
 
 import java.util.ArrayList;
@@ -29,10 +30,12 @@ public class GridHistoryAdapter extends BaseAdapter {
 
     private List<WeatherData> weatherDataList;
     private Context context;
+    private SharedPrefs sharedPrefs;
 
-    public GridHistoryAdapter(Context context) {
+    public GridHistoryAdapter(Context context, SharedPrefs sharedPrefs) {
         weatherDataList = new ArrayList<>();
         this.context = context;
+        this.sharedPrefs = sharedPrefs;
     }
 
     @Override
@@ -62,7 +65,7 @@ public class GridHistoryAdapter extends BaseAdapter {
             weatherHolder = (WeatherHolder) convertView.getTag();
         }
 
-        weatherHolder.setWeather(weatherData, context);
+        weatherHolder.setWeather(weatherData, context, sharedPrefs);
         return convertView;
     }
 

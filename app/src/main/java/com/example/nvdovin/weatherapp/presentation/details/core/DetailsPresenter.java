@@ -10,6 +10,7 @@ import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
@@ -27,24 +28,27 @@ public class DetailsPresenter implements ViewCallback{
     private DetailView detailView;
     private WeatherData weatherData;
     private Context context;
+    private SharedPrefs sharedPrefs;
 
     public DetailsPresenter(CityService cityService,
                             WeatherDataService weatherDataService,
                             DataMapper dataMapper,
                             DetailView detailView,
-                            Context context) {
+                            Context context,
+                            SharedPrefs sharedPrefs) {
         this.cityService = cityService;
         this.weatherDataService = weatherDataService;
         this.dataMapper = dataMapper;
         this.detailView = detailView;
         this.context = context;
+        this.sharedPrefs = sharedPrefs;
     }
 
     public void setupDetailView(Long cityId, Long timestamp){
         String cityName = cityService.getCityById(cityId).getName();
         List<DailyForecast> dailyForecastList = dataMapper.getDailyForecastList(cityId, timestamp, NUMBER_OF_DAYS_TO_FORECAST);
         weatherData = weatherDataService.getUnique(cityId, TimeUtils.getCurrentTime());
-        detailView.setupView(cityName, dailyForecastList, weatherData);
+        detailView.setupView(cityName, dailyForecastList, weatherData, sharedPrefs);
     }
 
     @Override

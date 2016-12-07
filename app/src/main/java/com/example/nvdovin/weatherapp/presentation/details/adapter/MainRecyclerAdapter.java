@@ -15,6 +15,7 @@ import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 
 import java.util.List;
 
@@ -31,13 +32,19 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<ViewHolder<DailyFo
     private WeatherData currentWeatherData;
     private Context context;
     private ImageUtils imageUtils;
+    private SharedPrefs sharedPrefs;
 
 
-    public MainRecyclerAdapter(Context context, List<DailyForecast> dailyForecastList, WeatherData currentWeatherData) {
+    public MainRecyclerAdapter(Context context,
+                               List<DailyForecast> dailyForecastList,
+                               WeatherData currentWeatherData,
+                               SharedPrefs sharedPrefs,
+                               ImageUtils imageUtils) {
         this.dailyForecastList = dailyForecastList;
         this.currentWeatherData = currentWeatherData;
         this.context = context;
-        imageUtils = new ImageUtils();
+        this.imageUtils = imageUtils;
+        this.sharedPrefs = sharedPrefs;
     }
 
     @Override
@@ -90,11 +97,11 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<ViewHolder<DailyFo
             Context context = itemView.getContext();
             todayDataRecycler.setLayoutManager(new LinearLayoutManager
                     (context, LinearLayoutManager.HORIZONTAL, false));
-            todayDataRecycler.setAdapter(new TodayForecastAdapter(dailyForecast, context));
+            todayDataRecycler.setAdapter(new TodayForecastAdapter(dailyForecast, context, sharedPrefs));
 
             nextDaysRecycler.setLayoutManager(new LinearLayoutManager(context));
             nextDaysRecycler.setNestedScrollingEnabled(false);
-            nextDaysRecycler.setAdapter(new NextDaysRecyclerAdapter(dailyForecastList, context));
+            nextDaysRecycler.setAdapter(new NextDaysRecyclerAdapter(dailyForecastList, context, sharedPrefs));
         }
     }
 

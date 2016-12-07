@@ -17,8 +17,10 @@ import android.widget.ProgressBar;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.domain.model.CityForecast;
+import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.utils.design.TypedValueWrapper;
+import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
@@ -45,11 +47,17 @@ public class ForecastView {
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private View view;
     private Context context;
+    private SharedPrefs sharedPrefs;
+    private ImageUtils imageUtils;
 
 
-    public ForecastView(ForecastFragment forecastFragment) {
+    public ForecastView(ForecastFragment forecastFragment,
+                        SharedPrefs sharedPrefs,
+                        ImageUtils imageUtils) {
 
         context = forecastFragment.getActivity();
+        this.sharedPrefs = sharedPrefs;
+        this.imageUtils = imageUtils;
 
         FrameLayout frameLayout = new FrameLayout(context);
         frameLayout.setLayoutParams(
@@ -93,7 +101,11 @@ public class ForecastView {
         };
 
 
-        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<CityForecast>(), listener, context);
+        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<CityForecast>(),
+                listener,
+                context,
+                sharedPrefs,
+                imageUtils);
         recyclerView.setAdapter(recycleViewAdapter);
     }
 

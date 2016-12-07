@@ -30,10 +30,10 @@ class TodayForecastAdapter extends RecyclerView.Adapter<TodayForecastAdapter.Tod
     private ImageUtils imageUtils;
     private Context context;
 
-    TodayForecastAdapter(DailyForecast dailyForecast, Context context) {
+    TodayForecastAdapter(DailyForecast dailyForecast, Context context, SharedPrefs sharedPrefs) {
         this.dailyForecast = dailyForecast;
         this.context = context;
-        sharedPrefs = new SharedPrefs(context);
+        this.sharedPrefs = sharedPrefs;
         imageUtils = new ImageUtils();
 
     }
