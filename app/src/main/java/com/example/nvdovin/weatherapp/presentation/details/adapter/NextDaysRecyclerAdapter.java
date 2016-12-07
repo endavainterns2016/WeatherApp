@@ -54,6 +54,22 @@ class NextDaysRecyclerAdapter extends RecyclerView.Adapter<NextDaysRecyclerAdapt
         return NUMBER_OF_DAYS_TO_FORECAST;
     }
 
+    private String getDayString(Date dateToCheck) {
+        String dayString = "";
+        Date todayDate = new Date();
+
+        if (TimeUtils.isSameDate(dateToCheck, TimeUtils.addDaysToDate(todayDate, YESTERDAY_SUBSTRACT_DAY))) {
+            dayString = context.getResources().getString(R.string.yesterday);
+        } else if (DateUtils.isToday(dateToCheck.getTime())) {
+            dayString = context.getResources().getString(R.string.today);
+        } else if (TimeUtils.isSameDate(dateToCheck, TimeUtils.addDaysToDate(todayDate, TOMMOROW_ADD_DAY))) {
+            dayString = context.getResources().getString(R.string.tommorow);
+        } else {
+            dayString = TimeUtils.convertDateToFormat(dateToCheck, DATE_FORMAT);
+        }
+        return dayString;
+    }
+
     class NextDaysViewHolder extends ViewHolder<DailyForecast> {
         @BindView(R.id.detail_five_days_day_name)
         TextView name;
@@ -78,24 +94,6 @@ class NextDaysRecyclerAdapter extends RecyclerView.Adapter<NextDaysRecyclerAdapt
                             .convertToTemperature(data.getDayTempMax()))
             );
         }
-    }
-
-    private String getDayString(Date dateToCheck){
-        String dayString = "";
-        Date todayDate = TimeUtils.getTodayDate();
-
-        if (TimeUtils.isSameDate(dateToCheck, TimeUtils.addDaysToDate(todayDate, YESTERDAY_SUBSTRACT_DAY))){
-                dayString = context.getResources().getString(R.string.yesterday);
-            }
-        else if(DateUtils.isToday(dateToCheck.getTime())) {
-                dayString = context.getResources().getString(R.string.today);
-            }
-        else if(TimeUtils.isSameDate(dateToCheck, TimeUtils.addDaysToDate(todayDate, TOMMOROW_ADD_DAY))){
-            dayString = context.getResources().getString(R.string.tommorow);
-        } else {
-            dayString = TimeUtils.convertDateToFormat(dateToCheck, DATE_FORMAT);
-        }
-        return dayString;
     }
 
 }

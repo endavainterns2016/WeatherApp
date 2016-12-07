@@ -31,6 +31,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
+
 public class ForecastView {
 
     private static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
@@ -93,7 +95,7 @@ public class ForecastView {
             public void onItemClick(CityForecast cityForecast) {
                 Bundle bundle = new Bundle();
                 bundle.putLong(CITY_ID_KEY, cityForecast.getCityId());
-                bundle.putLong(TIMESTAMP_KEY, TimeUtils.getCurrentTime());
+                bundle.putLong(TIMESTAMP_KEY, System.currentTimeMillis() / MILLISECONDS);
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra(DETAIL_BUNDLE, bundle);
                 context.startActivity(intent);

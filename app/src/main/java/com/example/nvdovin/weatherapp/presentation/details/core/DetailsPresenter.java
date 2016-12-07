@@ -16,7 +16,9 @@ import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
 import java.util.List;
 
-public class DetailsPresenter implements ViewCallback{
+import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
+
+public class DetailsPresenter implements ViewCallback {
 
     private static final int NUMBER_OF_DAYS_TO_FORECAST = 4;
     private static final String ARGS_KEY = "HISTORY_ARGS";
@@ -44,10 +46,10 @@ public class DetailsPresenter implements ViewCallback{
         this.sharedPrefs = sharedPrefs;
     }
 
-    public void setupDetailView(Long cityId, Long timestamp){
+    public void setupDetailView(Long cityId, Long timestamp) {
         String cityName = cityService.getCityById(cityId).getName();
         List<DailyForecast> dailyForecastList = dataMapper.getDailyForecastList(cityId, timestamp, NUMBER_OF_DAYS_TO_FORECAST);
-        weatherData = weatherDataService.getUnique(cityId, TimeUtils.getCurrentTime());
+        weatherData = weatherDataService.getUnique(cityId, System.currentTimeMillis() / MILLISECONDS);
         detailView.setupView(cityName, dailyForecastList, weatherData, sharedPrefs);
     }
 
@@ -61,7 +63,7 @@ public class DetailsPresenter implements ViewCallback{
         context.startActivity(historyIntent);
     }
 
-    public ViewCallback getCallBack(){
+    public ViewCallback getCallBack() {
         return this;
     }
 }

@@ -59,7 +59,7 @@ public class DataMapper {
         dailyForecast.setCityId(cityId);
         dailyForecast.setDayTempMax(getTempMax(weatherDataForDay));
         dailyForecast.setDayTempMin(getTempMin(weatherDataForDay));
-        dailyForecast.setDate(TimeUtils.setLongToDate(timestamp));
+        dailyForecast.setDate(TimeUtils.convertLongToDate(timestamp));
         return dailyForecast;
     }
 
