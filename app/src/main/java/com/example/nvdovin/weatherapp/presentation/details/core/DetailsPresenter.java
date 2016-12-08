@@ -7,15 +7,15 @@ import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.OperationNavigation;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
-import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
 import java.util.List;
 
 import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
 
-public class DetailsPresenter implements ViewCallback {
+public class DetailsPresenter implements OperationNavigation {
 
     private static final int NUMBER_OF_DAYS_TO_FORECAST = 4;
 
@@ -49,14 +49,14 @@ public class DetailsPresenter implements ViewCallback {
     }
 
     @Override
-    public void historyClickHandler() {
+    public void navigationButtonHandler() {
 
         navBuilder.setDestination(HistoryActivity.class)
                 .setCityId(weatherData.getCityId())
                 .commit();
 
     }
-    public ViewCallback getCallBack() {
+    public OperationNavigation getCallBack() {
         return this;
     }
 }
