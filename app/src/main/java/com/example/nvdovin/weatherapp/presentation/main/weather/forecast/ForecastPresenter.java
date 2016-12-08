@@ -6,16 +6,19 @@ import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
+import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-public class ForecastPresenter {
+import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
+
+public class ForecastPresenter implements ViewPresenterNavigation {
     private ForecastView view;
     private SharedPrefs sharedPrefs;
     private CityService cityService;
@@ -23,6 +26,7 @@ public class ForecastPresenter {
     private DataMapper dataMapper;
     private DefaultThreadPoolExecutor defaultThreadPoolExecutor;
     private SortQueryBuilder sortQueryBuilder;
+    private Navigator.Builder builder;
 
     public ForecastPresenter(Executor executor,
                              CityService cityService,
@@ -31,8 +35,10 @@ public class ForecastPresenter {
                              DataMapper dataMapper,
                              DefaultThreadPoolExecutor defaultThreadPoolExecutor,
                              SortQueryBuilder sortQueryBuilder,
-                             EventBusWrapper eventBusWrapper) {
+                             EventBusWrapper eventBusWrapper,
+                             Navigator.Builder builder) {
         eventBusWrapper.register(this);
+        view.setOperationNavigation(this);
         this.executor = executor;
         this.cityService = cityService;
         this.view = view;
@@ -40,6 +46,7 @@ public class ForecastPresenter {
         this.dataMapper = dataMapper;
         this.defaultThreadPoolExecutor = defaultThreadPoolExecutor;
         this.sortQueryBuilder = sortQueryBuilder;
+        this.builder = builder;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -72,4 +79,12 @@ public class ForecastPresenter {
         view.hideLoading();
     }
 
+
+    @Override
+    public void navigationButtonHandler(Long cityId) {
+        builder.setDestination(DetailActivity.class)
+                .setCityId(cityId)
+                .setTimestamp(System.currentTimeMillis() / MILLISECONDS)
+                .commit();
+    }
 }

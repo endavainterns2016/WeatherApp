@@ -18,9 +18,7 @@ import com.example.nvdovin.weatherapp.domain.model.CityForecast;
 import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.utils.design.TypedValueWrapper;
-import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
-import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -28,8 +26,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
 
 public class ForecastView {
 
@@ -43,18 +39,16 @@ public class ForecastView {
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private View view;
     private Context context;
-    private Navigator.Builder navBuilder;
     private SharedPrefs sharedPrefs;
     private ImageUtils imageUtils;
+    private ViewPresenterNavigation viewPresenterNavigation;
 
 
     public ForecastView(ForecastFragment forecastFragment,
                         SharedPrefs sharedPrefs,
-                        Navigator.Builder navBuilder,
                         ImageUtils imageUtils) {
 
         context = forecastFragment.getActivity();
-        this.navBuilder = navBuilder;
         this.sharedPrefs = sharedPrefs;
         this.imageUtils = imageUtils;
 
@@ -90,11 +84,7 @@ public class ForecastView {
         final ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CityForecast cityForecast) {
-
-                navBuilder.setDestination(DetailActivity.class)
-                        .setCityId(cityForecast.getCityId())
-                        .setTimestamp(System.currentTimeMillis() / MILLISECONDS)
-                        .commit();
+                viewPresenterNavigation.navigationButtonHandler(cityForecast.getCityId());
             }
         };
 
@@ -130,4 +120,7 @@ public class ForecastView {
         swipeRefreshLayout.setRefreshing(refreshing);
     }
 
+    public void setOperationNavigation(ViewPresenterNavigation viewPresenterNavigation) {
+        this.viewPresenterNavigation = viewPresenterNavigation;
+    }
 }

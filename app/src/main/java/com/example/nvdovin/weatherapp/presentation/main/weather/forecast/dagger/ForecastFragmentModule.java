@@ -33,8 +33,8 @@ public class ForecastFragmentModule {
 
     @Provides
     @ForecastFragmentScope
-    ForecastView provideForecastView(Navigator.Builder navBuilder, SharedPrefs sharedPrefs, ImageUtils imageUtils) {
-        return new ForecastView(forecastFragment, sharedPrefs, navBuilder, imageUtils);
+    ForecastView provideForecastView(SharedPrefs sharedPrefs, ImageUtils imageUtils) {
+        return new ForecastView(forecastFragment, sharedPrefs, imageUtils);
     }
 
     @Provides
@@ -46,7 +46,8 @@ public class ForecastFragmentModule {
                                                DataMapper dataMapper,
                                                DefaultThreadPoolExecutor defaultThreadPoolExecutor,
                                                SortQueryBuilder sortQueryBuilder,
-                                               EventBusWrapper eventBusWrapper) {
-        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper, defaultThreadPoolExecutor, sortQueryBuilder, eventBusWrapper);
+                                               EventBusWrapper eventBusWrapper,
+                                               Navigator.Builder builder) {
+        return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper, defaultThreadPoolExecutor, sortQueryBuilder, eventBusWrapper, builder);
     }
 }

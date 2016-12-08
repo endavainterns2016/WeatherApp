@@ -8,6 +8,7 @@ import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 
 import org.junit.Before;
@@ -19,6 +20,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -45,6 +48,8 @@ public class ForecastPresenterTest {
     private SortQueryBuilder sortQueryBuilder;
     @Mock
     private EventBusWrapper eventBusWrapper;
+    @Mock
+    Navigator.Builder builder;
 
     @Before
     public void setUp() throws Exception {
@@ -56,7 +61,8 @@ public class ForecastPresenterTest {
                 dataMapper,
                 defaultThreadPoolExecutor,
                 sortQueryBuilder,
-                eventBusWrapper
+                eventBusWrapper,
+                builder
         );
 
     }
@@ -68,7 +74,6 @@ public class ForecastPresenterTest {
 
         verify(view).displayData(ArgumentMatchers.<CityForecast>anyList());
         verify(view).setRefreshing(false);
-
     }
 
     @Test
@@ -111,6 +116,21 @@ public class ForecastPresenterTest {
         verify(view).setRefreshing(false);
         verify(view).hideLoading();
 
+    }
+
+    @Test
+    public void testNavigationButtonHandler(){
+
+        when(builder.setCityId(anyLong())).thenReturn(builder);
+        when(builder.setDestination(any(Class.class))).thenReturn(builder);
+        when(builder.setTimestamp(anyLong())).thenReturn(builder);
+
+        forecastPresenter.navigationButtonHandler(123L);
+
+        verify(builder).setCityId(anyLong());
+        verify(builder).setDestination(any(Class.class));
+        verify(builder).setTimestamp(anyLong());
+        verify(builder).commit();
     }
 
 }
