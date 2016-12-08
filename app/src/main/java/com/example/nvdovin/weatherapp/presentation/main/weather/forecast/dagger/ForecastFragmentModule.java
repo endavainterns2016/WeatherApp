@@ -34,7 +34,7 @@ public class ForecastFragmentModule {
     @Provides
     @ForecastFragmentScope
     ForecastView provideForecastView(Navigator.Builder navBuilder, SharedPrefs sharedPrefs, ImageUtils imageUtils) {
-        return new ForecastView(forecastFragment, navBuilder, sharedPrefs, imageUtils);
+        return new ForecastView(forecastFragment, sharedPrefs, navBuilder, imageUtils);
     }
 
     @Provides
