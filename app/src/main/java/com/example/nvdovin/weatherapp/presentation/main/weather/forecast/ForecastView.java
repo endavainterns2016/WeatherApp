@@ -3,7 +3,6 @@ package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +19,7 @@ import com.example.nvdovin.weatherapp.domain.model.CityForecast;
 import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.utils.design.TypedValueWrapper;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
@@ -35,10 +35,6 @@ import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISE
 
 public class ForecastView {
 
-    private static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
-    private static final String CITY_ID_KEY = "CITY_ID_KEY";
-    private static final String DETAIL_BUNDLE = "DETAIL_BUNDLE";
-
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.forecast_swipe_refresh)
@@ -49,15 +45,18 @@ public class ForecastView {
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private View view;
     private Context context;
+    private Navigator.Builder navBuilder;
     private SharedPrefs sharedPrefs;
     private ImageUtils imageUtils;
 
 
     public ForecastView(ForecastFragment forecastFragment,
                         SharedPrefs sharedPrefs,
+                        Navigator.Builder navBuilder,
                         ImageUtils imageUtils) {
 
         context = forecastFragment.getActivity();
+        this.navBuilder = navBuilder;
         this.sharedPrefs = sharedPrefs;
         this.imageUtils = imageUtils;
 
@@ -93,12 +92,11 @@ public class ForecastView {
         final ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CityForecast cityForecast) {
-                Bundle bundle = new Bundle();
-                bundle.putLong(CITY_ID_KEY, cityForecast.getCityId());
-                bundle.putLong(TIMESTAMP_KEY, System.currentTimeMillis() / MILLISECONDS);
-                Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra(DETAIL_BUNDLE, bundle);
-                context.startActivity(intent);
+
+                navBuilder.setDestination(DetailActivity.class)
+                        .setCityId(cityForecast.getCityId())
+                        .setTimestamp(TimeUtils.getCurrentTime())
+                        .commit();
             }
         };
 

@@ -7,6 +7,7 @@ import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.details.core.DetailsPresenter;
@@ -32,8 +33,9 @@ public class DetailModule {
                                       DataMapper dataMapper,
                                       DetailView detailView,
                                       Context context,
-                                      SharedPrefs sharedPrefs) {
-        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, context, sharedPrefs);
+                                      SharedPrefs sharedPrefs
+                                      Navigator.Builder builder) {
+        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, builder, context, sharedPrefs);
     }
 
     @Provides
