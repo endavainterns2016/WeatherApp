@@ -1,9 +1,8 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
+import android.graphics.Paint;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,6 @@ import com.example.nvdovin.weatherapp.domain.utils.design.SeparatorDecoration;
 import com.example.nvdovin.weatherapp.domain.utils.design.TypedValueWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
-import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.adapter.ForecastRecyclerViewAdapter;
 
@@ -95,7 +93,7 @@ public class ForecastView {
 
                 navBuilder.setDestination(DetailActivity.class)
                         .setCityId(cityForecast.getCityId())
-                        .setTimestamp(TimeUtils.getCurrentTime())
+                        .setTimestamp(System.currentTimeMillis() / MILLISECONDS)
                         .commit();
             }
         };

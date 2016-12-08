@@ -33,9 +33,9 @@ public class DetailModule {
                                       DataMapper dataMapper,
                                       DetailView detailView,
                                       Context context,
-                                      SharedPrefs sharedPrefs
+                                      SharedPrefs sharedPrefs,
                                       Navigator.Builder builder) {
-        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, builder, context, sharedPrefs);
+        return new DetailsPresenter(cityService, weatherDataService, dataMapper, detailView, builder, sharedPrefs);
     }
 
     @Provides
