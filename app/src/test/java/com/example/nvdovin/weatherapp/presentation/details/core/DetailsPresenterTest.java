@@ -83,7 +83,7 @@ public class DetailsPresenterTest {
         when(weatherData.getCityId()).thenReturn(MOCK_LONG_VALUE);
 
         detailsPresenter.setupDetailView(MOCK_LONG_VALUE, MOCK_LONG_VALUE);
-        detailsPresenter.historyClickHandler();
+        detailsPresenter.navigationButtonHandler();
 
         verify(builder).setDestination(any(Class.class));
         verify(builder).setCityId(anyLong());

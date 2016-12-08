@@ -1,17 +1,15 @@
 package com.example.nvdovin.weatherapp.presentation.history.grid;
 
-import android.view.View;
-import android.widget.AdapterView;
-
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.OperationNavigation;
 
 import java.util.List;
 
-public class GridHistoryPresenter {
+public class GridHistoryPresenter implements OperationNavigation {
 
 
     private Long cityId;
@@ -24,21 +22,13 @@ public class GridHistoryPresenter {
         this.gridHistoryView = gridHistoryView;
         this.dataMapper = dataMapper;
         this.navBuilder = navBuilder;
-
+        gridHistoryView.setViewCallback(this);
     }
 
     public void getWeatherData() {
-        final List<WeatherData> weatherDataList = dataMapper.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
-        AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                navBuilder.setDestination(DetailActivity.class)
-                        .setCityId(cityId)
-                        .setTimestamp(timestamp)
-                        .commit();
-            }
-        };
-        gridHistoryView.displayHistory(weatherDataList, onItemClickListener);
+        final List<WeatherData> weatherDataList =
+                dataMapper.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
+        gridHistoryView.displayHistory(weatherDataList);
     }
 
     public void setCityId(Long cityId) {
@@ -47,5 +37,13 @@ public class GridHistoryPresenter {
 
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public void navigationButtonHandler() {
+        navBuilder.setDestination(DetailActivity.class)
+                .setCityId(cityId)
+                .setTimestamp(timestamp)
+                .commit();
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.OperationNavigation;
 import com.example.nvdovin.weatherapp.presentation.history.grid.adapter.GridHistoryAdapter;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class GridHistoryView {
 
     private View view;
     private GridHistoryAdapter gridHistoryAdapter;
+    private OperationNavigation viewCallback;
 
     public GridHistoryView(Context context, GridHistoryAdapter gridHistoryAdapter) {
 
@@ -51,10 +53,18 @@ public class GridHistoryView {
         return view;
     }
 
-    public void displayHistory(final List<WeatherData> updatedWeatherDataList, AdapterView.OnItemClickListener itemClickListener) {
+    public void displayHistory(final List<WeatherData> updatedWeatherDataList) {
         gridHistoryAdapter.swap(updatedWeatherDataList);
         noData.setVisibility(updatedWeatherDataList.isEmpty() ? View.VISIBLE : View.GONE);
-        weatherGridView.setOnItemClickListener(itemClickListener);
+        weatherGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                viewCallback.navigationButtonHandler();
+            }
+        });
     }
 
+    public void setViewCallback(OperationNavigation viewCallback) {
+        this.viewCallback = viewCallback;
+    }
 }

@@ -16,6 +16,7 @@ import com.example.nvdovin.weatherapp.R;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.OperationNavigation;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
@@ -36,7 +37,7 @@ public class DetailView {
 
     private Context context;
     private View detailsView;
-    private ViewCallback viewCallback;
+    private OperationNavigation viewCallback;
     private ImageUtils imageUtils;
 
     public DetailView(DetailActivity detailActivity,
@@ -82,12 +83,12 @@ public class DetailView {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewCallback.historyClickHandler();
+                viewCallback.navigationButtonHandler();
             }
         });
     }
 
-    public void setCallback(ViewCallback viewCallback) {
+    public void setCallback(OperationNavigation viewCallback) {
         this.viewCallback = viewCallback;
     }
 }
