@@ -12,6 +12,9 @@ import org.greenrobot.greendao.query.WhereCondition;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+
 public class WeatherDataService {
 
     private DaoSession daoSession;
@@ -22,39 +25,28 @@ public class WeatherDataService {
         this.context = context;
     }
 
-    public void insert(List<WeatherData> weatherData) {
-        daoSession.getWeatherDataDao().insertOrReplaceInTx(weatherData);
-    }
+    public Subscriber insertInDbSubscriber(){
+        return new Subscriber<List<WeatherData>>() {
+            @Override
+            public void onCompleted() {
+                this.unsubscribe();
+            }
 
-    public List<WeatherData> getWeatherDataForDay(Long cityId, Long dt, Long period) {
-        return daoSession.getWeatherDataDao().queryBuilder()
-                .where(WeatherDataDao.Properties.CityId.eq(cityId), WeatherDataDao.Properties.Dt.ge(dt),
-                        WeatherDataDao.Properties.Dt.le(dt + period))
-                .list();
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("An error has happened - " + e);
+            }
 
-    }
-
-    public WeatherData getWeatherDataByDT(Long dt, Long cityId) {
-        return daoSession
-                .getWeatherDataDao()
-                .queryBuilder()
-                .where(
-                        WeatherDataDao.Properties.CityId.eq(cityId),
-                        WeatherDataDao.Properties.Dt.eq(dt))
-                .unique();
+            @Override
+            public void onNext(List<WeatherData> weatherDataList) {
+                daoSession.getWeatherDataDao().insertOrReplaceInTx(weatherDataList);
+            }
+        };
     }
 
 
-    public WeatherData getWeatherByUniqueId(WeatherData weatherDataFromNetwork) {
-        return daoSession
-                .getWeatherDataDao()
-                .queryBuilder()
-                .where(WeatherDataDao.Properties.UniqueId.eq(weatherDataFromNetwork.getUniqueId()))
-                .unique();
-    }
-
-    public WeatherData getUnique(Long cityId, long time) {
-        return daoSession
+    public Observable<WeatherData> getUniqueWeatherDataObservable(Long cityId, long time){
+        return Observable.just(daoSession
                 .getWeatherDataDao()
                 .queryBuilder()
                 .where(
@@ -63,8 +55,32 @@ public class WeatherDataService {
                         ))
                 .orderAsc(WeatherDataDao.Properties.Dt)
                 .limit(1)
-                .unique();
+                .unique());
     }
 
+    public Observable<WeatherData> getWeatherDataByIdObservable(WeatherData weatherDataFromNetwork){
+        return Observable.just(daoSession
+                .getWeatherDataDao()
+                .queryBuilder()
+                .where(WeatherDataDao.Properties.UniqueId.eq(weatherDataFromNetwork.getUniqueId()))
+                .unique());
+    }
+
+    public Observable<WeatherData> getWeatherDataByTimeObservable(Long dt, Long cityId){
+        return Observable.just(daoSession
+                .getWeatherDataDao()
+                .queryBuilder()
+                .where(
+                        WeatherDataDao.Properties.CityId.eq(cityId),
+                        WeatherDataDao.Properties.Dt.eq(dt))
+                .unique());
+    }
+
+    public Observable<List<WeatherData>> getWeatherDataForDayObservable(Long cityId, Long dt, Long period){
+        return Observable.just(daoSession.getWeatherDataDao().queryBuilder()
+                .where(WeatherDataDao.Properties.CityId.eq(cityId), WeatherDataDao.Properties.Dt.ge(dt),
+                        WeatherDataDao.Properties.Dt.le(dt + period))
+                .list());
+    }
 
 }

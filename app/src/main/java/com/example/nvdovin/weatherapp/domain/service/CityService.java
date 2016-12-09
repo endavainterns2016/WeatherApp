@@ -8,9 +8,11 @@ import com.example.nvdovin.weatherapp.data.dao.DaoSession;
 import com.example.nvdovin.weatherapp.data.model.City;
 
 import org.greenrobot.greendao.Property;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
 
 public class CityService {
 
@@ -26,22 +28,23 @@ public class CityService {
         daoSession.getCityDao().insertOrReplace(city);
     }
 
-    public City getCityById(Long cityId) {
-        return daoSession.getCityDao().queryBuilder()
+    public Observable<City> getCityByIdObservable(Long cityId) {
+        return Observable.just(daoSession.getCityDao().queryBuilder()
                 .where(CityDao.Properties.Id.eq(cityId))
-                .unique();
+                .unique());
     }
 
-    public List<City> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
-        QueryBuilder<City> queryBuilder = daoSession.getCityDao().queryBuilder();
-        for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
-            if (sortQueryBuilder.isAscending()) {
-                queryBuilder = queryBuilder.orderAsc(sortQueryBuilder.getProperty());
-            } else {
-                queryBuilder = queryBuilder.orderDesc(sortQueryBuilder.getProperty());
-            }
-        }
-
-        return queryBuilder.list();
+    public Observable<List<City>> getSortedCitiesListObservable(SortQueryBuilder<Property>... queryBuilders) {
+        return Observable.just(daoSession.getCityDao().queryBuilder())
+                .map(cityQueryBuilder -> {
+                    for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
+                        if (sortQueryBuilder.isAscending()) {
+                            cityQueryBuilder = cityQueryBuilder.orderAsc(sortQueryBuilder.getProperty());
+                        } else {
+                            cityQueryBuilder = cityQueryBuilder.orderDesc(sortQueryBuilder.getProperty());
+                        }
+                    }
+                    return cityQueryBuilder.list();
+                });
     }
 }

@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
 
 public class ForecastView {
 
@@ -81,15 +82,13 @@ public class ForecastView {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.addItemDecoration(separatorDecoration);
 
-        final ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(CityForecast cityForecast) {
-                viewPresenterNavigation.navigationButtonHandler(cityForecast.getCityId());
-            }
-        };
+        final ForecastRecyclerViewAdapter.OnItemClickListener listener =
+                cityId -> {
+                    Observable<Long> clickObservable = Observable.just(cityId);
+                    viewPresenterNavigation.passClickHandlerObservable(clickObservable);
+                };
 
-
-        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<CityForecast>(),
+        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<>(),
                 listener,
                 context,
                 sharedPrefs,
@@ -97,30 +96,25 @@ public class ForecastView {
         recyclerView.setAdapter(recycleViewAdapter);
     }
 
-    public void onRefresh(final OnRefreshListener refreshListener) {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshListener.setOnRefreshListener();
-            }
-        });
+    void onRefresh(final OnRefreshListener refreshListener) {
+        swipeRefreshLayout.setOnRefreshListener(refreshListener::setOnRefreshListener);
     }
 
-    public void displayData(List<CityForecast> data) {
+    void displayData(List<CityForecast> data) {
         recycleViewAdapter.swap(data);
     }
 
-    public void hideLoading() {
+    void hideLoading() {
         swipeRefreshLayout.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }
 
 
-    public void setRefreshing(boolean refreshing) {
+    void setRefreshing(boolean refreshing) {
         swipeRefreshLayout.setRefreshing(refreshing);
     }
 
-    public void setOperationNavigation(ViewPresenterNavigation viewPresenterNavigation) {
+    void setOperationNavigation(ViewPresenterNavigation viewPresenterNavigation) {
         this.viewPresenterNavigation = viewPresenterNavigation;
     }
 }

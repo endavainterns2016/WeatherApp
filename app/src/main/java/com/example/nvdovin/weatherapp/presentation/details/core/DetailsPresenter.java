@@ -1,6 +1,7 @@
 package com.example.nvdovin.weatherapp.presentation.details.core;
 
 
+import com.example.nvdovin.weatherapp.data.model.City;
 import com.example.nvdovin.weatherapp.data.model.WeatherData;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
 import com.example.nvdovin.weatherapp.domain.service.CityService;
@@ -13,6 +14,9 @@ import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.functions.Func3;
+
 import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
 
 public class DetailsPresenter implements OperationNavigation {
@@ -23,7 +27,7 @@ public class DetailsPresenter implements OperationNavigation {
     private WeatherDataService weatherDataService;
     private DataMapper dataMapper;
     private DetailView detailView;
-    private WeatherData weatherData;
+    private Observable<WeatherData> weatherData;
     private Navigator.Builder navBuilder;
     private SharedPrefs sharedPrefs;
 
@@ -42,20 +46,38 @@ public class DetailsPresenter implements OperationNavigation {
     }
 
     public void setupDetailView(Long cityId, Long timestamp) {
-        String cityName = cityService.getCityById(cityId).getName();
-        List<DailyForecast> dailyForecastList = dataMapper.getDailyForecastList(cityId, timestamp, NUMBER_OF_DAYS_TO_FORECAST);
-        weatherData = weatherDataService.getUnique(cityId, System.currentTimeMillis() / MILLISECONDS);
-        detailView.setupView(cityName, dailyForecastList, weatherData, sharedPrefs);
+
+        Observable.zip(
+                weatherData = weatherDataService.getUniqueWeatherDataObservable(cityId, System.currentTimeMillis() / MILLISECONDS),
+                cityService.getCityByIdObservable(cityId),
+                dataMapper.getDailyForecastListObservable(cityId, timestamp, NUMBER_OF_DAYS_TO_FORECAST),
+
+                new Func3<WeatherData, City, List<DailyForecast>, Void>() {
+                    @Override
+                    public Void call(WeatherData weatherData, City city, List<DailyForecast> dailyForecasts) {
+                        detailView.setupView(
+                                city.getName(),
+                                dailyForecasts,
+                                weatherData,
+                                sharedPrefs
+                        );
+                        return null;
+                    }
+                }).subscribe();
+
     }
 
     @Override
     public void navigationButtonHandler() {
 
-        navBuilder.setDestination(HistoryActivity.class)
-                .setCityId(weatherData.getCityId())
-                .commit();
-
+        weatherData.subscribe(weatherData1 -> {
+            navBuilder.setDestination(HistoryActivity.class)
+                    .setCityId(weatherData1.getCityId())
+                    .commit();
+        });
     }
+
+
     public OperationNavigation getCallBack() {
         return this;
     }

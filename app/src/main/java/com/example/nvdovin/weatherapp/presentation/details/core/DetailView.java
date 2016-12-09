@@ -20,6 +20,7 @@ import com.example.nvdovin.weatherapp.domain.utils.navigator.OperationNavigation
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 import com.example.nvdovin.weatherapp.presentation.details.adapter.MainRecyclerAdapter;
+import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.List;
 
@@ -80,13 +81,11 @@ public class DetailView {
                 sharedPrefs,
                 imageUtils
         ));
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewCallback.navigationButtonHandler();
-            }
-        });
+        RxView.clicks(floatingActionButton)
+                .doOnNext(aVoid -> viewCallback.navigationButtonHandler())
+                .subscribe();
     }
+
 
     public void setCallback(OperationNavigation viewCallback) {
         this.viewCallback = viewCallback;

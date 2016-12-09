@@ -41,7 +41,6 @@ public class GridHistoryPresenterTest {
 
     @Test
     public void getWeatherData() throws Exception {
-        when(dataMapper.getWeatherDataListByDTs(any(Long[].class), anyLong())).thenReturn(weatherDataList);
         setCityAndTimestamp();
         gridHistoryPresenter.getWeatherData();
 

@@ -6,9 +6,9 @@ import com.example.nvdovin.weatherapp.domain.utils.design.ImageUtils;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
+import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
-import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.ForecastFragment;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.ForecastPresenter;
 import com.example.nvdovin.weatherapp.presentation.main.weather.forecast.ForecastView;
@@ -50,4 +50,5 @@ public class ForecastFragmentModule {
                                                Navigator.Builder builder) {
         return new ForecastPresenter(executor, cityService, view, sharedPrefs, dataMapper, defaultThreadPoolExecutor, sortQueryBuilder, eventBusWrapper, builder);
     }
+
 }

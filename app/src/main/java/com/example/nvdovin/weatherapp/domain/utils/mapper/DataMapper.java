@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import rx.Observable;
+
 public class DataMapper {
 
     public static final long ONE_DAY_IN_MILLISEC = 86400L;
@@ -23,85 +25,107 @@ public class DataMapper {
         this.weatherDataService = weatherDataService;
         this.cityService = cityService;
     }
-    public List<WeatherData> updatedWeatherData(List<WeatherData> weatherDataListFromNetwork) {
 
-        for (WeatherData weatherDataFromNetwork : weatherDataListFromNetwork) {
-            WeatherData weatherFromDB = weatherDataService.getWeatherByUniqueId(weatherDataFromNetwork);
-            if (weatherFromDB != null) {
-                weatherDataFromNetwork.setId(weatherFromDB.getId());
-            }
-        }
-
-        return weatherDataListFromNetwork;
+    public Observable<List<WeatherData>> getUpdatedWeatherListObservable(List<WeatherData> weatherDataListFromNetwork) {
+        return Observable.just(weatherDataListFromNetwork)
+                .map(weatherDataList -> {
+                    for (WeatherData weatherDataFromNetwork : weatherDataListFromNetwork) {
+                        weatherDataService.getWeatherDataByIdObservable(weatherDataFromNetwork).subscribe(weatherData -> {
+                            if (weatherData != null) {
+                                weatherDataFromNetwork.setId(weatherData.getId());
+                            }
+                        });
+                    }
+                    return weatherDataListFromNetwork;
+                });
     }
 
-    public List<CityForecast> loadCityWeatherForNow(List<City> cities) {
+    public Observable<List<CityForecast>> loadCityWeatherForNowObservable(List<City> cities){
         Long currentTime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        return Observable.just(new ArrayList<CityForecast>())
+                .map(cityForecasts -> {
+                    for (City city : cities) {
+                        CityForecast cityForecast = new CityForecast();
+                        cityForecast.setCityId(city.getId());
+                        cityForecast.setCityName(city.getName());
+                        weatherDataService.getUniqueWeatherDataObservable(cityForecast.getCityId(), currentTime)
+                                .subscribe(cityForecast::setCurrentCityWeather);
+                        cityForecasts.add(cityForecast);
+                    }
 
-        List<CityForecast> cityForecastList = new ArrayList<>();
-        for (City city : cities) {
-            CityForecast cityForecast = new CityForecast();
-            cityForecast.setCityId(city.getId());
-            cityForecast.setCityName(city.getName());
-            WeatherData weatherDataForNow = weatherDataService.getUnique(cityForecast.getCityId(), currentTime);
-            cityForecast.setCurrentCityWeather(weatherDataForNow);
-            cityForecastList.add(cityForecast);
-        }
-
-        return cityForecastList;
-    }
-
-    public DailyForecast getDailyForecast(Long cityId, Long timestamp) {
-        List<WeatherData> weatherDataForDay = weatherDataService.getWeatherDataForDay(cityId, timestamp, ONE_DAY_IN_MILLISEC);
-
-        DailyForecast dailyForecast = new DailyForecast();
-        dailyForecast.setWeatherDataList(weatherDataForDay);
-        dailyForecast.setCityId(cityId);
-        dailyForecast.setDayTempMax(getTempMax(weatherDataForDay));
-        dailyForecast.setDayTempMin(getTempMin(weatherDataForDay));
-        dailyForecast.setDate(TimeUtils.convertLongToDate(timestamp));
-        return dailyForecast;
-    }
-
-    public List<DailyForecast> getDailyForecastList(Long cityId, Long timestamp, int numberOfDays) {
-        List<DailyForecast> dailyForecastList = new ArrayList<>();
-        for (int i = 0; i < numberOfDays; i++) {
-            dailyForecastList.add(getDailyForecast(cityId, timestamp + i * ONE_DAY_IN_MILLISEC));
-        }
-        return dailyForecastList;
-    }
-
-    public int getTempMax(List<WeatherData> weatherDataList) {
-        Double tempMax = weatherDataList.get(0).getTempMax();
-        for (WeatherData weatherData : weatherDataList) {
-            if (weatherData.getTempMax() > tempMax) {
-                tempMax = weatherData.getTempMax();
-            }
-        }
-        return tempMax.intValue();
-    }
-
-    public int getTempMin(List<WeatherData> weatherDataList) {
-        Double tempMin = weatherDataList.get(0).getTempMin();
-        for (WeatherData weatherData : weatherDataList) {
-            if (weatherData.getTempMin() < tempMin) {
-                tempMin = weatherData.getTempMin();
-            }
-        }
-        return tempMin.intValue();
-    }
-
-    public List<WeatherData> getWeatherDataListByDTs(Long[] timestampArray, Long cityId) {
-
-        List<WeatherData> weatherDataList = new ArrayList<>();
-        for (int i = 0; i < timestampArray.length; i++) {
-            WeatherData weatherData = weatherDataService.getWeatherDataByDT(timestampArray[i], cityId);
-            if (weatherData != null) {
-                weatherDataList.add(weatherData);
-            }
-        }
-        return weatherDataList;
+                    return cityForecasts;
+                });
     }
 
 
+    private Observable<DailyForecast> getDailyForecastObservable(Long cityId, Long timestamp){
+        return Observable.just(new DailyForecast())
+                .map(dailyForecast -> {
+                    weatherDataService.getWeatherDataForDayObservable(cityId, timestamp, ONE_DAY_IN_MILLISEC)
+                            .subscribe(weatherDataList -> {
+                                dailyForecast.setWeatherDataList(weatherDataList);
+                                getTempMaxObservable(weatherDataList).subscribe(dailyForecast::setDayTempMax);
+                                getTempMinObservable(weatherDataList).subscribe(dailyForecast::setDayTempMin);
+                            });
+
+                    dailyForecast.setCityId(cityId);
+                    dailyForecast.setDate(TimeUtils.convertLongToDate(timestamp));
+
+                    return dailyForecast;
+                });
+    }
+
+    public Observable<List<DailyForecast>> getDailyForecastListObservable(Long cityId, Long timestamp, int numberOfDays) {
+        return Observable.just(new ArrayList<DailyForecast>())
+                .map(dailyForecasts -> {
+                    for (int i = 0; i < numberOfDays; i++) {
+
+                        getDailyForecastObservable(cityId, timestamp + i * ONE_DAY_IN_MILLISEC)
+                                .subscribe(dailyForecasts::add);
+
+                    }
+                    return dailyForecasts;
+                });
+    }
+
+
+    public Observable<Integer> getTempMinObservable(List<WeatherData> weatherDataList){
+        return Observable.just(weatherDataList.get(0).getTempMin().intValue())
+                .map(tempMin -> {
+                    for (WeatherData weatherData : weatherDataList) {
+                        if (weatherData.getTempMin() < tempMin) {
+                            tempMin = weatherData.getTempMin().intValue();
+                        }
+                    }
+                    return tempMin;
+                });
+    }
+
+    public Observable<Integer> getTempMaxObservable(List<WeatherData> weatherDataList){
+        return Observable.just(weatherDataList.get(0).getTempMax().intValue())
+                .map(tempMax -> {
+                    for (WeatherData weatherData : weatherDataList) {
+                        if (weatherData.getTempMax() > tempMax) {
+                            tempMax = weatherData.getTempMax().intValue();
+                        }
+                    }
+                    return tempMax;
+                });
+    }
+
+    public Observable<List<WeatherData>> getWeatherDataListByDTsObservable(Long[] timestampArray, Long cityId){
+        return Observable.just(new ArrayList<WeatherData>())
+                .map(weatherDatas -> {
+                    for (int i = 0; i < timestampArray.length; i++) {
+
+                        weatherDataService.getWeatherDataByTimeObservable(timestampArray[i], cityId)
+                                .subscribe(weatherData -> {
+                                    if (weatherData != null) {
+                                        weatherDatas.add(weatherData);
+                                    }
+                                });
+                    }
+                    return weatherDatas;
+                });
+    }
 }
