@@ -13,6 +13,9 @@ import com.example.nvdovin.weatherapp.presentation.history.HistoryActivity;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+
 import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
 
 public class DetailsPresenter implements OperationNavigation {
@@ -50,7 +53,6 @@ public class DetailsPresenter implements OperationNavigation {
 
     @Override
     public void navigationButtonHandler() {
-
         navBuilder.setDestination(HistoryActivity.class)
                 .setCityId(weatherData.getCityId())
                 .commit();
