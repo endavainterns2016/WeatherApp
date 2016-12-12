@@ -52,6 +52,7 @@ public class ForecastPresenter implements ViewPresenterNavigation {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void setData(List<com.example.nvdovin.weatherapp.domain.model.CityForecast> cityForecastList) {
         view.displayData(cityForecastList);
+        view.hideLoading();
         view.setRefreshing(false);
     }
 
@@ -76,7 +77,6 @@ public class ForecastPresenter implements ViewPresenterNavigation {
         } else {
             sortData();
         }
-        view.hideLoading();
     }
 
 

@@ -30,8 +30,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ForecastPresenterTest {
 
+    @Mock
+    Navigator.Builder builder;
     private ForecastPresenter forecastPresenter;
-
     @Mock
     private ForecastView view;
     @Mock
@@ -48,8 +49,6 @@ public class ForecastPresenterTest {
     private SortQueryBuilder sortQueryBuilder;
     @Mock
     private EventBusWrapper eventBusWrapper;
-    @Mock
-    Navigator.Builder builder;
 
     @Before
     public void setUp() throws Exception {
@@ -73,6 +72,7 @@ public class ForecastPresenterTest {
         forecastPresenter.setData(ArgumentMatchers.<CityForecast>anyList());
 
         verify(view).displayData(ArgumentMatchers.<CityForecast>anyList());
+        verify(view).hideLoading();
         verify(view).setRefreshing(false);
     }
 
@@ -95,7 +95,6 @@ public class ForecastPresenterTest {
 
         verify(sharedPrefs).lastUpdateExceededLimit();
         verify(defaultThreadPoolExecutor).executeBackground(executor);
-        verify(view).hideLoading();
 
     }
 
