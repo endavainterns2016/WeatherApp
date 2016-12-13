@@ -49,7 +49,8 @@ public class WeatherDataService {
         return daoSession
                 .getWeatherDataDao()
                 .queryBuilder()
-                .where(WeatherDataDao.Properties.UniqueId.eq(weatherDataFromNetwork.getUniqueId())).unique();
+                .where(WeatherDataDao.Properties.UniqueId.eq(weatherDataFromNetwork.getUniqueId()))
+                .unique();
     }
 
     public WeatherData getUnique(Long cityId, long time) {
@@ -59,7 +60,10 @@ public class WeatherDataService {
                 .where(
                         new WhereCondition.StringCondition(context.getString(R.string.time_query),
                                 String.valueOf(cityId), String.valueOf(time)
-                        )).orderAsc(WeatherDataDao.Properties.Dt).limit(1).unique();
+                        ))
+                .orderAsc(WeatherDataDao.Properties.Dt)
+                .limit(1)
+                .unique();
     }
 
 

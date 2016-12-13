@@ -9,6 +9,7 @@ import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
+import com.example.nvdovin.weatherapp.domain.utils.navigator.OperationNavigation;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
 
 import org.junit.Before;
@@ -20,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -89,6 +91,12 @@ public class DetailsPresenterTest {
         verify(builder).setCityId(anyLong());
         verify(builder).commit();
 
+    }
+
+    @Test
+    public void testGetCallBack(){
+        OperationNavigation generatedCallBack = detailsPresenter.getCallBack();
+        assertNotNull(generatedCallBack);
     }
 
     public void mockMethods(){
