@@ -16,6 +16,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import rx.Observable;
+
 import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
 
 public class ForecastPresenter implements ViewPresenterNavigation {
@@ -86,5 +88,10 @@ public class ForecastPresenter implements ViewPresenterNavigation {
                 .setCityId(cityId)
                 .setTimestamp(System.currentTimeMillis() / MILLISECONDS)
                 .commit();
+    }
+
+    @Override
+    public void passClickHandlerObservable(Observable<Long> clickObservable) {
+        clickObservable.subscribe(this::navigationButtonHandler);
     }
 }

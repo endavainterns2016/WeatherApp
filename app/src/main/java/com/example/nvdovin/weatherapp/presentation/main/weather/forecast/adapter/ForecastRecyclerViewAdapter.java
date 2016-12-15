@@ -68,7 +68,7 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
     }
 
     public interface OnItemClickListener {
-        void onItemClick(CityForecast cityForecast);
+        void onItemClick(Long cityId);
     }
 
     public class ForecastViewHolder extends RecyclerView.ViewHolder {
@@ -86,12 +86,10 @@ public class ForecastRecyclerViewAdapter extends RecyclerView.Adapter<ForecastRe
             ButterKnife.bind(this, itemView);
             Typeface weatherFont = Typeface.createFromAsset(context.getAssets(), FONTS_LOCATION);
             weatherIcon.setTypeface(weatherFont);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(cityForecastList.get(getLayoutPosition()));
-                }
+            itemView.setOnClickListener(v -> {
+                listener.onItemClick(cityForecastList.get(ForecastViewHolder.this.getLayoutPosition()).getCityId());
             });
+
         }
 
         public void bind(final CityForecast cityForecast) {
