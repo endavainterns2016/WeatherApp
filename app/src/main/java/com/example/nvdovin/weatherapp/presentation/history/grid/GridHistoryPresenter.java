@@ -26,9 +26,8 @@ public class GridHistoryPresenter implements OperationNavigation {
     }
 
     public void getWeatherData() {
-        final List<WeatherData> weatherDataList =
-                dataMapper.getWeatherDataListByDTs(TimeUtils.getAllPeriodsForDay(timestamp), cityId);
-        gridHistoryView.displayHistory(weatherDataList);
+        dataMapper.getWeatherDataListByDTsObservable(TimeUtils.getAllPeriodsForDay(timestamp), cityId)
+                .subscribe(weatherDataList -> gridHistoryView.displayHistory(weatherDataList));
     }
 
     public void setCityId(Long cityId) {

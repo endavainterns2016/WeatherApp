@@ -6,15 +6,18 @@ import com.example.nvdovin.weatherapp.domain.service.CityService;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.executor.DefaultThreadPoolExecutor;
 import com.example.nvdovin.weatherapp.domain.utils.executor.Executor;
+import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
 import com.example.nvdovin.weatherapp.domain.utils.sharedpreferences.SharedPrefs;
-import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 import com.example.nvdovin.weatherapp.presentation.details.DetailActivity;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+
+import rx.Observable;
+import rx.functions.Action1;
 
 import static com.example.nvdovin.weatherapp.domain.utils.time.TimeUtils.MILLISECONDS;
 
@@ -66,8 +69,10 @@ public class ForecastPresenter implements ViewPresenterNavigation {
     }
 
     private void sortData() {
-        List<City> cities = cityService.loadSortedCities(sortQueryBuilder);
-        setData(dataMapper.loadCityWeatherForNow(cities));
+        Action1<List<City>> setDataAction = cities ->
+                dataMapper.loadCityWeatherForNowObservable(cities).subscribe(this::setData);
+        cityService.getSortedCitiesListObservable(sortQueryBuilder)
+                .subscribe(setDataAction);
     }
 
     public void checkLastUpdateTime() {
@@ -86,5 +91,10 @@ public class ForecastPresenter implements ViewPresenterNavigation {
                 .setCityId(cityId)
                 .setTimestamp(System.currentTimeMillis() / MILLISECONDS)
                 .commit();
+    }
+
+    @Override
+    public void passClickHandlerObservable(Observable<Long> clickObservable) {
+        clickObservable.subscribe(ForecastPresenter.this::navigationButtonHandler);
     }
 }

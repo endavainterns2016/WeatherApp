@@ -3,7 +3,6 @@ apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
-
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -57,5 +56,5 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'io.reactivex:rxjava:1.2.3'
     compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
-
 }
+

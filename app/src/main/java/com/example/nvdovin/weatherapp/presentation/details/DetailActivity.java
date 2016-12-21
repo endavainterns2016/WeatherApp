@@ -13,6 +13,7 @@ import com.example.nvdovin.weatherapp.presentation.details.dagger.DetailModule;
 
 import javax.inject.Inject;
 
+
 public class DetailActivity extends AppCompatActivity {
     private static final String ARGS_KEY = "HISTORY_ARGS";
     private static final String TIMESTAMP_KEY = "TIMESTAMP_KEY";
@@ -26,8 +27,6 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         DaggerDetailComponent.builder()
                 .appComponent(WeatherApplication.getAppComponent())
@@ -43,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         detailsPresenter.setupDetailView(bundle.getLong(CITY_ID_KEY), bundle.getLong(TIMESTAMP_KEY));
 
         detailView.setCallback(detailsPresenter.getCallBack());
+
 
     }
 }

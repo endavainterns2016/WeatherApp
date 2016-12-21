@@ -106,11 +106,9 @@ public class ForecastPresenterTest {
 
         doReturn(false).when(sharedPrefs).lastUpdateExceededLimit();
 
-        when(cityService.loadSortedCities(sortQueryBuilder)).thenReturn(mockCities);
 
         forecastPresenter.checkLastUpdateTime();
 
-        verify(cityService).loadSortedCities(sortQueryBuilder);
         verify(view).displayData(ArgumentMatchers.<CityForecast>anyList());
         verify(view).setRefreshing(false);
         verify(view).hideLoading();

@@ -10,9 +10,9 @@ import com.example.nvdovin.weatherapp.domain.service.WeatherDataService;
 import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
 import com.example.nvdovin.weatherapp.domain.utils.mapper.DataMapper;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
+
+import rx.functions.Action1;
 
 public class Executor implements Operation {
 
@@ -50,11 +50,15 @@ public class Executor implements Operation {
 
             City city = weatherApi.getWeatherData(API_KEY, cityName).execute().body();
 
-            List<WeatherData> weatherDataList = dataMapper.updatedWeatherData(city.getWeatherDataList());
-            weatherDataService.insert(weatherDataList);
+            dataMapper.getUpdatedWeatherListObservable(city.getWeatherDataList())
+                    .subscribe(weatherDataService.insertInDbSubscriber());
             cityService.insert(city);
+
         }
-        List<City> cities = cityService.loadSortedCities(sortQueryBuilder);
-        eventBusWrapper.post(dataMapper.loadCityWeatherForNow(cities));
+        Action1<List<City>> postDataAction = cities ->
+                dataMapper.loadCityWeatherForNowObservable(cities).subscribe(cityForecasts ->
+                        eventBusWrapper.post(cityForecasts));
+
+        cityService.getSortedCitiesListObservable(sortQueryBuilder).subscribe(postDataAction);
     }
 }

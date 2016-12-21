@@ -69,12 +69,12 @@ public class ExecutorTest {
         when(mockObject.getCities()).thenReturn(strings);
         when(weatherApi.getWeatherData(anyString(), anyString())).thenReturn(cityMockCall);
         when(cityMockCall.execute()).thenReturn(cityResponse);
-        when(cityService.loadSortedCities(sortQueryBuilder)).thenReturn(mockCities);
+        //when(cityService.loadSortedCities(sortQueryBuilder)).thenReturn(mockCities);
 
         executor.execute();
 
         verify(weatherApi).getWeatherData(anyString(), anyString());
-        verify(cityService).loadSortedCities(sortQueryBuilder);
+        //verify(cityService).loadSortedCities(sortQueryBuilder);
         verify(eventBusWrapper).post(mockCities);
     }
 
@@ -93,7 +93,7 @@ public class ExecutorTest {
         executor.execute();
 
         verify(weatherApi, never()).getWeatherData(anyString(), anyString());
-        verify(cityService).loadSortedCities(sortQueryBuilder);
+        //verify(cityService).loadSortedCities(sortQueryBuilder);
         verify(eventBusWrapper).post(mockCities);
     }
 

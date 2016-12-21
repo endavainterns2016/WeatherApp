@@ -100,11 +100,8 @@ public class DetailsPresenterTest {
     }
 
     public void mockMethods(){
-        when(cityService.getCityById(anyLong())).thenReturn(city);
-        when(city.getName()).thenReturn("Indianapolis");
 
-        when(dataMapper.getDailyForecastList(anyLong(), anyLong(), anyInt())).thenReturn(dailyForecastList);
-        when(weatherDataService.getUnique(anyLong(), anyLong())).thenReturn(weatherData);
+        when(city.getName()).thenReturn("Indianapolis");
     }
 
 }
