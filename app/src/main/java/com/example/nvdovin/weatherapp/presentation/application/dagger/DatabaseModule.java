@@ -2,6 +2,8 @@ package com.example.nvdovin.weatherapp.presentation.application.dagger;
 
 import android.content.Context;
 
+import com.example.nvdovin.weatherapp.data.SortQueryBuilder;
+import com.example.nvdovin.weatherapp.data.dao.CityDao;
 import com.example.nvdovin.weatherapp.data.dao.DaoMaster;
 import com.example.nvdovin.weatherapp.data.dao.DaoSession;
 import com.example.nvdovin.weatherapp.domain.model.DailyForecast;
@@ -41,4 +43,14 @@ public class DatabaseModule {
     DataMapper provideDataMapper(WeatherDataService weatherDataService, CityService cityService) {
         return new DataMapper(weatherDataService, cityService);
     }
+
+    @Provides
+    @AppScope
+    SortQueryBuilder provideSortQueryBuilder() {
+        SortQueryBuilder sortByName = new SortQueryBuilder();
+        sortByName.setAscending(true);
+        sortByName.setProperty(CityDao.Properties.Name);
+        return sortByName;
+    }
+
 }

@@ -1,6 +1,9 @@
 package com.example.nvdovin.weatherapp.presentation.main.weather.forecast;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,7 +41,7 @@ public class ForecastView {
 
     private ForecastRecyclerViewAdapter recycleViewAdapter;
     private View view;
-    private Context context;
+    private Activity activity;
     private SharedPrefs sharedPrefs;
     private ImageUtils imageUtils;
     private ViewPresenterNavigation viewPresenterNavigation;
@@ -48,18 +51,18 @@ public class ForecastView {
                         SharedPrefs sharedPrefs,
                         ImageUtils imageUtils) {
 
-        context = forecastFragment.getActivity();
+        activity = forecastFragment.getActivity();
         this.sharedPrefs = sharedPrefs;
         this.imageUtils = imageUtils;
 
-        FrameLayout frameLayout = new FrameLayout(context);
+        FrameLayout frameLayout = new FrameLayout(activity);
         frameLayout.setLayoutParams(
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                 )
         );
-        view = LayoutInflater.from(context).inflate(R.layout.main_recycler_forecast_fragment, frameLayout, true);
+        view = LayoutInflater.from(activity).inflate(R.layout.main_recycler_forecast_fragment, frameLayout, true);
 
         ButterKnife.bind(this, view);
 
@@ -74,11 +77,11 @@ public class ForecastView {
     private void setupView() {
 
         TypedValue outValue = new TypedValue();
-        context.getResources().getValue(R.dimen.separator_height, outValue, true);
+        activity.getResources().getValue(R.dimen.separator_height, outValue, true);
         float separatorHeight = outValue.getFloat();
-        SeparatorDecoration separatorDecoration = new SeparatorDecoration(context, Color.GRAY, separatorHeight, new Paint(), new TypedValueWrapper());
+        SeparatorDecoration separatorDecoration = new SeparatorDecoration(activity, Color.GRAY, separatorHeight, new Paint(), new TypedValueWrapper());
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         recyclerView.addItemDecoration(separatorDecoration);
 
         final ForecastRecyclerViewAdapter.OnItemClickListener listener = new ForecastRecyclerViewAdapter.OnItemClickListener() {
@@ -89,9 +92,9 @@ public class ForecastView {
         };
 
 
-        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<CityForecast>(),
+        recycleViewAdapter = new ForecastRecyclerViewAdapter(new ArrayList<>(),
                 listener,
-                context,
+                activity,
                 sharedPrefs,
                 imageUtils);
         recyclerView.setAdapter(recycleViewAdapter);
@@ -123,4 +126,23 @@ public class ForecastView {
     public void setOperationNavigation(ViewPresenterNavigation viewPresenterNavigation) {
         this.viewPresenterNavigation = viewPresenterNavigation;
     }
+
+    public void showErrorDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder
+                .setTitle(activity.getString(R.string.no_internet_connection))
+                .setMessage(activity.getString(R.string.close_app_quesion))
+                .setPositiveButton(activity.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.moveTaskToBack(true);
+                        activity.finish();
+                    }
+                });
+
+        builder.show();
+
+    }
+
 }

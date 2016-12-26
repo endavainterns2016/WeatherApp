@@ -4,7 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.example.nvdovin.weatherapp.domain.utils.navigator.Navigator;
-import com.example.nvdovin.weatherapp.domain.utils.eventbus.EventBusWrapper;
+import com.example.nvdovin.weatherapp.domain.utils.rx.AppRxSchedulers;
+import com.example.nvdovin.weatherapp.domain.utils.rx.RxSchedulers;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,17 +26,15 @@ public class AppModule {
         return appContext;
     }
 
-
     @Provides
     @AppScope
-    Navigator.Builder provideNavBuilder(Context context){
+    Navigator.Builder provideNavBuilder(Context context) {
         return new Navigator.Builder(context);
     }
 
     @Provides
     @AppScope
-    EventBusWrapper provideEventBusWrapper() {
-        return new EventBusWrapper();
+    public RxSchedulers provideSchedulers() {
+        return new AppRxSchedulers();
     }
-
 }
