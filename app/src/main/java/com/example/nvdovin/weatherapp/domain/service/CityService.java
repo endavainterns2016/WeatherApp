@@ -36,6 +36,7 @@ public class CityService {
     }
 
     public Observable<List<City>> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
+
         QueryBuilder<City> queryBuilder = daoSession.getCityDao().queryBuilder();
         for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
             if (sortQueryBuilder.isAscending()) {
