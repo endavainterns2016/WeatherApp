@@ -12,6 +12,9 @@ import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.Single;
+
 public class CityService {
 
     private DaoSession daoSession;
@@ -32,7 +35,7 @@ public class CityService {
                 .unique();
     }
 
-    public List<City> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
+    public Observable<List<City>> loadSortedCities(SortQueryBuilder<Property>... queryBuilders) {
         QueryBuilder<City> queryBuilder = daoSession.getCityDao().queryBuilder();
         for (SortQueryBuilder sortQueryBuilder : queryBuilders) {
             if (sortQueryBuilder.isAscending()) {
@@ -42,6 +45,7 @@ public class CityService {
             }
         }
 
-        return queryBuilder.list();
+        List<City> list = queryBuilder.list();
+        return Observable.just(list);
     }
 }

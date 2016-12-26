@@ -22,6 +22,11 @@
     <string name="tommorow">Tomorrow</string>
     <string name="no_rain_message">No Rain</string>
 
+    <string name="no_internet_connection">No Internet Connection.</string>
+    <string name="close_app_quesion">Do you want close WeatherApp?</string>
+    <string name="yes">Yes</string>
+
+
     <string name="percent_sign">&#160; %</string>
     <string name="pressure_sign">&#160; hPa</string>
     <string name="rain_sign">&#160; mm</string>
